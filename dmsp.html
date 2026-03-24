@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- ✅ VIEWPORT CHUẨN -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 🔥 QUAN TRỌNG: GIỮ SCALE GIỐNG WEB CŨ -->
+<meta name="viewport" content="width=device-width, initial-scale=0.7">
 
 <title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
 
@@ -13,12 +13,12 @@ body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 8px;
-  font-size: 12px;
+  padding: 10px;
 }
 
+/* CONTAINER FULL */
 .container {
-  max-width: 100%;
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -26,35 +26,35 @@ body {
 h1 {
   text-align: center;
   color: #d32f2f;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 /* CARD */
 .card {
   background: white;
-  padding: 8px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
 }
 
 /* INPUT */
 input {
   width: 100%;
-  padding: 6px;
+  padding: 8px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 /* BUTTON */
 button {
-  padding: 5px 8px;
+  padding: 6px 10px;
   border: none;
   border-radius: 8px;
-  margin: 2px;
-  font-size: 12px;
+  margin: 3px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -70,24 +70,21 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 900px;
 }
 
-/* HEADER */
 th {
   background: #d32f2f;
   color: white;
-  padding: 6px;
-  font-size: 12px;
+  padding: 8px;
   position: sticky;
   top: 0;
   cursor: pointer;
 }
 
-/* CELL */
 td {
-  padding: 6px;
+  padding: 8px;
   border-bottom: 1px solid #eee;
-  font-size: 12px;
 }
 
 tr:hover {
@@ -96,44 +93,39 @@ tr:hover {
 
 /* BADGE */
 .badge {
-  padding: 3px 6px;
+  padding: 4px 8px;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 11px;
 }
 
-/* 🔴 HẾT HÀNG (ĐỎ ĐẬM HƠN) */
+/* 🔴 HẾT HÀNG (ĐẬM HƠN) */
 .red { 
-  background:#d32f2f; 
+  background:#c62828; 
   color:white;
 }
 
-/* 🟠 SẮP HẾT */
 .orange { background:#ffe0d6; }
-
-/* 🟢 KM */
 .green { background:#d4edda; }
 
 /* STATUS */
 #status {
   font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 12px;
+  margin-bottom: 8px;
 }
 
 /* STATS */
 .stats {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .stat-box {
-  background: white;
-  padding: 6px;
-  border-radius: 8px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 10px;
   flex: 1;
   text-align: center;
-  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 </style>
 </head>
@@ -147,7 +139,7 @@ tr:hover {
 <div class="card">
   <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-  <button class="btn-orange" onclick="filterLow()">Tồn kho &lt; 50</button>
+  <button class="btn-orange" onclick="filterLow()">Tồn kho < 50</button>
   <button class="btn-green" onclick="filterKM()">Có KM Tháng</button>
   <button class="btn-gray" onclick="resetFilter()">Tất cả</button>
 </div>
@@ -169,14 +161,13 @@ tr:hover {
 
 <script>
 
-const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b88";
+const API = "https://api.sheetbest.com/sheets/dcfb93e9-0641-40dc-8315-b8edf3ed0827";
 
 let list = [];
 let current = [];
 let sortKey = "";
 let sortAsc = true;
 
-// LOAD
 async function loadData() {
   try {
     const res = await fetch(API + "?t=" + Date.now());
@@ -193,7 +184,6 @@ async function loadData() {
   }
 }
 
-// STATS
 function updateStats() {
   let total = list.length;
   let low = 0;
@@ -210,7 +200,6 @@ function updateStats() {
   document.getElementById("out").innerText = out;
 }
 
-// RENDER
 function render(arr) {
   if (!arr.length) return;
 
@@ -242,7 +231,7 @@ function render(arr) {
         let num = parseInt(String(val).replace(/[^0-9]/g, "")) || 0;
 
         if (num === 0) {
-          html += `<td><span class="badge red">Hết</span></td>`;
+          html += `<td><span class="badge red">Hết hàng</span></td>`;
         } 
         else if (num < 50) {
           html += `<td><span class="badge orange">${num}</span></td>`;
@@ -265,7 +254,6 @@ function render(arr) {
   document.getElementById("data").innerHTML = html;
 }
 
-// SEARCH
 document.getElementById("search").addEventListener("input", function() {
   let key = this.value.toLowerCase();
 
@@ -278,7 +266,6 @@ document.getElementById("search").addEventListener("input", function() {
   render(current);
 });
 
-// FILTER
 function filterLow() {
   current = list.filter(r => {
     let num = parseInt(String(r["TỒN KHO (HỘP)"]).replace(/[^0-9]/g, "")) || 0;
@@ -299,9 +286,7 @@ function resetFilter() {
   render(current);
 }
 
-// SORT
 function sort(key) {
-
   if (sortKey === key) {
     sortAsc = !sortAsc;
   } else {
@@ -334,7 +319,6 @@ function sort(key) {
   render(current);
 }
 
-// RUN
 loadData();
 
 </script>
