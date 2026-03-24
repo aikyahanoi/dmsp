@@ -2,7 +2,9 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- 🔥 FIX GIAO DIỆN KHÔNG BỊ PHÓNG TO -->
+<meta name="viewport" content="width=device-width, initial-scale=0.9">
 
 <title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
 
@@ -11,42 +13,46 @@ body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 15px;
+  padding: 12px;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: auto;
 }
 
 h1 {
   text-align: center;
   color: #d32f2f;
+  font-size: 22px;
 }
 
+/* CARD */
 .card {
   background: white;
-  padding: 12px;
+  padding: 10px;
   border-radius: 12px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-/* ⚠️ GIỮ NGUYÊN ZOOM → KHÔNG SET font-size 16 */
+/* INPUT (GIỮ ZOOM) */
 input {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 /* BUTTON */
 button {
-  padding: 7px 12px;
+  padding: 6px 10px;
   border: none;
   border-radius: 8px;
-  margin: 4px;
+  margin: 3px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -62,21 +68,23 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
+  min-width: 850px;
 }
 
 th {
   background: #d32f2f;
   color: white;
-  padding: 10px;
+  padding: 8px;
   position: sticky;
   top: 0;
+  font-size: 13px;
   cursor: pointer;
 }
 
 td {
-  padding: 10px;
+  padding: 8px;
   border-bottom: 1px solid #eee;
+  font-size: 13px;
 }
 
 tr:hover {
@@ -85,9 +93,10 @@ tr:hover {
 
 /* BADGE */
 .badge {
-  padding: 4px 8px;
+  padding: 3px 6px;
   border-radius: 8px;
   font-weight: bold;
+  font-size: 12px;
 }
 
 /* 🔴 HẾT HÀNG */
@@ -105,21 +114,24 @@ tr:hover {
 
 #status {
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
 }
 
+/* STATS */
 .stats {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .stat-box {
   background: #fff;
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
   flex: 1;
   text-align: center;
+  font-size: 13px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 </style>
