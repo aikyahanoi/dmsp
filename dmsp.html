@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔥 QUAN TRỌNG: GIỮ SCALE GIỐNG WEB CŨ -->
-<meta name="viewport" content="width=device-width, initial-scale=0.7">
+<!-- ❌ KHÔNG DÙNG VIEWPORT -->
 
 <title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
 
@@ -13,10 +12,9 @@ body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 10px;
+  padding: 12px;
 }
 
-/* CONTAINER FULL */
 .container {
   max-width: 1200px;
   margin: auto;
@@ -32,29 +30,27 @@ h1 {
 /* CARD */
 .card {
   background: white;
-  padding: 10px;
+  padding: 12px;
   border-radius: 12px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 /* INPUT */
 input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 8px;
-  font-size: 14px;
+  margin-bottom: 10px;
 }
 
 /* BUTTON */
 button {
-  padding: 6px 10px;
+  padding: 7px 12px;
   border: none;
   border-radius: 8px;
-  margin: 3px;
-  font-size: 13px;
+  margin: 4px;
   cursor: pointer;
 }
 
@@ -76,14 +72,14 @@ table {
 th {
   background: #d32f2f;
   color: white;
-  padding: 8px;
+  padding: 10px;
   position: sticky;
   top: 0;
   cursor: pointer;
 }
 
 td {
-  padding: 8px;
+  padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
@@ -116,12 +112,13 @@ tr:hover {
 /* STATS */
 .stats {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .stat-box {
   background: #fff;
-  padding: 8px;
+  padding: 10px;
   border-radius: 10px;
   flex: 1;
   text-align: center;
@@ -139,7 +136,7 @@ tr:hover {
 <div class="card">
   <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-  <button class="btn-orange" onclick="filterLow()">Tồn kho < 50</button>
+  <button class="btn-orange" onclick="filterLow()">Tồn kho &lt; 50</button>
   <button class="btn-green" onclick="filterKM()">Có KM Tháng</button>
   <button class="btn-gray" onclick="resetFilter()">Tất cả</button>
 </div>
@@ -161,13 +158,14 @@ tr:hover {
 
 <script>
 
-const API = "https://api.sheetbest.com/sheets/dcfb93e9-0641-40dc-8315-b8edf3ed0827";
+const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b88";
 
 let list = [];
 let current = [];
 let sortKey = "";
 let sortAsc = true;
 
+// LOAD DATA
 async function loadData() {
   try {
     const res = await fetch(API + "?t=" + Date.now());
@@ -184,6 +182,7 @@ async function loadData() {
   }
 }
 
+// STATS
 function updateStats() {
   let total = list.length;
   let low = 0;
@@ -200,6 +199,7 @@ function updateStats() {
   document.getElementById("out").innerText = out;
 }
 
+// RENDER
 function render(arr) {
   if (!arr.length) return;
 
@@ -254,6 +254,7 @@ function render(arr) {
   document.getElementById("data").innerHTML = html;
 }
 
+// SEARCH
 document.getElementById("search").addEventListener("input", function() {
   let key = this.value.toLowerCase();
 
@@ -266,6 +267,7 @@ document.getElementById("search").addEventListener("input", function() {
   render(current);
 });
 
+// FILTER
 function filterLow() {
   current = list.filter(r => {
     let num = parseInt(String(r["TỒN KHO (HỘP)"]).replace(/[^0-9]/g, "")) || 0;
@@ -286,6 +288,7 @@ function resetFilter() {
   render(current);
 }
 
+// SORT
 function sort(key) {
   if (sortKey === key) {
     sortAsc = !sortAsc;
@@ -319,6 +322,7 @@ function sort(key) {
   render(current);
 }
 
+// RUN
 loadData();
 
 </script>
