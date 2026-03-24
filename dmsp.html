@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔥 FIX GIAO DIỆN KHÔNG BỊ PHÓNG TO -->
-<meta name="viewport" content="width=device-width, initial-scale=0.9">
+<!-- ✅ VIEWPORT CHUẨN -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
 
@@ -13,46 +13,48 @@ body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 12px;
+  padding: 8px;
+  font-size: 12px;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 100%;
   margin: auto;
 }
 
+/* TITLE */
 h1 {
   text-align: center;
   color: #d32f2f;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 /* CARD */
 .card {
   background: white;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 8px;
 }
 
-/* INPUT (GIỮ ZOOM) */
+/* INPUT */
 input {
   width: 100%;
-  padding: 8px;
+  padding: 6px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin-bottom: 8px;
-  font-size: 14px;
+  margin-bottom: 6px;
+  font-size: 13px;
 }
 
 /* BUTTON */
 button {
-  padding: 6px 10px;
+  padding: 5px 8px;
   border: none;
   border-radius: 8px;
-  margin: 3px;
-  font-size: 13px;
+  margin: 2px;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -68,23 +70,24 @@ button {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 850px;
 }
 
+/* HEADER */
 th {
   background: #d32f2f;
   color: white;
-  padding: 8px;
+  padding: 6px;
+  font-size: 12px;
   position: sticky;
   top: 0;
-  font-size: 13px;
   cursor: pointer;
 }
 
+/* CELL */
 td {
-  padding: 8px;
+  padding: 6px;
   border-bottom: 1px solid #eee;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 tr:hover {
@@ -96,14 +99,13 @@ tr:hover {
   padding: 3px 6px;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 11px;
 }
 
-/* 🔴 HẾT HÀNG */
+/* 🔴 HẾT HÀNG (ĐỎ ĐẬM HƠN) */
 .red { 
-  background:#ff4d4f; 
+  background:#d32f2f; 
   color:white;
-  font-weight:bold;
 }
 
 /* 🟠 SẮP HẾT */
@@ -112,27 +114,26 @@ tr:hover {
 /* 🟢 KM */
 .green { background:#d4edda; }
 
+/* STATUS */
 #status {
   font-weight: bold;
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 5px;
+  font-size: 12px;
 }
 
 /* STATS */
 .stats {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .stat-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 10px;
+  background: white;
+  padding: 6px;
+  border-radius: 8px;
   flex: 1;
   text-align: center;
-  font-size: 13px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 12px;
 }
 </style>
 </head>
@@ -146,7 +147,7 @@ tr:hover {
 <div class="card">
   <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-  <button class="btn-orange" onclick="filterLow()">Tồn kho < 50</button>
+  <button class="btn-orange" onclick="filterLow()">Tồn kho &lt; 50</button>
   <button class="btn-green" onclick="filterKM()">Có KM Tháng</button>
   <button class="btn-gray" onclick="resetFilter()">Tất cả</button>
 </div>
@@ -241,7 +242,7 @@ function render(arr) {
         let num = parseInt(String(val).replace(/[^0-9]/g, "")) || 0;
 
         if (num === 0) {
-          html += `<td><span class="badge red">Hết hàng</span></td>`;
+          html += `<td><span class="badge red">Hết</span></td>`;
         } 
         else if (num < 50) {
           html += `<td><span class="badge orange">${num}</span></td>`;
