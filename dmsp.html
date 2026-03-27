@@ -185,14 +185,14 @@ function render(arr) {
       /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
       else if (type === "ton") {
 
-        let rawTon = r["TỒN KHO (HỘP)"];
+  let rawTon = r[key];
 
-        if (!rawTon) {
-          html += `<td>-</td>`;
-        }
-        else {
-          let num = cleanNumber(rawTon);
-          html += `<td>${num}</td>`;
+  if (!rawTon) {
+    html += `<td>-</td>`;
+  }
+  else {
+    let num = cleanNumber(rawTon);
+    html += `<td>${num}</td>`;
         }
       }
 
