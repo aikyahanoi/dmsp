@@ -183,7 +183,7 @@ function render(arr) {
       }
 
       /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
-  else if (type === "ton") {
+else if (type === "ton") {
 
   let tonKey = Object.keys(r).find(k =>
     k.toLowerCase().includes("tồn") &&
@@ -192,18 +192,20 @@ function render(arr) {
 
   let rawTon = tonKey ? r[tonKey] : "";
 
-  if (!rawTon || rawTon === "") {
-    html += `<td>-</td>`;
+  let num = parseInt(
+    String(rawTon).replace(/[^\d]/g, "")
+  ) || 0;
+
+  if (num === 0) {
+    html += `<td></td>`;   // không hiển thị gì
+  }
+  else if (num < 50) {
+    html += `<td class="low-stock">${num}</td>`;
   }
   else {
-    let num = parseInt(
-      String(rawTon).replace(/[^\d]/g, "")
-    );
-
-    html += `<td>${num || 0}</td>`;
-        }
-      }
-
+    html += `<td>${num}</td>`;
+  }
+}
       /* SAO */
       else if (type === "sao") {
 
