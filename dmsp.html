@@ -91,24 +91,13 @@ td:nth-child(3) {
 /* FIX FULL BẢNG TRÊN MOBILE - KHÔNG ẢNH HƯỞNG DESKTOP */
 @media screen and (max-width: 768px) {
 
+  body {
+    overflow-x: auto;
+  }
+
   table {
-    width: 100% !important;
-    table-layout: fixed !important;
-    border-collapse: collapse;
-    font-size: 11px;
-  }
-
-  th, td {
-    padding: 4px !important;
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-  }
-
-  /* ÉP 2 CỘT DÀI NHẤT NHỎ LẠI */
-  td:nth-child(2),
-  td:nth-child(3) {
-    max-width: 90px;
+    transform: scale(0.75);
+    transform-origin: top left;
   }
 
 }
