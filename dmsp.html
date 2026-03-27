@@ -15,12 +15,10 @@ body {
   padding: 8px;
 }
 
-/* TITLE */
 h1 {
   text-align: center;
   color: #d32f2f;
   font-size: 18px;
-  margin-bottom: 8px;
 }
 
 /* SEARCH */
@@ -30,14 +28,9 @@ input {
   border-radius: 6px;
   border: 1px solid #ddd;
   margin-bottom: 8px;
-  font-size: 14px;
 }
 
 /* TABLE */
-.table-wrap {
-  overflow-x: auto;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -55,9 +48,17 @@ th {
   text-align: center;
 }
 
-/* FIX 2 CỘT ĐẦU */
-th:nth-child(1), th:nth-child(2) {
-  z-index: 6;
+/* FIX HEADER 2 CỘT ĐẦU */
+th:nth-child(1),
+th:nth-child(2) {
+  position: sticky;
+  left: 0;
+  background: #d32f2f !important;
+  z-index: 10;
+}
+
+th:nth-child(2) {
+  left: 40px;
 }
 
 /* CELL */
@@ -68,47 +69,44 @@ td {
 }
 
 /* FREEZE */
-td:nth-child(1), th:nth-child(1) {
+td:nth-child(1) {
   position: sticky;
   left: 0;
   background: #fff;
-  min-width: 40px;
 }
 
-td:nth-child(2), th:nth-child(2) {
+td:nth-child(2) {
   position: sticky;
   left: 40px;
   background: #fff;
-  min-width: 180px;
 }
 
-/* KM THÁNG */
+/* KM */
 .km {
   background: #c8e6c9;
 }
 
-/* DATE */
+/* DATE HẾT HÀNG - NHẠT */
 .out-date {
-  background: #b71c1c;
-  color: white;
+  background: #ffcdd2; /* đỏ nhạt */
+  color: #b71c1c;
   font-weight: bold;
 }
 
 /* TỒN KHO */
 .out {
-  background: #b71c1c;
-  color: white;
+  background: #ffcdd2;
+  color: #b71c1c;
 }
 
 .low {
-  background: #ffe0d6;
+  background: #fff3e0;
 }
 
 /* SAO */
 .star {
   color: #ffb300;
   font-size: 14px;
-  letter-spacing: 1px;
 }
 
 </style>
@@ -120,9 +118,7 @@ td:nth-child(2), th:nth-child(2) {
 
 <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-<div class="table-wrap">
-  <div id="data">Loading...</div>
-</div>
+<div id="data">Loading...</div>
 
 <script>
 
@@ -134,6 +130,14 @@ async function loadData() {
   const res = await fetch(API);
   list = await res.json();
   render(list);
+}
+
+function cleanNumber(val) {
+  return parseInt(
+    String(val)
+      .replace(/\./g, "")
+      .replace(/[^0-9]/g, "")
+  ) || 0;
 }
 
 function render(arr) {
@@ -158,16 +162,12 @@ function render(arr) {
 
       let val = (r[k] ?? "").toString().trim();
 
-      // ===== KM THÁNG =====
+      // KM
       if (k === "KM THÁNG 3") {
-        if (val !== "") {
-          html += `<td class="km">${val}</td>`;
-        } else {
-          html += `<td></td>`;
-        }
+        html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
 
-      // ===== DATE =====
+      // DATE
       else if (k === "DATE") {
         if (val.toLowerCase().includes("hết")) {
           html += `<td class="out-date">Hết hàng</td>`;
@@ -176,7 +176,7 @@ function render(arr) {
         }
       }
 
-      // ===== TỒN KHO =====
+      // TỒN KHO
       else if (k === "TỒN KHO (HỘP)") {
 
         if (val === "-" || val === "") {
@@ -188,7 +188,7 @@ function render(arr) {
         }
 
         else {
-          let num = parseInt(val.replace(/[^0-9]/g, "")) || 0;
+          let num = cleanNumber(val);
 
           if (num === 0) {
             html += `<td class="out">0</td>`;
@@ -202,17 +202,12 @@ function render(arr) {
         }
       }
 
-      // ===== SAO =====
+      // SAO
       else if (k === "Mức doanh số ở Miền Bắc") {
 
-        let stars = "";
-
-        if (val.includes("*") || val.includes("⭐")) {
-          stars = val.replace(/\*/g, "⭐");
-        } else {
-          let num = parseInt(val) || 0;
-          stars = "⭐".repeat(Math.min(5, num));
-        }
+        let stars = val.includes("*")
+          ? val.replace(/\*/g, "⭐")
+          : "⭐".repeat(Math.min(5, parseInt(val) || 0));
 
         html += `<td class="star">${stars}</td>`;
       }
@@ -227,7 +222,6 @@ function render(arr) {
   });
 
   html += "</table>";
-
   document.getElementById("data").innerHTML = html;
 }
 
