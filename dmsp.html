@@ -53,11 +53,10 @@ th {
   text-align: center;
 }
 
-/* FIX HEADER CỘT CỐ ĐỊNH */
+/* FIX HEADER 2 CỘT ĐẦU */
 th:nth-child(1),
 th:nth-child(2) {
   background: #d32f2f !important;
-  color: white;
   z-index: 6;
 }
 
@@ -68,7 +67,7 @@ td {
   font-size: 13px;
 }
 
-/* FREEZE CỘT */
+/* FREEZE */
 td:nth-child(1), th:nth-child(1) {
   position: sticky;
   left: 0;
@@ -103,6 +102,13 @@ td:nth-child(9) {
 
 .low {
   background: #ffe0d6;
+}
+
+/* ⭐ SAO VÀNG */
+.star {
+  color: #ffb300;
+  font-size: 16px;
+  letter-spacing: 2px;
 }
 
 </style>
@@ -157,12 +163,11 @@ function render(arr) {
 
       let val = r[k] ?? "";
 
-      // ===== TỒN KHO FIX CHUẨN =====
+      // ===== TỒN KHO =====
       if (k === "TỒN KHO (HỘP)") {
 
         let raw = String(val).trim();
 
-        // Nếu là dấu "-" hoặc rỗng
         if (raw === "-" || raw === "") {
           html += `<td>-</td>`;
         }
@@ -187,11 +192,23 @@ function render(arr) {
         }
       }
 
-      // ===== SAO =====
+      // ===== ⭐ DOANH SỐ =====
       else if (k === "Mức doanh số ở Miền Bắc") {
-        let num = parseInt(val) || 0;
-        let stars = "⭐".repeat(Math.min(5, Math.floor(num / 50)));
-        html += `<td>${stars}</td>`;
+
+        let raw = String(val).trim();
+
+        let stars = "";
+
+        // Nếu đã có sẵn dấu * hoặc ⭐
+        if (raw.includes("*") || raw.includes("⭐")) {
+          stars = raw.replace(/\*/g, "⭐");
+        } 
+        else {
+          let num = parseInt(raw) || 0;
+          stars = "⭐".repeat(Math.min(5, num));
+        }
+
+        html += `<td class="star">${stars}</td>`;
       }
 
       else {
