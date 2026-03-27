@@ -36,7 +36,8 @@ input {
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
 }
 
 th {
@@ -59,29 +60,29 @@ td {
   white-space: nowrap;
 }
 
-/* STYLE */
-.km {
-  background: #c8e6c9;
+/* CĂN TRÁI + GIÃN DÒNG */
+td:nth-child(2),
+td:nth-child(3) {
+  text-align: left;
+  white-space: normal;
+  line-height: 1.4;
 }
 
+/* STYLE */
 .out-date {
   background: #ffcdd2;
   color: #b71c1c;
   font-weight: bold;
 }
 
-.out {
-  background: #ffcdd2;
-  color: #b71c1c;
-}
-
-.low {
-  background: #fff3e0;
-}
-
 .star {
   color: #ffb300;
   font-size: 14px;
+}
+
+/* KM THÁNG 3 */
+.km {
+  background: #c8e6c9;
 }
 
 </style>
@@ -103,7 +104,6 @@ const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b
 
 let list = [];
 
-/* FIND KEY (cho cột không quan trọng) */
 function findKey(obj, keyword) {
   return Object.keys(obj).find(k =>
     k.toLowerCase().includes(keyword.toLowerCase())
@@ -130,19 +130,16 @@ function render(arr) {
 
   let sample = arr[0];
 
-  /* KEY MAP */
   let keyMap = {
     stt: findKey(sample, "stt"),
     sp: findKey(sample, "sản"),
     tp: findKey(sample, "thành"),
     gia: findKey(sample, "giá"),
-    km: findKey(sample, "km"),
+    km: findKey(sample, "km"),          // KM nền (không tô màu)
+    km2: "KM THÁNG 3",                  // KM cần tô xanh
     date: findKey(sample, "date"),
-
-    // FIX CỨNG
-    ton: "TỒN KHO (HỘP)",
-    sao: "Mức doanh số ở Miền Bắc",
-
+    ton: "TỒN KHO (HỘP)",               // FIX CỨNG
+    sao: "Mức doanh số ở Miền Bắc",     // FIX CỨNG
     qc: findKey(sample, "quy cách")
   };
 
@@ -162,8 +159,13 @@ function render(arr) {
       let raw = r[key];
       let val = (raw ?? "").toString().trim();
 
-      /* KM */
+      /* KM nền (KHÔNG màu) */
       if (type === "km") {
+        html += `<td>${val}</td>`;
+      }
+
+      /* KM THÁNG 3 (CÓ MÀU) */
+      else if (type === "km2") {
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
 
@@ -176,27 +178,17 @@ function render(arr) {
         }
       }
 
-      /* TỒN KHO */
+      /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
       else if (type === "ton") {
 
-        if (!val) {
+        let rawTon = r["TỒN KHO (HỘP)"];
+
+        if (!rawTon) {
           html += `<td>-</td>`;
         }
-        else if (val.toLowerCase().includes("hết")) {
-          html += `<td class="out">Hết</td>`;
-        }
         else {
-          let num = cleanNumber(val);
-
-          if (num === 0) {
-            html += `<td class="out">0</td>`;
-          }
-          else if (num < 50) {
-            html += `<td class="low">${num}</td>`;
-          }
-          else {
-            html += `<td>${num}</td>`;
-          }
+          let num = cleanNumber(rawTon);
+          html += `<td>${num}</td>`;
         }
       }
 
