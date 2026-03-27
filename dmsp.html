@@ -2,85 +2,107 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
 
 <style>
+
 body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 12px;
+  padding: 10px;
 }
 
 h1 {
   text-align: center;
   color: #d32f2f;
+  font-size: 20px;
 }
 
-.card {
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-}
-
+/* SEARCH */
 input {
   width: 100%;
   padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* TABLE */
+.table-wrap {
+  overflow-x: auto;
 }
 
 table {
-  width: 100%;
   border-collapse: collapse;
-  min-width: 1200px;
+  min-width: 1300px;
 }
 
+/* HEADER */
 th {
   background: #d32f2f;
   color: white;
   padding: 10px;
+  font-size: 13px;
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 5;
+  text-align: center;
 }
 
+/* CELL */
 td {
-  padding: 10px;
+  padding: 8px;
   border-bottom: 1px solid #eee;
+  font-size: 13px;
 }
 
-/* KM THÁNG */
-.green {
-  background: #d4edda;
-}
-
-/* TỒN KHO */
-.red {
-  background: #b71c1c;
-  color: white;
-  font-weight: bold;
-}
-
-.orange {
-  background: #ffe0d6;
-}
-
-/* FREEZE CỘT */
+/* FREEZE CỘT 1 */
 td:nth-child(1), th:nth-child(1) {
   position: sticky;
   left: 0;
-  background: white;
-  z-index: 2;
-  min-width: 60px;
+  background: #fff;
+  z-index: 4;
+  min-width: 50px;
+  text-align: center;
 }
 
+/* FREEZE CỘT 2 */
 td:nth-child(2), th:nth-child(2) {
   position: sticky;
-  left: 60px;
-  background: white;
-  z-index: 2;
-  min-width: 200px;
+  left: 50px;
+  background: #fff;
+  z-index: 4;
+  min-width: 180px;
+}
+
+/* KM THÁNG */
+td:nth-child(7) {
+  background: #c8e6c9;
+  font-size: 12px;
+}
+
+/* TỒN KHO */
+td:nth-child(9) {
+  text-align: center;
+  font-weight: bold;
+}
+
+.out {
+  background: #b71c1c;
+  color: white;
+}
+
+.low {
+  background: #ffe0d6;
+}
+
+/* SAO */
+.star {
+  color: #ffb300;
 }
 
 </style>
@@ -90,11 +112,9 @@ td:nth-child(2), th:nth-child(2) {
 
 <h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
 
-<div class="card">
-  <input id="search" placeholder="🔍 Tìm sản phẩm...">
-</div>
+<input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-<div class="card">
+<div class="table-wrap">
   <div id="data">Đang tải...</div>
 </div>
 
@@ -111,7 +131,6 @@ async function loadData() {
 }
 
 function render(arr) {
-  if (!arr.length) return;
 
   let keys = [
     "STT",
@@ -128,7 +147,6 @@ function render(arr) {
   ];
 
   let html = "<table><tr>";
-
   keys.forEach(k => html += `<th>${k}</th>`);
   html += "</tr>";
 
@@ -138,26 +156,34 @@ function render(arr) {
     keys.forEach(k => {
       let val = r[k] || "";
 
-      // KM THÁNG
-      if (k === "KM THÁNG 3") {
-        if (val.trim() !== "") {
-          html += `<td class="green">${val}</td>`;
+      // ===== TỒN KHO FIX CHUẨN =====
+      if (k === "TỒN KHO (HỘP)") {
+
+        let raw = String(val).trim().toLowerCase();
+
+        if (raw.includes("hết")) {
+          html += `<td class="out">Hết hàng</td>`;
         } else {
-          html += `<td>${val}</td>`;
+
+          let num = Number(raw.replace(/[^0-9]/g, ""));
+
+          if (!num || num === 0) {
+            html += `<td class="out">Hết hàng</td>`;
+          } 
+          else if (num < 50) {
+            html += `<td class="low">${num}</td>`;
+          } 
+          else {
+            html += `<td>${num}</td>`;
+          }
         }
       }
 
-      // TỒN KHO
-      else if (k === "TỒN KHO (HỘP)") {
-        let num = parseInt(String(val).replace(/[^0-9]/g, "")) || 0;
-
-        if (num === 0) {
-          html += `<td class="red">Hết hàng</td>`;
-        } else if (num < 50) {
-          html += `<td class="orange">${num}</td>`;
-        } else {
-          html += `<td>${num}</td>`;
-        }
+      // ===== SAO DOANH SỐ =====
+      else if (k === "Mức doanh số ở Miền Bắc") {
+        let num = parseInt(val) || 0;
+        let stars = "⭐".repeat(Math.min(5, Math.floor(num / 50)));
+        html += `<td>${stars} ${num}</td>`;
       }
 
       else {
@@ -170,16 +196,17 @@ function render(arr) {
   });
 
   html += "</table>";
+
   document.getElementById("data").innerHTML = html;
 }
 
-// SEARCH
+/* SEARCH */
 document.getElementById("search").addEventListener("input", function() {
-  let key = this.value.toLowerCase();
+  let keyword = this.value.toLowerCase();
 
   let filtered = list.filter(r =>
     Object.values(r).some(v =>
-      String(v).toLowerCase().includes(key)
+      String(v).toLowerCase().includes(keyword)
     )
   );
 
