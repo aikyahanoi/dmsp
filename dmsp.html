@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DANH MỤC SẢN PHẨM AIKYA 2026</title>
+<title>DANH MỤC AIKYA</title>
 
 <style>
 
@@ -12,23 +12,25 @@ body {
   font-family: Arial;
   background: #f4f6fb;
   margin: 0;
-  padding: 10px;
+  padding: 8px;
 }
 
+/* TITLE */
 h1 {
   text-align: center;
   color: #d32f2f;
-  font-size: 20px;
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
 /* SEARCH */
 input {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 8px;
+  border-radius: 6px;
   border: 1px solid #ddd;
-  margin-bottom: 10px;
-  font-size: 16px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 /* TABLE */
@@ -38,33 +40,31 @@ input {
 
 table {
   border-collapse: collapse;
-  min-width: 1400px;
+  width: 100%;
 }
 
 /* HEADER */
 th {
   background: #d32f2f;
   color: white;
-  padding: 10px;
-  font-size: 13px;
+  padding: 6px;
+  font-size: 12px;
   position: sticky;
   top: 0;
   z-index: 5;
   text-align: center;
 }
 
-/* FIX HEADER 2 CỘT ĐẦU */
-th:nth-child(1),
-th:nth-child(2) {
-  background: #d32f2f !important;
+/* FIX 2 CỘT ĐẦU */
+th:nth-child(1), th:nth-child(2) {
   z-index: 6;
 }
 
 /* CELL */
 td {
-  padding: 8px;
+  padding: 6px;
   border-bottom: 1px solid #eee;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* FREEZE */
@@ -72,29 +72,29 @@ td:nth-child(1), th:nth-child(1) {
   position: sticky;
   left: 0;
   background: #fff;
-  z-index: 4;
-  min-width: 50px;
+  min-width: 40px;
 }
 
 td:nth-child(2), th:nth-child(2) {
   position: sticky;
-  left: 50px;
+  left: 40px;
   background: #fff;
-  z-index: 4;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 /* KM THÁNG */
-td:nth-child(7) {
+.km {
   background: #c8e6c9;
 }
 
-/* TỒN KHO */
-td:nth-child(9) {
-  text-align: center;
+/* DATE */
+.out-date {
+  background: #b71c1c;
+  color: white;
   font-weight: bold;
 }
 
+/* TỒN KHO */
 .out {
   background: #b71c1c;
   color: white;
@@ -104,11 +104,11 @@ td:nth-child(9) {
   background: #ffe0d6;
 }
 
-/* ⭐ SAO VÀNG */
+/* SAO */
 .star {
   color: #ffb300;
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
 </style>
@@ -121,7 +121,7 @@ td:nth-child(9) {
 <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
 <div class="table-wrap">
-  <div id="data">Đang tải...</div>
+  <div id="data">Loading...</div>
 </div>
 
 <script>
@@ -139,14 +139,9 @@ async function loadData() {
 function render(arr) {
 
   let keys = [
-    "STT",
-    "SẢN PHẨM",
-    "THÀNH PHẦN",
-    "ĐƠN GIÁ CÓ VAT",
-    "KM NỀN",
-    "GIÁ CUỐI",
-    "KM THÁNG 3",
-    "DATE",
+    "STT","SẢN PHẨM","THÀNH PHẦN",
+    "ĐƠN GIÁ CÓ VAT","KM NỀN","GIÁ CUỐI",
+    "KM THÁNG 3","DATE",
     "TỒN KHO (HỘP)",
     "Mức doanh số ở Miền Bắc",
     "Quy cách thùng"
@@ -161,27 +156,42 @@ function render(arr) {
 
     keys.forEach(k => {
 
-      let val = r[k] ?? "";
+      let val = (r[k] ?? "").toString().trim();
+
+      // ===== KM THÁNG =====
+      if (k === "KM THÁNG 3") {
+        if (val !== "") {
+          html += `<td class="km">${val}</td>`;
+        } else {
+          html += `<td></td>`;
+        }
+      }
+
+      // ===== DATE =====
+      else if (k === "DATE") {
+        if (val.toLowerCase().includes("hết")) {
+          html += `<td class="out-date">Hết hàng</td>`;
+        } else {
+          html += `<td>${val}</td>`;
+        }
+      }
 
       // ===== TỒN KHO =====
-      if (k === "TỒN KHO (HỘP)") {
+      else if (k === "TỒN KHO (HỘP)") {
 
-        let raw = String(val).trim();
-
-        if (raw === "-" || raw === "") {
+        if (val === "-" || val === "") {
           html += `<td>-</td>`;
         }
 
-        else if (raw.toLowerCase().includes("hết")) {
-          html += `<td class="out">Hết hàng</td>`;
+        else if (val.toLowerCase().includes("hết")) {
+          html += `<td class="out">Hết</td>`;
         }
 
         else {
+          let num = parseInt(val.replace(/[^0-9]/g, "")) || 0;
 
-          let num = parseInt(raw.replace(/[^0-9]/g, ""));
-
-          if (!num || num === 0) {
-            html += `<td class="out">Hết hàng</td>`;
+          if (num === 0) {
+            html += `<td class="out">0</td>`;
           }
           else if (num < 50) {
             html += `<td class="low">${num}</td>`;
@@ -192,19 +202,15 @@ function render(arr) {
         }
       }
 
-      // ===== ⭐ DOANH SỐ =====
+      // ===== SAO =====
       else if (k === "Mức doanh số ở Miền Bắc") {
-
-        let raw = String(val).trim();
 
         let stars = "";
 
-        // Nếu đã có sẵn dấu * hoặc ⭐
-        if (raw.includes("*") || raw.includes("⭐")) {
-          stars = raw.replace(/\*/g, "⭐");
-        } 
-        else {
-          let num = parseInt(raw) || 0;
+        if (val.includes("*") || val.includes("⭐")) {
+          stars = val.replace(/\*/g, "⭐");
+        } else {
+          let num = parseInt(val) || 0;
           stars = "⭐".repeat(Math.min(5, num));
         }
 
@@ -227,7 +233,6 @@ function render(arr) {
 
 /* SEARCH */
 document.getElementById("search").addEventListener("input", function() {
-
   let keyword = this.value.toLowerCase();
 
   let filtered = list.filter(r =>
