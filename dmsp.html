@@ -36,7 +36,6 @@ table {
   width: 100%;
 }
 
-/* HEADER */
 th {
   background: #d32f2f;
   color: white;
@@ -48,20 +47,17 @@ th {
   text-align: center;
 }
 
-/* FIX HEADER 2 CỘT ĐẦU */
+/* FIX HEADER */
 th:nth-child(1),
 th:nth-child(2) {
   position: sticky;
-  left: 0;
   background: #d32f2f !important;
   z-index: 10;
 }
 
-th:nth-child(2) {
-  left: 40px;
-}
+th:nth-child(1) { left: 0; }
+th:nth-child(2) { left: 40px; }
 
-/* CELL */
 td {
   padding: 6px;
   border-bottom: 1px solid #eee;
@@ -81,19 +77,15 @@ td:nth-child(2) {
   background: #fff;
 }
 
-/* KM */
-.km {
-  background: #c8e6c9;
-}
+/* STYLE */
+.km { background: #c8e6c9; }
 
-/* DATE HẾT HÀNG - NHẠT */
 .out-date {
-  background: #ffcdd2; /* đỏ nhạt */
+  background: #ffcdd2;
   color: #b71c1c;
   font-weight: bold;
 }
 
-/* TỒN KHO */
 .out {
   background: #ffcdd2;
   color: #b71c1c;
@@ -103,7 +95,6 @@ td:nth-child(2) {
   background: #fff3e0;
 }
 
-/* SAO */
 .star {
   color: #ffb300;
   font-size: 14px;
@@ -126,10 +117,11 @@ const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b
 
 let list = [];
 
-async function loadData() {
-  const res = await fetch(API);
-  list = await res.json();
-  render(list);
+// 👉 TÌM KEY GẦN ĐÚNG
+function findKey(obj, keyword) {
+  return Object.keys(obj).find(k =>
+    k.toLowerCase().includes(keyword.toLowerCase())
+  );
 }
 
 function cleanNumber(val) {
@@ -140,35 +132,49 @@ function cleanNumber(val) {
   ) || 0;
 }
 
+async function loadData() {
+  const res = await fetch(API);
+  list = await res.json();
+  render(list);
+}
+
 function render(arr) {
 
-  let keys = [
-    "STT","SẢN PHẨM","THÀNH PHẦN",
-    "ĐƠN GIÁ CÓ VAT","KM NỀN","GIÁ CUỐI",
-    "KM THÁNG 3","DATE",
-    "TỒN KHO (HỘP)",
-    "Mức doanh số ở Miền Bắc",
-    "Quy cách thùng"
-  ];
+  if (arr.length === 0) return;
+
+  // 👉 MAP KEY ĐỘNG
+  let sample = arr[0];
+
+  let keyMap = {
+    stt: findKey(sample, "stt"),
+    sp: findKey(sample, "sản"),
+    tp: findKey(sample, "thành"),
+    gia: findKey(sample, "giá"),
+    km: findKey(sample, "km tháng"),
+    date: findKey(sample, "date"),
+    ton: findKey(sample, "tồn"),
+    sao: findKey(sample, "miền bắc"),
+    qc: findKey(sample, "quy cách")
+  };
 
   let html = "<table><tr>";
-  keys.forEach(k => html += `<th>${k}</th>`);
+  Object.values(keyMap).forEach(k => html += `<th>${k}</th>`);
   html += "</tr>";
 
   arr.forEach(r => {
     html += "<tr>";
 
-    keys.forEach(k => {
+    Object.entries(keyMap).forEach(([type, key]) => {
 
-      let val = (r[k] ?? "").toString().trim();
+      let val = (r[key] ?? "").toString().trim();
 
       // KM
-      if (k === "KM THÁNG 3") {
+      if (type === "km") {
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
 
       // DATE
-      else if (k === "DATE") {
+      else if (type === "date") {
         if (val.toLowerCase().includes("hết")) {
           html += `<td class="out-date">Hết hàng</td>`;
         } else {
@@ -177,16 +183,14 @@ function render(arr) {
       }
 
       // TỒN KHO
-      else if (k === "TỒN KHO (HỘP)") {
+      else if (type === "ton") {
 
-        if (val === "-" || val === "") {
+        if (!val || val === "-") {
           html += `<td>-</td>`;
         }
-
         else if (val.toLowerCase().includes("hết")) {
           html += `<td class="out">Hết</td>`;
         }
-
         else {
           let num = cleanNumber(val);
 
@@ -202,12 +206,17 @@ function render(arr) {
         }
       }
 
-      // SAO
-      else if (k === "Mức doanh số ở Miền Bắc") {
+      // SAO ⭐
+      else if (type === "sao") {
 
-        let stars = val.includes("*")
-          ? val.replace(/\*/g, "⭐")
-          : "⭐".repeat(Math.min(5, parseInt(val) || 0));
+        let stars = "";
+
+        if (val.includes("*")) {
+          stars = val.replace(/\*/g, "⭐");
+        } else {
+          let num = parseInt(val) || 0;
+          stars = "⭐".repeat(Math.min(5, num));
+        }
 
         html += `<td class="star">${stars}</td>`;
       }
