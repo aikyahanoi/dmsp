@@ -37,7 +37,6 @@ input {
 table {
   border-collapse: collapse;
   width: 100%;
-  table-layout: auto;
 }
 
 th {
@@ -66,7 +65,7 @@ td {
 }
 
 .out-date {
-  background: #ffcdd2; /* nhạt hơn header */
+  background: #ffcdd2;
   color: #b71c1c;
   font-weight: bold;
 }
@@ -104,7 +103,7 @@ const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b
 
 let list = [];
 
-/* TÌM KEY GẦN ĐÚNG */
+/* FIND KEY (cho cột không quan trọng) */
 function findKey(obj, keyword) {
   return Object.keys(obj).find(k =>
     k.toLowerCase().includes(keyword.toLowerCase())
@@ -131,7 +130,7 @@ function render(arr) {
 
   let sample = arr[0];
 
-  /* MAP KEY CHUẨN */
+  /* KEY MAP */
   let keyMap = {
     stt: findKey(sample, "stt"),
     sp: findKey(sample, "sản"),
@@ -139,16 +138,20 @@ function render(arr) {
     gia: findKey(sample, "giá"),
     km: findKey(sample, "km"),
     date: findKey(sample, "date"),
-    ton: findKey(sample, "tồn"),
-    sao: Object.keys(sample).find(k =>
-      k.toLowerCase().includes("doanh") &&
-      k.toLowerCase().includes("bắc")
-    ),
+
+    // FIX CỨNG
+    ton: "TỒN KHO (HỘP)",
+    sao: "Mức doanh số ở Miền Bắc",
+
     qc: findKey(sample, "quy cách")
   };
 
   let html = "<table><tr>";
-  Object.values(keyMap).forEach(k => html += `<th>${k}</th>`);
+
+  Object.values(keyMap).forEach(k => {
+    html += `<th>${k}</th>`;
+  });
+
   html += "</tr>";
 
   arr.forEach(r => {
@@ -156,7 +159,8 @@ function render(arr) {
 
     Object.entries(keyMap).forEach(([type, key]) => {
 
-      let val = (r[key] ?? "").toString().trim();
+      let raw = r[key];
+      let val = (raw ?? "").toString().trim();
 
       /* KM */
       if (type === "km") {
@@ -175,7 +179,7 @@ function render(arr) {
       /* TỒN KHO */
       else if (type === "ton") {
 
-        if (!val || val === "-") {
+        if (!val) {
           html += `<td>-</td>`;
         }
         else if (val.toLowerCase().includes("hết")) {
@@ -196,23 +200,27 @@ function render(arr) {
         }
       }
 
-      /* SAO ⭐ */
+      /* SAO */
       else if (type === "sao") {
 
-        let stars = "";
-
-        if (val.includes("*")) {
-          stars = val.replace(/\*/g, "⭐");
-        }
-        else if (!isNaN(parseInt(val))) {
-          let num = parseInt(val);
-          stars = "⭐".repeat(Math.min(5, num));
+        if (!val) {
+          html += `<td>-</td>`;
         }
         else {
-          stars = val;
-        }
+          let stars = "";
 
-        html += `<td class="star">${stars}</td>`;
+          if (val.includes("*")) {
+            stars = val.replace(/\*/g, "⭐");
+          }
+          else if (!isNaN(parseInt(val))) {
+            stars = "⭐".repeat(parseInt(val));
+          }
+          else {
+            stars = val;
+          }
+
+          html += `<td class="star">${stars}</td>`;
+        }
       }
 
       else {
@@ -225,6 +233,7 @@ function render(arr) {
   });
 
   html += "</table>";
+
   document.getElementById("data").innerHTML = html;
 }
 
