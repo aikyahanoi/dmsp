@@ -197,10 +197,10 @@ else if (type === "ton") {
   ) || 0;
 
   if (num === 0) {
-    html += `<td></td>`;   // không hiển thị gì
+    html += `<td></td>`;
   }
   else if (num < 50) {
-    html += `<td class="low-stock">${num}</td>`;
+    html += `<td style="background:#ffe0b2;color:#e65100;font-weight:bold">${num}</td>`;
   }
   else {
     html += `<td>${num}</td>`;
