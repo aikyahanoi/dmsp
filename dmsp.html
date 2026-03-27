@@ -21,7 +21,6 @@ h1 {
   font-size: 18px;
 }
 
-/* SEARCH */
 input {
   width: 100%;
   padding: 8px;
@@ -31,9 +30,14 @@ input {
 }
 
 /* TABLE */
+.table-wrap {
+  overflow-x: auto;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: auto;
 }
 
 th {
@@ -41,47 +45,28 @@ th {
   color: white;
   padding: 6px;
   font-size: 12px;
+  text-align: center;
   position: sticky;
   top: 0;
   z-index: 5;
-  text-align: center;
+  white-space: nowrap;
 }
-
-/* FIX HEADER */
-th:nth-child(1),
-th:nth-child(2) {
-  position: sticky;
-  background: #d32f2f !important;
-  z-index: 10;
-}
-
-th:nth-child(1) { left: 0; }
-th:nth-child(2) { left: 40px; }
 
 td {
   padding: 6px;
   border-bottom: 1px solid #eee;
   font-size: 12px;
-}
-
-/* FREEZE */
-td:nth-child(1) {
-  position: sticky;
-  left: 0;
-  background: #fff;
-}
-
-td:nth-child(2) {
-  position: sticky;
-  left: 40px;
-  background: #fff;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* STYLE */
-.km { background: #c8e6c9; }
+.km {
+  background: #c8e6c9;
+}
 
 .out-date {
-  background: #ffcdd2;
+  background: #ffcdd2; /* nhạt hơn header */
   color: #b71c1c;
   font-weight: bold;
 }
@@ -109,7 +94,9 @@ td:nth-child(2) {
 
 <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-<div id="data">Loading...</div>
+<div class="table-wrap">
+  <div id="data">Loading...</div>
+</div>
 
 <script>
 
@@ -117,7 +104,7 @@ const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b
 
 let list = [];
 
-// 👉 TÌM KEY GẦN ĐÚNG
+/* TÌM KEY GẦN ĐÚNG */
 function findKey(obj, keyword) {
   return Object.keys(obj).find(k =>
     k.toLowerCase().includes(keyword.toLowerCase())
@@ -142,18 +129,21 @@ function render(arr) {
 
   if (arr.length === 0) return;
 
-  // 👉 MAP KEY ĐỘNG
   let sample = arr[0];
 
+  /* MAP KEY CHUẨN */
   let keyMap = {
     stt: findKey(sample, "stt"),
     sp: findKey(sample, "sản"),
     tp: findKey(sample, "thành"),
     gia: findKey(sample, "giá"),
-    km: findKey(sample, "km tháng"),
+    km: findKey(sample, "km"),
     date: findKey(sample, "date"),
     ton: findKey(sample, "tồn"),
-    sao: findKey(sample, "miền bắc"),
+    sao: Object.keys(sample).find(k =>
+      k.toLowerCase().includes("doanh") &&
+      k.toLowerCase().includes("bắc")
+    ),
     qc: findKey(sample, "quy cách")
   };
 
@@ -168,12 +158,12 @@ function render(arr) {
 
       let val = (r[key] ?? "").toString().trim();
 
-      // KM
+      /* KM */
       if (type === "km") {
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
 
-      // DATE
+      /* DATE */
       else if (type === "date") {
         if (val.toLowerCase().includes("hết")) {
           html += `<td class="out-date">Hết hàng</td>`;
@@ -182,7 +172,7 @@ function render(arr) {
         }
       }
 
-      // TỒN KHO
+      /* TỒN KHO */
       else if (type === "ton") {
 
         if (!val || val === "-") {
@@ -206,16 +196,20 @@ function render(arr) {
         }
       }
 
-      // SAO ⭐
+      /* SAO ⭐ */
       else if (type === "sao") {
 
         let stars = "";
 
         if (val.includes("*")) {
           stars = val.replace(/\*/g, "⭐");
-        } else {
-          let num = parseInt(val) || 0;
+        }
+        else if (!isNaN(parseInt(val))) {
+          let num = parseInt(val);
           stars = "⭐".repeat(Math.min(5, num));
+        }
+        else {
+          stars = val;
         }
 
         html += `<td class="star">${stars}</td>`;
