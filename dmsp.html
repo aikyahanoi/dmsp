@@ -183,16 +183,24 @@ function render(arr) {
       }
 
       /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
-      else if (type === "ton") {
+  else if (type === "ton") {
 
-  let rawTon = r[key];
+  let tonKey = Object.keys(r).find(k =>
+    k.toLowerCase().includes("tồn") &&
+    k.toLowerCase().includes("kho")
+  );
 
-  if (!rawTon) {
+  let rawTon = tonKey ? r[tonKey] : "";
+
+  if (!rawTon || rawTon === "") {
     html += `<td>-</td>`;
   }
   else {
-    let num = cleanNumber(rawTon);
-    html += `<td>${num}</td>`;
+    let num = parseInt(
+      String(rawTon).replace(/[^\d]/g, "")
+    );
+
+    html += `<td>${num || 0}</td>`;
         }
       }
 
