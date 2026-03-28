@@ -161,7 +161,7 @@ td:nth-child(10) {
 
 /* Nền toàn trang */
 body {
-  background: #f5f7fb;
+  background: #eef2f5;
   font-family: Arial, sans-serif;
 }
 
@@ -240,6 +240,7 @@ th {
   align-items: center;
 
   background: white;
+  background: linear-gradient(to right, #ffffff, #fff5f5);
   padding: 10px 12px;
 
   border-radius: 10px;
@@ -262,7 +263,7 @@ th {
 
 .title {
   font-weight: 700;
-  color: #d32f2f;
+  color: #222;
   font-size: 22px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -335,6 +336,50 @@ th {
 #search {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
+
+/* ===== STATS BOX ===== */
+.stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat-box {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.stat-title {
+  font-size: 12px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* màu */
+.stat-box.warning {
+  border-top: 3px solid orange;
+}
+
+.stat-box.danger {
+  border-top: 3px solid red;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: #d32f2f;
+  color: white;
+  z-index: 2;
+}
   
 </style>
 </head>
@@ -342,6 +387,22 @@ th {
 <body>
  
 <div class="topbar">
+  <div class="stats">
+  <div class="stat-box">
+    <div class="stat-title">Tổng SP</div>
+    <div class="stat-value" id="total">0</div>
+  </div>
+
+  <div class="stat-box warning">
+    <div class="stat-title">Sắp hết (&lt;50)</div>
+    <div class="stat-value" id="low">0</div>
+  </div>
+
+  <div class="stat-box danger">
+    <div class="stat-title">Hết hàng</div>
+    <div class="stat-value" id="out">0</div>
+  </div>
+</div>
   <div class="left">
     <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
     <div>
@@ -517,6 +578,36 @@ document.getElementById("search").addEventListener("input", function() {
 
 loadData();
 
+function updateStats() {
+  let rows = document.querySelectorAll("tbody tr");
+
+  let total = 0;
+  let low = 0;
+  let out = 0;
+
+  rows.forEach(row => {
+    let stockCell = row.cells[8]; // cột tồn kho (cột 8)
+
+    if (!stockCell) return;
+
+    let value = parseInt(stockCell.innerText) || 0;
+
+    total++;
+
+    if (value === 0) out++;
+    else if (value < 50) low++;
+  });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("low").innerText = low;
+  document.getElementById("out").innerText = out;
+}
+
+/* chạy sau khi load */
+window.onload = function () {
+  updateStats();
+};
+  
 </script>
 
 </body>
