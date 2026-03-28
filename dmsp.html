@@ -232,19 +232,92 @@ th {
     height: 35px;
   }
 }
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+}
+
+.topbar .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar img {
+  height: 40px;
+}
+
+.title {
+  font-weight: bold;
+  color: #d32f2f;
+  font-size: 16px;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #777;
+}
+
+/* SEARCH ĐẸP */
+#search {
+  width: 180px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.2s;
+}
+
+#search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 5px rgba(211,47,47,0.3);
+}
+
+/* TABLE CARD */
+.table-wrap {
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* MOBILE */
+@media screen and (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  #search {
+    width: 100%;
+  }
+}
   
 </style>
 </head>
 
 <body>
+ 
+<div class="topbar">
+  <div class="left">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+    <div>
+      <div class="title">DANH MỤC AIKYA 2026</div>
+      <div class="subtitle">Danh sách sản phẩm & tồn kho</div>
+    </div>
+  </div>
 
-<div class="logo">
-  <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png" alt="logo">
+  <input id="search" placeholder="🔍 Tìm sản phẩm...">
 </div>
-  
-<h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
-
-<input id="search" placeholder="🔍 Tìm sản phẩm...">
 
 <div class="table-wrap">
   <div id="data">Loading...</div>
