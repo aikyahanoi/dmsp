@@ -193,7 +193,7 @@ table {
 
 /* Header bảng */
 th {
-  background: #2c3e50;
+  background: #e53935;
   color: white;
 }
 
@@ -219,6 +219,18 @@ th {
 
 .logo img {
   height: 45px;
+}
+
+/* Mobile: không cho đè chữ */
+@media screen and (max-width: 768px) {
+  .logo {
+    position: static;
+    margin: 10px;
+  }
+
+  .logo img {
+    height: 35px;
+  }
 }
   
 </style>
@@ -383,11 +395,16 @@ else if (type === "ton") {
 document.getElementById("search").addEventListener("input", function() {
   let keyword = this.value.toLowerCase();
 
-  let filtered = list.filter(r =>
-    Object.values(r).some(v =>
-      String(v).toLowerCase().includes(keyword)
-    )
-  );
+  let filtered = list.filter(r => {
+
+    let keySP = Object.keys(r).find(k =>
+      k.toLowerCase().includes("sản")
+    );
+
+    let value = keySP ? r[keySP] : "";
+
+    return String(value).toLowerCase().includes(keyword);
+  });
 
   render(filtered);
 });
