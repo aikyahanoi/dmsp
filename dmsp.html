@@ -258,12 +258,9 @@ th {
 .title {
   font-weight: bold;
   color: #d32f2f;
-  font-size: 16px;
-}
-
-.subtitle {
-  font-size: 12px;
-  color: #777;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 /* SEARCH ĐẸP */
@@ -301,6 +298,34 @@ th {
     width: 100%;
   }
 }
+
+/* KHUNG SEARCH */
+#search {
+  display: block;
+  margin: 12px auto;   /* căn giữa */
+  width: 320px;        /* dài hơn */
+  max-width: 90%;      /* mobile vẫn đẹp */
+  padding: 10px 14px;
+
+  border-radius: 25px;
+  border: 1px solid #ddd;
+
+  font-size: 14px;
+  outline: none;
+
+  transition: all 0.25s ease;
+}
+
+/* HIỆU ỨNG FOCUS */
+#search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 8px rgba(211,47,47,0.3);
+}
+
+/* PLACEHOLDER NHẸ */
+#search::placeholder {
+  color: #999;
+}
   
 </style>
 </head>
@@ -311,8 +336,7 @@ th {
   <div class="left">
     <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
     <div>
-      <div class="title">DANH MỤC AIKYA 2026</div>
-      <div class="subtitle">Danh sách sản phẩm & tồn kho</div>
+      <div class="title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
     </div>
   </div>
 
