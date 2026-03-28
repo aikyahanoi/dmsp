@@ -576,6 +576,7 @@ async function loadData() {
   const res = await fetch(API);
   list = await res.json();
   render(list);
+  updateStats();
 }
 
 function render(arr) {
@@ -715,62 +716,47 @@ document.getElementById("search").addEventListener("input", function() {
 loadData();
 
 function updateStats() {
-  let rows = document.querySelectorAll("tbody tr");
+  let rows = document.querySelectorAll("table tr:not(:first-child)");
 
   let total = 0;
   let low = 0;
   let out = 0;
 
   rows.forEach(row => {
-    let stockCell = row.cells[8]; // cột tồn kho (cột 8)
 
-    if (!stockCell) return;
+    let colSP = row.cells[1];   // cột 2: sản phẩm
+    let colDate = row.cells[6]; // cột 7: date
+    let colStock = row.cells[7];// cột 8: tồn kho
 
-    let value = parseInt(stockCell.innerText) || 0;
+    if (!colSP) return;
 
-    total++;
+    let sp = colSP.innerText.trim();
+    let date = colDate?.innerText.toLowerCase() || "";
+    let stockText = colStock?.innerText.trim() || "";
 
-    if (value === 0) out++;
-    else if (value < 50) low++;
+    // Tổng SP
+    if (sp !== "") {
+      total++;
+    }
+
+    // Hết hàng
+    if (date.includes("hết hàng")) {
+      out++;
+    }
+
+    // Sắp hết
+    let stock = parseInt(stockText);
+
+    if (!isNaN(stock) && stock > 0 && stock < 50) {
+      low++;
+    }
+
   });
 
   document.getElementById("total").innerText = total;
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
 }
-
-/* chạy sau khi load */
-window.onload = function () {
-  updateStats();
-};
-
-function updateStats() {
-  let rows = document.querySelectorAll("table tr");
-
-  let total = 0;
-  let low = 0;
-  let out = 0;
-
-  rows.forEach((row, index) => {
-    if (index === 0) return;
-
-    let stockCell = row.cells[7]; // cột 8
-
-    if (!stockCell) return;
-
-    let value = parseInt(stockCell.innerText) || 0;
-
-    total++;
-
-    if (value === 0) out++;
-    else if (value < 50) low++;
-  });
-
-  document.getElementById("total").innerText = total;
-  document.getElementById("low").innerText = low;
-  document.getElementById("out").innerText = out;
-}
-  
 </script>
 
 </body>
