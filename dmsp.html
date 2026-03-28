@@ -386,8 +386,13 @@ thead th {
 
 <body>
  
-<div class="topbar">
-  <div class="stats">
+<div class="logo">
+  <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+</div>
+
+<h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
+
+<div class="stats">
   <div class="stat-box">
     <div class="stat-title">Tổng SP</div>
     <div class="stat-value" id="total">0</div>
@@ -403,15 +408,8 @@ thead th {
     <div class="stat-value" id="out">0</div>
   </div>
 </div>
-  <div class="left">
-    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
-    <div>
-      <div class="title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
-    </div>
-  </div>
 
-  <input id="search" placeholder="🔍 Tìm sản phẩm...">
-</div>
+<input id="search" placeholder="🔍 Tìm sản phẩm...">
 
 <div class="table-wrap">
   <div id="data">Loading...</div>
@@ -556,6 +554,7 @@ else if (type === "ton") {
   html += "</table>";
 
   document.getElementById("data").innerHTML = html;
+  updateStats();
 }
 
 /* SEARCH */
@@ -607,6 +606,33 @@ function updateStats() {
 window.onload = function () {
   updateStats();
 };
+
+function updateStats() {
+  let rows = document.querySelectorAll("table tr");
+
+  let total = 0;
+  let low = 0;
+  let out = 0;
+
+  rows.forEach((row, index) => {
+    if (index === 0) return;
+
+    let stockCell = row.cells[7]; // cột 8
+
+    if (!stockCell) return;
+
+    let value = parseInt(stockCell.innerText) || 0;
+
+    total++;
+
+    if (value === 0) out++;
+    else if (value < 50) low++;
+  });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("low").innerText = low;
+  document.getElementById("out").innerText = out;
+}
   
 </script>
 
