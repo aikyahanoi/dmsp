@@ -8,67 +8,117 @@
 
 <style>
 
+/* ===== BODY ===== */
 body {
-  font-family: Arial;
-  background: #f4f6fb;
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
   margin: 0;
-  padding: 8px;
+  padding: 10px;
 }
 
-h1 {
+/* ===== TOPBAR ===== */
+.topbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 10px 15px;
+
+  border-radius: 10px;
+  border-bottom: 3px solid #d32f2f;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  margin-bottom: 12px;
+}
+
+/* LEFT */
+.left img {
+  height: 42px;
+}
+
+/* CENTER */
+.center {
   text-align: center;
-  color: #d32f2f;
-  font-size: 18px;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
+.title {
+  font-weight: 700;
+  font-size: 20px;
+  color: #000;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #555;
+  margin-top: 2px;
+}
+
+/* RIGHT */
+.right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#search {
+  width: 320px;
+  padding: 6px 12px;
+  border-radius: 20px;
   border: 1px solid #ddd;
-  margin-bottom: 8px;
 }
 
-/* TABLE */
+#search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 6px rgba(211,47,47,0.25);
+  outline: none;
+}
+
+/* ===== TABLE ===== */
 .table-wrap {
   overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 table {
   border-collapse: collapse;
   width: max-content;
   min-width: 100%;
+  background: white;
 }
 
 th {
-  background: #d32f2f;
+  background: #e53935;
   color: white;
-  padding: 6px;
+  padding: 8px;
   font-size: 12px;
   text-align: center;
   position: sticky;
   top: 0;
   z-index: 5;
- white-space: normal;
+
+  white-space: normal;
   word-break: break-word;
   max-width: 120px;
 }
 
 td {
- padding: 6px;
+  padding: 6px;
   border-bottom: 1px solid #eee;
   font-size: 12px;
   text-align: center;
+
   white-space: normal;
   word-break: break-word;
   max-width: 120px;
 }
 
-/* CĂN TRÁI + GIÃN DÒNG */
+/* CĂN TRÁI */
 td:nth-child(2),
 td:nth-child(3) {
   text-align: left;
-  white-space: normal;
   line-height: 1.4;
 }
 
@@ -84,517 +134,164 @@ td:nth-child(3) {
   font-size: 14px;
 }
 
-/* KM THÁNG 3 */
 .km {
   background: #c8e6c9;
 }
-/* FIX FULL BẢNG TRÊN MOBILE - KHÔNG ẢNH HƯỞNG DESKTOP */
+
+tr:hover {
+  background: #f5f5f5;
+}
+
+/* ===== MOBILE ===== */
 @media screen and (max-width: 768px) {
 
-  body {
-    overflow-x: auto;
+  .topbar {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .right {
+    justify-content: center;
+  }
+
+  #search {
+    width: 100%;
   }
 
   table {
     transform: scale(0.5);
     transform-origin: top left;
   }
-
 }
-  /* GIẢM ĐỘ RỘNG 1 SỐ CỘT */
+
+/* ===== GIỮ NGUYÊN ĐỘ RỘNG CỘT ===== */
 
 th:nth-child(1),
-td:nth-child(1) {
-  width: 20px;
-}
+td:nth-child(1) { width: 20px; }
 
 th:nth-child(2),
-td:nth-child(2) {
-  width: 140px;
-}
-  
+td:nth-child(2) { width: 140px; }
+
 th:nth-child(3),
-td:nth-child(3) {
-  width: 130px;
-}
-  
+td:nth-child(3) { width: 130px; }
+
 th:nth-child(4),
-td:nth-child(4) {
-  width: 70px;
-}
+td:nth-child(4) { width: 70px; }
 
 th:nth-child(5),
-td:nth-child(5) {
-  width: 70px;
-}
-  
+td:nth-child(5) { width: 70px; }
+
 th:nth-child(6),
-td:nth-child(6) {
-  width: 110px;
-}
+td:nth-child(6) { width: 110px; }
 
 th:nth-child(7),
-td:nth-child(7) {
-  width: 75px;
-}
-  
+td:nth-child(7) { width: 75px; }
+
 th:nth-child(8),
-td:nth-child(8) {
-  width: 70px;
-}
+td:nth-child(8) { width: 70px; }
 
-  th:nth-child(9),
-td:nth-child(9) {
-  width: 90px;
-}
+th:nth-child(9),
+td:nth-child(9) { width: 90px; }
 
-/* Giảm kích thước dấu sao trong cột Mức doanh số */
 td:nth-child(9) {
   font-size: 8px;
   letter-spacing: -2px;
 }
-  
+
 th:nth-child(10),
-td:nth-child(10) {
-  width: 80px;
-}
+td:nth-child(10) { width: 80px; }
 
-/* Nền toàn trang */
-body {
-  background: #eef2f5;
-  font-family: Arial, sans-serif;
-}
-
-/* Header */
-.header {
-  text-align: center;
-  padding: 10px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 20px;
-  color: #2c3e50;
-}
-
-.header p {
-  margin: 0;
-  font-size: 13px;
-  color: #7f8c8d;
-}
-
-/* Bảng đẹp hơn */
-table {
-  border-collapse: collapse;
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-/* Header bảng */
-th {
-  background: #e53935;
-  color: white;
-}
-
-/* Hover nhẹ */
-tr:hover {
-  background: #f2f2f2;
-}
-
-td {
-  padding: 6px;
-}
-
-th {
-  padding: 8px;
-}
-
-.logo {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 999;
-}
-
-.logo img {
-  height: 45px;
-}
-
-/* Mobile: không cho đè chữ */
-@media screen and (max-width: 768px) {
-  .logo {
-    position: static;
-    margin: 10px;
-  }
-
-  .logo img {
-    height: 35px;
-  }
-}
-
-/* TOPBAR */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  background: white;
-  background: linear-gradient(to right, #ffffff, #fff5f5);
-  padding: 10px 12px;
-
-  border-radius: 10px;
-  border-bottom: 3px solid #d32f2f; /* thêm dòng này */
-
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 12px;
-}
-
-.topbar .left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.topbar img {
-  height: 42px;
-  border-radius: 6px;
-}
-
-.title {
-  font-weight: 700;
-  color: #222;
-  font-size: 22px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-/* SEARCH ĐẸP */
-#search {
-  width: 180px;
-  padding: 6px 10px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  outline: none;
-  transition: 0.2s;
-}
-
-#search:focus {
-  border-color: #d32f2f;
-  box-shadow: 0 0 5px rgba(211,47,47,0.3);
-}
-
-/* TABLE CARD */
-.table-wrap {
-  background: white;
-  border-radius: 10px;
-  padding: 5px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-/* MOBILE */
-@media screen and (max-width: 768px) {
-  .topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  #search {
-    width: 100%;
-  }
-}
-
-/* KHUNG SEARCH */
-#search {
-  display: block;
-  margin: 12px auto;   /* căn giữa */
-  width: 320px;        /* dài hơn */
-  max-width: 90%;      /* mobile vẫn đẹp */
-  padding: 10px 14px;
-
-  border-radius: 25px;
-  border: 1px solid #ddd;
-
-  font-size: 14px;
-  outline: none;
-
-  transition: all 0.25s ease;
-}
-
-/* HIỆU ỨNG FOCUS */
-#search:focus {
-  border-color: #d32f2f;
-  box-shadow: 0 0 8px rgba(211,47,47,0.3);
-}
-
-/* PLACEHOLDER NHẸ */
-#search::placeholder {
-  color: #999;
-}
-
-#search {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-/* ===== STATS BOX ===== */
-.stats {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.stat-box {
-  flex: 1;
-  background: white;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.stat-title {
-  font-size: 12px;
-  color: #666;
-}
-
-.stat-value {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 4px;
-}
-
-/* màu */
-.stat-box.warning {
-  border-top: 3px solid orange;
-}
-
-.stat-box.danger {
-  border-top: 3px solid red;
-}
-
-thead th {
-  position: sticky;
-  top: 0;
-  background: #d32f2f;
-  color: white;
-  z-index: 2;
-}
-  
 </style>
 </head>
 
 <body>
- 
-<div class="logo">
-  <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+
+<!-- HEADER -->
+<div class="topbar">
+
+  <div class="left">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+  </div>
+
+  <div class="center">
+    <div class="title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+    <div class="subtitle">
+      Tổng SP: <span id="total">0</span> |
+      Sắp hết (&lt;50): <span id="low">0</span> |
+      Hết hàng: <span id="out">0</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <input type="text" id="search" placeholder="🔍 Tìm sản phẩm...">
+  </div>
+
 </div>
 
-<h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
-
-<div class="stats">
-  <div class="stat-box">
-    <div class="stat-title">Tổng SP</div>
-    <div class="stat-value" id="total">0</div>
-  </div>
-
-  <div class="stat-box warning">
-    <div class="stat-title">Sắp hết (&lt;50)</div>
-    <div class="stat-value" id="low">0</div>
-  </div>
-
-  <div class="stat-box danger">
-    <div class="stat-title">Hết hàng</div>
-    <div class="stat-value" id="out">0</div>
-  </div>
-</div>
-
-<input id="search" placeholder="🔍 Tìm sản phẩm...">
-
+<!-- TABLE -->
 <div class="table-wrap">
-  <div id="data">Loading...</div>
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Tên SP</th>
+      <th>Hoạt chất</th>
+      <th>Giá</th>
+      <th>Tồn</th>
+      <th>NSX</th>
+      <th>HSD</th>
+      <th>KM</th>
+      <th>Doanh số</th>
+      <th>Ghi chú</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- DEMO -->
+    <tr>
+      <td>1</td>
+      <td>Hapacol 500</td>
+      <td>Paracetamol</td>
+      <td>20k</td>
+      <td>30</td>
+      <td>DHG</td>
+      <td class="out-date">01/2024</td>
+      <td class="km">Có</td>
+      <td>⭐⭐⭐</td>
+      <td></td>
+    </tr>
+
+  </tbody>
+</table>
 </div>
 
 <script>
 
-const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b88";
-
-let list = [];
-
-function findKey(obj, keyword) {
-  return Object.keys(obj).find(k =>
-    k.toLowerCase().includes(keyword.toLowerCase())
-  );
-}
-
-function cleanNumber(val) {
-  return parseInt(
-    String(val)
-      .replace(/\./g, "")
-      .replace(/[^0-9]/g, "")
-  ) || 0;
-}
-
-async function loadData() {
-  const res = await fetch(API);
-  list = await res.json();
-  render(list);
-}
-
-function render(arr) {
-
-  if (arr.length === 0) return;
-
-  let sample = arr[0];
-
-  let keyMap = {
-    stt: findKey(sample, "stt"),
-    sp: findKey(sample, "sản"),
-    tp: findKey(sample, "thành"),
-    gia: findKey(sample, "giá"),
-    km: findKey(sample, "km"),          // KM nền (không tô màu)
-    km2: "KM THÁNG 3",                  // KM cần tô xanh
-    date: findKey(sample, "date"),
-    ton: "TỒN KHO (HỘP)",               // FIX CỨNG
-    sao: "Mức doanh số ở Miền Bắc",     // FIX CỨNG
-    qc: findKey(sample, "quy cách")
-  };
-
-  let html = "<table><tr>";
-
-  Object.values(keyMap).forEach(k => {
-    html += `<th>${k}</th>`;
-  });
-
-  html += "</tr>";
-
-  arr.forEach(r => {
-    html += "<tr>";
-
-    Object.entries(keyMap).forEach(([type, key]) => {
-
-      let raw = r[key];
-      let val = (raw ?? "").toString().trim();
-
-      /* KM nền (KHÔNG màu) */
-      if (type === "km") {
-        html += `<td>${val}</td>`;
-      }
-
-      /* KM THÁNG 3 (CÓ MÀU) */
-      else if (type === "km2") {
-        html += val ? `<td class="km">${val}</td>` : `<td></td>`;
-      }
-
-      /* DATE */
-      else if (type === "date") {
-        if (val.toLowerCase().includes("hết")) {
-          html += `<td class="out-date">Hết hàng</td>`;
-        } else {
-          html += `<td>${val}</td>`;
-        }
-      }
-
-      /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
-else if (type === "ton") {
-
-  let tonKey = Object.keys(r).find(k =>
-    k.toLowerCase().includes("tồn") &&
-    k.toLowerCase().includes("kho")
-  );
-
-  let rawTon = tonKey ? r[tonKey] : "";
-
-  let num = parseInt(
-    String(rawTon).replace(/[^\d]/g, "")
-  ) || 0;
-
-  if (num === 0) {
-    html += `<td></td>`;
-  }
-  else if (num < 50) {
-    html += `<td style="background:#ffe0b2;color:#e65100;font-weight:bold">${num}</td>`;
-  }
-  else {
-    html += `<td>${num}</td>`;
-  }
-}
-      /* SAO */
-      else if (type === "sao") {
-
-        if (!val) {
-          html += `<td>-</td>`;
-        }
-        else {
-          let stars = "";
-
-          if (val.includes("*")) {
-            stars = val.replace(/\*/g, "⭐");
-          }
-          else if (!isNaN(parseInt(val))) {
-            stars = "⭐".repeat(parseInt(val));
-          }
-          else {
-            stars = val;
-          }
-
-          html += `<td class="star">${stars}</td>`;
-        }
-      }
-
-      else {
-        html += `<td>${val}</td>`;
-      }
-
-    });
-
-    html += "</tr>";
-  });
-
-  html += "</table>";
-
-  document.getElementById("data").innerHTML = html;
-  updateStats();
-}
-
 /* SEARCH */
-document.getElementById("search").addEventListener("input", function() {
-  let keyword = this.value.toLowerCase();
+document.getElementById("search").addEventListener("keyup", function () {
+  let filter = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#productTable tbody tr");
 
-  let filtered = list.filter(r => {
-
-    let keySP = Object.keys(r).find(k =>
-      k.toLowerCase().includes("sản")
-    );
-
-    let value = keySP ? r[keySP] : "";
-
-    return String(value).toLowerCase().includes(keyword);
+  rows.forEach(row => {
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(filter) ? "" : "none";
   });
-
-  render(filtered);
 });
 
-loadData();
-
+/* COUNT */
 function updateStats() {
-  let rows = document.querySelectorAll("tbody tr");
+  let rows = document.querySelectorAll("#productTable tbody tr");
 
-  let total = 0;
+  let total = rows.length;
   let low = 0;
   let out = 0;
 
   rows.forEach(row => {
-    let stockCell = row.cells[8]; // cột tồn kho (cột 8)
+    let stock = parseInt(row.cells[4].innerText) || 0;
 
-    if (!stockCell) return;
-
-    let value = parseInt(stockCell.innerText) || 0;
-
-    total++;
-
-    if (value === 0) out++;
-    else if (value < 50) low++;
+    if (stock === 0) out++;
+    else if (stock < 50) low++;
   });
 
   document.getElementById("total").innerText = total;
@@ -602,38 +299,8 @@ function updateStats() {
   document.getElementById("out").innerText = out;
 }
 
-/* chạy sau khi load */
-window.onload = function () {
-  updateStats();
-};
+updateStats();
 
-function updateStats() {
-  let rows = document.querySelectorAll("table tr");
-
-  let total = 0;
-  let low = 0;
-  let out = 0;
-
-  rows.forEach((row, index) => {
-    if (index === 0) return;
-
-    let stockCell = row.cells[7]; // cột 8
-
-    if (!stockCell) return;
-
-    let value = parseInt(stockCell.innerText) || 0;
-
-    total++;
-
-    if (value === 0) out++;
-    else if (value < 50) low++;
-  });
-
-  document.getElementById("total").innerText = total;
-  document.getElementById("low").innerText = low;
-  document.getElementById("out").innerText = out;
-}
-  
 </script>
 
 </body>
