@@ -238,11 +238,15 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background: white;
   padding: 10px 12px;
+
   border-radius: 10px;
+  border-bottom: 3px solid #d32f2f; /* thêm dòng này */
+
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .topbar .left {
@@ -252,11 +256,12 @@ th {
 }
 
 .topbar img {
-  height: 40px;
+  height: 42px;
+  border-radius: 6px;
 }
 
 .title {
-  font-weight: bold;
+  font-weight: 700;
   color: #d32f2f;
   font-size: 22px;
   letter-spacing: 0.5px;
@@ -325,6 +330,10 @@ th {
 /* PLACEHOLDER NHẸ */
 #search::placeholder {
   color: #999;
+}
+
+#search {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
   
 </style>
