@@ -428,36 +428,125 @@ thead th {
   color: white;
   z-index: 2;
 }
+
+/* ===== HEADER MỚI ===== */
+.header-new {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 10px 15px;
+
+  border-radius: 12px;
+  border-bottom: 3px solid #d32f2f;
+
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+}
+
+/* LEFT */
+.header-left img {
+  height: 45px;
+}
+
+/* CENTER */
+.header-center {
+  text-align: center;
+}
+
+.main-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 4px;
+}
+
+/* stats nằm ngang */
+.stats-inline {
+  font-size: 13px;
+  color: #444;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.stats-inline span {
+  white-space: nowrap;
+}
+
+/* RIGHT */
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* SEARCH đẹp hơn */
+.header-right #search {
+  width: 220px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+}
+
+.header-right #search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 6px rgba(211,47,47,0.3);
+}
+
+/* MOBILE */
+@media screen and (max-width: 768px) {
+  .header-new {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .header-right {
+    justify-content: center;
+  }
+
+  .header-right #search {
+    width: 100%;
+  }
+
+  .stats-inline {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
   
 </style>
 </head>
 
 <body>
  
-<div class="logo">
-  <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+<div class="header-new">
+
+  <!-- LEFT: LOGO -->
+  <div class="header-left">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+  </div>
+
+  <!-- CENTER -->
+  <div class="header-center">
+    <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+
+    <div class="stats-inline">
+      <span>Tổng SP: <b id="total">0</b></span>
+      <span>Sắp hết (&lt;50): <b id="low">0</b></span>
+      <span>Hết hàng: <b id="out">0</b></span>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="header-right">
+    <input id="search" placeholder="🔍 Tìm sản phẩm">
+  </div>
+
 </div>
-
-<h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
-
-<div class="stats">
-  <div class="stat-box">
-    <div class="stat-title">Tổng SP</div>
-    <div class="stat-value" id="total">0</div>
-  </div>
-
-  <div class="stat-box warning">
-    <div class="stat-title">Sắp hết (&lt;50)</div>
-    <div class="stat-value" id="low">0</div>
-  </div>
-
-  <div class="stat-box danger">
-    <div class="stat-title">Hết hàng</div>
-    <div class="stat-value" id="out">0</div>
-  </div>
-</div>
-
-<input id="search" placeholder="🔍 Tìm sản phẩm...">
 
 <div class="table-wrap">
   <div id="data">Loading...</div>
