@@ -100,6 +100,15 @@ td:nth-child(3) {
     transform-origin: top left;
   }
 
+  .header-line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #search {
+    width: 100%;
+  }
+}
 }
   /* GIẢM ĐỘ RỘNG 1 SỐ CỘT */
 
@@ -380,6 +389,41 @@ thead th {
   color: white;
   z-index: 2;
 }
+
+/* HEADER GỌN */
+.header-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+/* TIÊU ĐỀ */
+.header-line h1 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+/* STATS NHỎ GỌN */
+.stats-inline {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  gap: 12px;
+}
+
+.stats-inline b {
+  color: #d32f2f;
+}
+
+/* SEARCH GỌN */
+#search {
+  width: 220px;
+  margin: 0;
+}
   
 </style>
 </head>
@@ -390,27 +434,19 @@ thead th {
   <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
 </div>
 
-<h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
+<div class="header-line">
 
-<div class="stats">
-  <div class="stat-box">
-    <div class="stat-title">Tổng SP</div>
-    <div class="stat-value" id="total">0</div>
+  <h1>📦 DANH MỤC SẢN PHẨM AIKYA 2026</h1>
+
+  <div class="stats-inline">
+    <span>Tổng: <b id="total">0</b></span>
+    <span>Sắp hết: <b id="low">0</b></span>
+    <span>Hết: <b id="out">0</b></span>
   </div>
 
-  <div class="stat-box warning">
-    <div class="stat-title">Sắp hết (&lt;50)</div>
-    <div class="stat-value" id="low">0</div>
-  </div>
+  <input id="search" placeholder="🔍 Tìm sản phẩm...">
 
-  <div class="stat-box danger">
-    <div class="stat-title">Hết hàng</div>
-    <div class="stat-value" id="out">0</div>
-  </div>
 </div>
-
-<input id="search" placeholder="🔍 Tìm sản phẩm...">
-
 <div class="table-wrap">
   <div id="data">Loading...</div>
 </div>
