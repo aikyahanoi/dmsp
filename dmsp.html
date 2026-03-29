@@ -541,9 +541,14 @@ tbody tr:nth-child(even) {
 }
 
 /* Hover nổi dòng */
+tbody tr {
+  transition: all 0.2s ease;
+}
+
 tbody tr:hover {
-  background: #e3f2fd !important;
-  transition: 0.2s;
+  background: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
 }
 
 /* Hiệu ứng nổi nhẹ khi hover */
@@ -564,6 +569,17 @@ td {
 
 td:last-child {
   border-right: none;
+}
+
+/* Header kính mờ xịn hơn */
+th {
+  background: rgba(211, 47, 47, 0.9);
+  backdrop-filter: blur(6px);
+}
+
+/* Làm bảng rõ nét hơn */
+td {
+  border-bottom: 1px solid #f1f1f1;
 }
   
 </style>
