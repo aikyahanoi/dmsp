@@ -517,6 +517,54 @@ thead th {
     gap: 4px;
   }
 }
+
+/* ===== NÂNG CẤP GIAO DIỆN BẢNG ===== */
+
+/* Làm bảng nổi */
+.table-wrap {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Header đậm hơn */
+th {
+  background: #c62828; /* đỏ đậm hơn */
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+/* Zebra dòng */
+tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Hover nổi dòng */
+tbody tr:hover {
+  background: #e3f2fd !important;
+  transition: 0.2s;
+}
+
+/* Hiệu ứng nổi nhẹ khi hover */
+tbody tr:hover td {
+  transform: scale(1.01);
+}
+
+/* Bo góc bảng */
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Tạo cảm giác cột rõ ràng hơn */
+td {
+  border-right: 1px solid #f0f0f0;
+}
+
+td:last-child {
+  border-right: none;
+}
   
 </style>
 </head>
