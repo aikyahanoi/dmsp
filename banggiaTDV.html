@@ -49,10 +49,33 @@ body {
 }
 
 .header-right #search {
-  width: 220px;
-  padding: 8px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
+  width: 320px;               /* dài hơn */
+  max-width: 100%;            /* mobile không vỡ */
+  padding: 10px 16px;
+
+  border-radius: 25px;
+  border: 2px solid #ddd;
+
+  font-size: 14px;
+
+  outline: none;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+/* khi click vào */
+.header-right #search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 10px rgba(211,47,47,0.4);
+}
+
+/* placeholder đẹp hơn */
+.header-right #search::placeholder {
+  color: #999;
+}
+  .header-right #search:hover {
+  border-color: #d32f2f;
 }
 
 /* TABLE */
@@ -102,12 +125,12 @@ td:nth-child(3) {
 /* ===== FIX CỘT 2 & 3 ===== */
 th:nth-child(2),
 td:nth-child(2) {
-  width: 110px;
+  width: 130px;
 }
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 110px;
+  width: 140px;
 }
 
 /* Cho xuống dòng đẹp */
