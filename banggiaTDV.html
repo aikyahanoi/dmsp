@@ -89,8 +89,7 @@ body {
 
 table {
   border-collapse: collapse;
-  width: max-content;
-  min-width: 100%;
+  width: 100%;
   table-layout: fixed;
 }
 
@@ -111,6 +110,9 @@ td {
 td:nth-child(2),
 td:nth-child(3) {
   text-align: left;
+  white-space: normal;
+  word-break: break-all;   /* 🔥 QUAN TRỌNG NHẤT */
+  line-height: 1.4;
 }
 
 .out-date {
