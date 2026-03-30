@@ -228,6 +228,62 @@ td {
   tbody tr:active {
   transform: scale(0.98);
 }
+
+/* ===== MOBILE ONLY ===== */
+@media screen and (max-width: 768px) {
+
+  /* HEADER: logo + text ngang */
+  .header-new {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* cho xuống dòng search */
+    gap: 8px;
+  }
+
+  .header-left {
+    flex: 0 0 auto;
+  }
+
+  .header-center {
+    flex: 1;
+    text-align: left;
+  }
+
+  /* SEARCH xuống dòng */
+  .header-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .header-right #search {
+    width: 95%;
+  }
+
+  /* ===== TABLE FULL CỘT ===== */
+
+  .table-wrap {
+    overflow: hidden !important; /* ❌ bỏ vuốt ngang */
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed; /* 🔥 ép chia đều */
+  }
+
+  th, td {
+    font-size: 10px;     /* 🔥 giảm chữ */
+    padding: 4px;
+  }
+
+  /* chữ dài xuống dòng */
+  td {
+    word-break: break-word;
+  }
+
+}
   
 </style>
 </head>
