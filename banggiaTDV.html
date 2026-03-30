@@ -665,19 +665,22 @@ function render(arr) {
 
     Object.entries(keyMap).forEach(([type, key]) => {
 
-let rawKey = Object.keys(r).find(k =>
-  k.toLowerCase().includes(key.toLowerCase())
+ let rawKey = Object.keys(r).find(k =>
+  k
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+    .replace(/\s+/g, "")
+    .toLowerCase()
+  ===
+  key
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
+    .toLowerCase()
 );
 
 let val = rawKey ? r[rawKey] : "";
-
-/* FIX HIỂN THỊ SỐ */
-if (typeof val === "number") {
-  val = val.toLocaleString("vi-VN");
-} else {
-  val = (val ?? "").toString().trim();
-}
-      
+val = (val ?? "").toString().trim();
       /* KM nền (KHÔNG màu) */
       if (type === "km") {
         html += `<td>${val}</td>`;
