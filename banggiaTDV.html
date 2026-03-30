@@ -610,12 +610,7 @@ td {
 const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b88";
 
 let list = [];
-function getVal(obj, key) {
-  let found = Object.keys(obj).find(k =>
-    k.replace(/\s/g, "").toLowerCase() === key.replace(/\s/g, "").toLowerCase()
-  );
-  return found ? obj[found] : "";
-}
+
 function findKey(obj, keyword) {
   return Object.keys(obj).find(k =>
     k.toLowerCase().includes(keyword.toLowerCase())
@@ -640,25 +635,27 @@ function render(arr) {
 
   if (arr.length === 0) return;
 
-  const columns = [
-    "STT",
-    "SẢN PHẨM",
-    "THÀNH PHẦN",
-    "NGUYÊN GIÁ",
-    "NGUYÊN GIÁ CÓ VAT",
-    "KM NỀN",
-    "NHÓM LƯƠNG",
-    "TRÊN HÓA ĐƠN",
-    "GIÁ CUỐI",
-    "KM THÁNG",
-    "DATE",
-    "TỒN KHO (HỘP)"
-  ];
+  let sample = arr[0];
+
+  let keyMap = {
+    stt: "STT",
+    sp: "SẢN PHẨM",
+    tp: "THÀNH PHẦN",
+    gia: "NGUYÊN GIÁ",
+    vat: "NGUYÊN GIÁ CÓ VAT",
+    km: "KM NỀN",          // KM nền (không tô màu)
+    luong: "NHÓM LƯƠNG", 
+    don: "TRÊN HÓA ĐƠN", 
+    cuoi: "GIÁ CUỐI", 
+    km2: "KM THÁNG",                  // KM cần tô xanh
+    date: "DATE",
+    ton: "TỒN KHO (HỘP)",               // FIX CỨNG
+  };
 
   let html = "<table><tr>";
 
-  columns.forEach(col => {
-    html += `<th>${col}</th>`;
+  Object.values(keyMap).forEach(k => {
+    html += `<th>${k}</th>`;
   });
 
   html += "</tr>";
@@ -666,17 +663,35 @@ function render(arr) {
   arr.forEach(r => {
     html += "<tr>";
 
-    columns.forEach((col, index) => {
+    Object.entries(keyMap).forEach(([type, key]) => {
 
-      let val = getVal(r, col);
-      if (val === null) val = "";
-      val = val.toString().trim();
+ let rawKey = Object.keys(r).find(k =>
+  k
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .includes(
+      key
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+    )
+);
 
-      if (col === "KM THÁNG") {
+let val = rawKey ? r[rawKey] : "";
+val = (val ?? "").toString().trim();
+      /* KM nền (KHÔNG màu) */
+      if (type === "km") {
+        html += `<td>${val}</td>`;
+      }
+
+      /* KM THÁNG (CÓ MÀU) */
+      else if (type === "km2") {
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
 
-      else if (col === "DATE") {
+      /* DATE */
+      else if (type === "date") {
         if (val.toLowerCase().includes("hết")) {
           html += `<td class="out-date">Hết hàng</td>`;
         } else {
@@ -684,34 +699,29 @@ function render(arr) {
         }
       }
 
-      else if (col === "TỒN KHO (HỘP)") {
+      /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
+else if (type === "ton") {
 
-        let num = parseInt(val) || 0;
+  let tonKey = Object.keys(r).find(k =>
+    k.toLowerCase().includes("tồn") &&
+    k.toLowerCase().includes("kho")
+  );
 
-        if (num === 0) {
-          html += `<td></td>`;
-        }
-        else if (num < 50) {
-          html += `<td style="background:#ffe0b2;color:#e65100;font-weight:bold">${num}</td>`;
-        }
-        else {
-          html += `<td>${num}</td>`;
-        }
-      }
+  let rawTon = tonKey ? r[tonKey] : "";
 
-      else {
-        html += `<td>${val}</td>`;
-      }
+  let num = parseInt(
+    String(rawTon).replace(/[^\d]/g, "")
+  ) || 0;
 
-    });
-
-    html += "</tr>";
-  });
-
-  html += "</table>";
-
-  document.getElementById("data").innerHTML = html;
-  updateStats();
+  if (num === 0) {
+    html += `<td></td>`;
+  }
+  else if (num < 50) {
+    html += `<td style="background:#ffe0b2;color:#e65100;font-weight:bold">${num}</td>`;
+  }
+  else {
+    html += `<td>${num}</td>`;
+  }
 }
       /* SAO */
       else if (type === "sao") {
