@@ -77,8 +77,14 @@ body {
 /* 🔥 QUAN TRỌNG NHẤT: co toàn bộ bảng */
 .table-scale {
   width: 100%;
-  transform: scale(0.75);       /* chỉnh tại đây */
-  transform-origin: top left;
+}
+
+/* CHỈ ÁP DỤNG CHO MOBILE */
+@media screen and (max-width: 768px) {
+  .table-scale {
+    transform: scale(0.75);
+    transform-origin: top left;
+  }
 }
 
 /* bảng */
