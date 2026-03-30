@@ -684,23 +684,27 @@ if (rawKey && r[rawKey] != null) {
 
 val = String(val).trim();
 
-      /* KM THÁNG (CÓ MÀU) */
-      else if (type === "km2") {
-        html += val ? `<td class="km">${val}</td>` : `<td></td>`;
-      }
+/* KM nền */
+if (type === "km") {
+  html += `<td>${val}</td>`;
+}
 
-      /* DATE */
-      else if (type === "date") {
-        if (val.toLowerCase().includes("hết")) {
-          html += `<td class="out-date">Hết hàng</td>`;
-        } else {
-          html += `<td>${val}</td>`;
-        }
-      }
+/* KM THÁNG */
+else if (type === "km2") {
+  html += val ? `<td class="km">${val}</td>` : `<td></td>`;
+}
 
-      /* TỒN KHO (CHỈ HIỆN SỐ – KHÔNG MÀU) */
+/* DATE */
+else if (type === "date") {
+  if (val.toLowerCase().includes("hết")) {
+    html += `<td class="out-date">Hết hàng</td>`;
+  } else {
+    html += `<td>${val}</td>`;
+  }
+}
+
+/* TỒN */
 else if (type === "ton") {
-
   let tonKey = Object.keys(r).find(k =>
     k.toLowerCase().includes("tồn") &&
     k.toLowerCase().includes("kho")
@@ -708,9 +712,7 @@ else if (type === "ton") {
 
   let rawTon = tonKey ? r[tonKey] : "";
 
-  let num = parseInt(
-    String(rawTon).replace(/[^\d]/g, "")
-  ) || 0;
+  let num = parseInt(String(rawTon).replace(/[^\d]/g, "")) || 0;
 
   if (num === 0) {
     html += `<td></td>`;
@@ -722,6 +724,12 @@ else if (type === "ton") {
     html += `<td>${num}</td>`;
   }
 }
+
+/* DEFAULT */
+else {
+  html += `<td>${val}</td>`;
+}
+      
       /* SAO */
       else if (type === "sao") {
 
