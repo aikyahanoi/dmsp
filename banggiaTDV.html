@@ -14,25 +14,21 @@ body {
   padding: 8px;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .header-new {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
   background: linear-gradient(to right, #ffffff, #fff5f5);
-  padding: 10px 15px;
+  padding: 12px;
   border-radius: 12px;
   border-bottom: 3px solid #d32f2f;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   margin-bottom: 12px;
-}
-
-.header-left img {
-  height: 45px;
-}
-
-.header-center {
   text-align: center;
+}
+
+/* LOGO + TEXT */
+.header-top img {
+  height: 50px;
+  margin-bottom: 5px;
 }
 
 .main-title {
@@ -42,63 +38,64 @@ body {
 }
 
 .stats-inline {
-  font-size: 13px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  font-size: 14px;
+  margin-top: 4px;
+  color: #444;
 }
 
-.header-right #search {
-  width: 320px;               /* dài hơn */
-  max-width: 100%;            /* mobile không vỡ */
-  padding: 10px 16px;
+/* SEARCH */
+.search-box {
+  margin-top: 10px;
+}
 
+#search {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px 16px;
   border-radius: 25px;
   border: 2px solid #ddd;
-
   font-size: 14px;
-
   outline: none;
-  transition: all 0.25s ease;
-
+  transition: 0.25s;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
 
-/* khi click vào */
-.header-right #search:focus {
+#search:focus {
   border-color: #d32f2f;
   box-shadow: 0 0 10px rgba(211,47,47,0.4);
 }
 
-/* placeholder đẹp hơn */
-.header-right #search::placeholder {
-  color: #999;
-}
-  .header-right #search:hover {
-  border-color: #d32f2f;
-}
-
-/* TABLE */
+/* ===== TABLE ===== */
 .table-wrap {
   background: white;
   border-radius: 12px;
   padding: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  overflow-x: auto;
+  overflow: hidden;
 }
 
+/* 🔥 QUAN TRỌNG NHẤT: co toàn bộ bảng */
+.table-scale {
+  width: 100%;
+  transform: scale(0.75);       /* chỉnh tại đây */
+  transform-origin: top left;
+}
+
+/* bảng */
 table {
   border-collapse: collapse;
   width: 100%;
 }
 
+/* header */
 th {
-  background: #c62828;
+  background: linear-gradient(to right, #d32f2f, #b71c1c);
   color: white;
-  padding: 8px;
+  padding: 6px;
   font-size: 12px;
 }
 
+/* cell */
 td {
   padding: 6px;
   font-size: 12px;
@@ -106,14 +103,15 @@ td {
   text-align: center;
 }
 
+/* xuống dòng */
 td:nth-child(2),
 td:nth-child(3) {
   text-align: left;
   white-space: normal;
-  overflow-wrap: anywhere;   /* ✅ tốt hơn break-all */
-  line-height: 1.4;
+  word-break: break-word;
 }
 
+/* màu */
 .out-date {
   background: #ffcdd2;
   color: #b71c1c;
@@ -124,137 +122,39 @@ td:nth-child(3) {
   background: #c8e6c9;
 }
 
-/* ===== FIX CỘT 2 & 3 ===== */
-th:nth-child(2),
-td:nth-child(2) {
-  width: 150px  !important;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-  width: 160px  !important;
-}
-
-/* Cho xuống dòng đẹp */
-td:nth-child(2),
-td:nth-child(3) {
-  text-align: left;
-  white-space: normal;
-  word-break: break-word;
-  line-height: 1.4;
-}
-
-/* ===== TĂNG SIZE CHỮ ===== */
-td {
-  font-size: 14px;
-}
-
-th {
-  font-size: 14px;
-}
-
-/* ===== NÂNG CẤP BẢNG ===== */
-
-/* Card bảng */
-.table-wrap {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-/* Header đẹp hơn */
-th {
-  background: linear-gradient(to right, #d32f2f, #b71c1c);
-  color: white;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-/* Zebra dòng */
-tbody tr:nth-child(even) {
+/* hover */
+tbody tr:hover {
   background: #fafafa;
 }
 
-/* Hover hiệu ứng nổi */
-tbody tr {
-  transition: all 0.25s ease;
-}
-
-tbody tr:hover {
-  background: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  z-index: 2;
-  position: relative;
-}
-
-/* Hover từng ô mượt hơn */
-tbody tr:hover td {
-  transform: scale(1.01);
-}
-
-/* Bo góc bảng */
-table {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* Tách cột rõ hơn */
-td {
-  border-right: 1px solid #f0f0f0;
-}
-
-td:last-child {
-  border-right: none;
-}
-
-/* Header sticky đẹp hơn */
-th {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-/* Làm chữ rõ nét hơn */
-td {
-  color: #333;
-}
-
-  .table-wrap {
-  scroll-behavior: smooth;
-}
-
-  tbody tr:active {
-  transform: scale(0.98);
-}
-  
 </style>
 </head>
 
 <body>
 
 <div class="header-new">
-  <div class="header-left">
-    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
-  </div>
 
-  <div class="header-center">
+  <div class="header-top">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
     <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+
     <div class="stats-inline">
-      <span>Tổng SP: <b id="total">0</b></span>
-      <span>Sắp hết (&lt;50): <b id="low">0</b></span>
-      <span>Hết hàng: <b id="out">0</b></span>
+      Tổng SP: <b id="total">0</b> |
+      Sắp hết (&lt;50): <b id="low">0</b> |
+      Hết hàng: <b id="out">0</b>
     </div>
   </div>
 
-  <div class="header-right">
+  <div class="search-box">
     <input id="search" placeholder="🔍 Tìm sản phẩm">
   </div>
+
 </div>
 
 <div class="table-wrap">
-  <div id="data">Loading...</div>
+  <div class="table-scale">
+    <div id="data">Loading...</div>
+  </div>
 </div>
 
 <script>
@@ -262,7 +162,7 @@ td {
 const API = "https://api.sheetbest.com/sheets/fb7dadb5-bfc1-4845-891f-f2c25204ac27";
 let list = [];
 
-/* ===== TÌM KEY CHUẨN ===== */
+/* ===== TÌM KEY ===== */
 function normalize(str) {
   return str.toLowerCase()
     .normalize("NFD")
@@ -277,47 +177,39 @@ function findKey(obj, keyword) {
   );
 }
 
-/* ===== LOAD DATA ===== */
+/* LOAD */
 async function loadData() {
   try {
     const res = await fetch(API);
     list = await res.json();
     render(list);
-  } catch (e) {
+  } catch {
     document.getElementById("data").innerHTML = "Lỗi load dữ liệu";
   }
 }
 
-/* ===== RENDER ===== */
+/* RENDER */
 function render(arr) {
-
-  if (!arr || arr.length === 0) {
-    document.getElementById("data").innerHTML = "Không có dữ liệu";
-    return;
-  }
 
   let keyMap = {
     stt: "STT",
     sp: "SẢN PHẨM",
     tp: "THÀNH PHẦN",
-    gia: "NGUYÊN GIÁ",
-    vat: "NGUYÊN GIÁ CÓ VAT",
+    vat: "VAT",
     km: "KM NỀN",
-    luong: "NHÓM LƯƠNG",
-    don: "TRÊN HÓA ĐƠN",
     cuoi: "GIÁ CUỐI",
     km2: "KM THÁNG",
     date: "DATE",
     ton: "TỒN KHO"
   };
 
- let html = "<table><thead><tr>";
+  let html = "<table><thead><tr>";
 
   Object.values(keyMap).forEach(k => {
     html += `<th>${k}</th>`;
   });
 
-html += "</tr></thead><tbody>";
+  html += "</tr></thead><tbody>";
 
   arr.forEach(r => {
     html += "<tr>";
@@ -332,18 +224,13 @@ html += "</tr></thead><tbody>";
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
       else if (type === "date") {
-        if (val.toLowerCase().includes("hết")) {
-          html += `<td class="out-date">Hết hàng</td>`;
-        } else {
-          html += `<td>${val}</td>`;
-        }
+        html += val.toLowerCase().includes("hết")
+          ? `<td class="out-date">Hết hàng</td>`
+          : `<td>${val}</td>`;
       }
       else if (type === "ton") {
         let num = parseInt(val.replace(/[^\d]/g, "")) || 0;
-
-        if (num === 0) html += `<td></td>`;
-        else if (num < 50) html += `<td style="background:#ffe0b2">${num}</td>`;
-        else html += `<td>${num}</td>`;
+        html += `<td>${num || ""}</td>`;
       }
       else {
         html += `<td>${val}</td>`;
@@ -354,7 +241,7 @@ html += "</tr></thead><tbody>";
     html += "</tr>";
   });
 
-  html += "</table>";
+  html += "</tbody></table>";
 
   document.getElementById("data").innerHTML = html;
   updateStats();
@@ -364,24 +251,23 @@ html += "</tr></thead><tbody>";
 document.getElementById("search").addEventListener("input", function() {
   let keyword = this.value.toLowerCase();
 
-  let filtered = list.filter(r => {
-    return JSON.stringify(r).toLowerCase().includes(keyword);
-  });
+  let filtered = list.filter(r =>
+    JSON.stringify(r).toLowerCase().includes(keyword)
+  );
 
   render(filtered);
 });
 
 /* STATS */
 function updateStats() {
-  let rows = document.querySelectorAll("table tr");
-  let total = rows.length - 1;
+  let rows = document.querySelectorAll("tbody tr");
+
+  let total = rows.length;
   let low = 0;
   let out = 0;
 
-  rows.forEach((row, i) => {
-    if (i === 0) return;
-
-    let val = parseInt(row.cells[11]?.innerText) || 0;
+  rows.forEach(row => {
+    let val = parseInt(row.cells[8]?.innerText) || 0;
 
     if (val === 0) out++;
     else if (val < 50) low++;
