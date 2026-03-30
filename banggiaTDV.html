@@ -638,17 +638,17 @@ function render(arr) {
   let sample = arr[0];
 
   let keyMap = {
-    stt: findKey(sample, "stt"),
-    sp: findKey(sample, "sản"),
-    tp: findKey(sample, "thành"),
-    gia: findKey(sample, "giá"),
-    vat: findKey(sample, "vat"),
-    km: findKey(sample, "km"),          // KM nền (không tô màu)
-    luong: findKey(sample, "lương"), 
-    don: findKey(sample, "đơn"), 
-    cuoi: findKey(sample, "cuối"), 
+    stt: "STT",
+    sp: "SẢN PHẨM",
+    tp: "THÀNH PHẦN",
+    gia: "NGUYÊN GIÁ",
+    vat: "NGUYÊN GIÁ CÓ VAT",
+    km: "KM NỀN",          // KM nền (không tô màu)
+    luong: "NHÓM LƯƠNG", 
+    don: "TRÊN HÓA ĐƠN", 
+    cuoi: "GIÁ CUỐI", 
     km2: "KM THÁNG",                  // KM cần tô xanh
-    date: findKey(sample, "date"),
+    date: "DATE",
     ton: "TỒN KHO (HỘP)",               // FIX CỨNG
   };
 
