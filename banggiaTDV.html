@@ -337,9 +337,17 @@ function render(arr) {
 
 document.getElementById("search").addEventListener("input", function() {
   let keyword = this.value.toLowerCase();
-  let filtered = list.filter(r =>
-    JSON.stringify(r).toLowerCase().includes(keyword)
-  );
+
+  let filtered = list.filter(r => {
+
+    // tìm đúng cột SẢN PHẨM (cột 2)
+    let keySP = findKey(r, "SẢN PHẨM");
+
+    let value = keySP ? r[keySP] : "";
+
+    return String(value).toLowerCase().includes(keyword);
+  });
+
   render(filtered);
 });
 
