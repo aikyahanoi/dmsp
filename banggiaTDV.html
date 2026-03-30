@@ -679,24 +679,15 @@ let rawKey = findKey(r, key);
 // fallback nếu không tìm thấy key
 let val = "";
 
-if (rawKey) {
-  val = r[rawKey];
-} else {
-  // fallback theo vị trí cột (fix cứng)
-  let keys = Object.keys(r);
-  let indexMap = {
-    gia: 3,
-    vat: 4,
-    luong: 6,
-    don: 7
-  };
+let rawKey = findKey(r, key);
 
-  if (indexMap[type] !== undefined) {
-    val = r[keys[indexMap[type]]] || "";
-  }
+let val = "";
+
+if (rawKey && r[rawKey] != null) {
+  val = r[rawKey];
 }
 
-val = (val ?? "").toString().trim();
+val = String(val).trim();
 
       /* KM THÁNG (CÓ MÀU) */
       else if (type === "km2") {
