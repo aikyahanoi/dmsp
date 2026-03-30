@@ -310,13 +310,13 @@ function render(arr) {
     ton: "TỒN KHO"
   };
 
-  let html = "<table><tr>";
+ let html = "<table><thead><tr>";
 
   Object.values(keyMap).forEach(k => {
     html += `<th>${k}</th>`;
   });
 
-  html += "</tr>";
+html += "</tr></thead><tbody>";
 
   arr.forEach(r => {
     html += "<tr>";
