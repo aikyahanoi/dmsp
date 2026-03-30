@@ -665,10 +665,22 @@ function render(arr) {
 
     Object.entries(keyMap).forEach(([type, key]) => {
 
-   let raw = Object.keys(r).find(k => k.trim() === key.trim());
-let val = raw ? r[raw] : "";
-val = (val ?? "").toString().trim();
+ let rawKey = Object.keys(r).find(k =>
+  k
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+    .replace(/\s+/g, "")
+    .toLowerCase()
+  ===
+  key
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
+    .toLowerCase()
+);
 
+let val = rawKey ? r[rawKey] : "";
+val = (val ?? "").toString().trim();
       /* KM nền (KHÔNG màu) */
       if (type === "km") {
         html += `<td>${val}</td>`;
@@ -770,35 +782,6 @@ document.getElementById("search").addEventListener("input", function() {
 
 loadData();
 
-function updateStats() {
-  let rows = document.querySelectorAll("tbody tr");
-
-  let total = 0;
-  let low = 0;
-  let out = 0;
-
-  rows.forEach(row => {
-    let stockCell = row.cells[12]; // cột tồn kho (cột 12)
-
-    if (!stockCell) return;
-
-    let value = parseInt(stockCell.innerText) || 0;
-
-    total++;
-
-    if (value === 0) out++;
-    else if (value < 50) low++;
-  });
-
-  document.getElementById("total").innerText = total;
-  document.getElementById("low").innerText = low;
-  document.getElementById("out").innerText = out;
-}
-
-/* chạy sau khi load */
-window.onload = function () {
-  updateStats();
-};
 
 function updateStats() {
   let rows = document.querySelectorAll("table tr");
