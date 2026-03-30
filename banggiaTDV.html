@@ -665,8 +665,9 @@ function render(arr) {
 
     Object.entries(keyMap).forEach(([type, key]) => {
 
-      let raw = r[key];
-      let val = (raw ?? "").toString().trim();
+   let raw = Object.keys(r).find(k => k.trim() === key.trim());
+let val = raw ? r[raw] : "";
+val = (val ?? "").toString().trim();
 
       /* KM nền (KHÔNG màu) */
       if (type === "km") {
