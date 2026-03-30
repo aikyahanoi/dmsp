@@ -66,7 +66,8 @@ body {
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
 }
 
 th {
@@ -97,6 +98,36 @@ td:nth-child(3) {
 .km {
   background: #c8e6c9;
 }
+
+/* ===== FIX CỘT 2 & 3 ===== */
+th:nth-child(2),
+td:nth-child(2) {
+  width: 110px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 110px;
+}
+
+/* Cho xuống dòng đẹp */
+td:nth-child(2),
+td:nth-child(3) {
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+/* ===== TĂNG SIZE CHỮ ===== */
+td {
+  font-size: 14px;
+}
+
+th {
+  font-size: 14px;
+}
+  
 </style>
 </head>
 
