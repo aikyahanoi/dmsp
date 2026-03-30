@@ -679,7 +679,14 @@ function render(arr) {
 );
 
 let val = rawKey ? r[rawKey] : "";
-val = (val ?? "").toString().trim();
+
+/* FIX HIỂN THỊ SỐ */
+if (typeof val === "number") {
+  val = val.toLocaleString("vi-VN");
+} else {
+  val = (val ?? "").toString().trim();
+}
+      
       /* KM nền (KHÔNG màu) */
       if (type === "km") {
         html += `<td>${val}</td>`;
