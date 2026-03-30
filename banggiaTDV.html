@@ -198,6 +198,60 @@ tbody tr:hover {
     font-size: 11px !important;
   }
 }
+@media screen and (max-width: 768px) {
+
+  /* ===== HEADER KHÔNG BỊ TRÀN ===== */
+  body {
+    overflow-x: hidden;
+  }
+
+  .header-new {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ===== SEARCH xuống dưới, căn giữa ===== */
+  .header-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .header-right #search {
+    width: 90%;
+  }
+
+  /* ===== CHỈ BẢNG ĐƯỢC KÉO NGANG ===== */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: max-content;   /* cho bảng rộng tự nhiên */
+    min-width: 100%;
+  }
+
+  /* ===== GIẢM SIZE CỘT 2 & 3 ===== */
+  th:nth-child(2),
+  td:nth-child(2),
+  th:nth-child(3),
+  td:nth-child(3) {
+    font-size: 10px !important;
+    white-space: normal !important;
+    word-break: break-word;
+    line-height: 1.3;
+    min-width: 120px;
+  }
+
+  /* các cột khác nhỏ vừa */
+  th, td {
+    font-size: 11px;
+    padding: 5px;
+  }
+
+}
   
 </style>
 </head>
