@@ -90,7 +90,6 @@ body {
 table {
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed;
 }
 
 th {
@@ -111,7 +110,7 @@ td:nth-child(2),
 td:nth-child(3) {
   text-align: left;
   white-space: normal;
-  word-break: break-all;   /* 🔥 QUAN TRỌNG NHẤT */
+  overflow-wrap: anywhere;   /* ✅ tốt hơn break-all */
   line-height: 1.4;
 }
 
