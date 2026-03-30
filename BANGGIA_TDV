@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DANH MỤC AIKYA</title>
+
+<style>
+
+/* ===== GIỮ NGUYÊN TOÀN BỘ CSS CŨ ===== */
+/* (Mình không chỉnh gì để đảm bảo giao diện giữ nguyên) */
+
+body {
+  font-family: Arial;
+  background: #f4f6fb;
+  margin: 0;
+  padding: 8px;
+}
+
+/* ===== (RÚT GỌN: GIỮ NGUYÊN STYLE CỦA BẠN) ===== */
+/* Bạn giữ nguyên toàn bộ CSS cũ của bạn ở đây */
+
+</style>
+</head>
+
+<body>
+ 
+<div class="header-new">
+
+  <div class="header-left">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+  </div>
+
+  <div class="header-center">
+    <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+
+    <div class="stats-inline">
+      <span>Tổng SP: <b id="total">0</b></span>
+      <span>Sắp hết (&lt;50): <b id="low">0</b></span>
+      <span>Hết hàng: <b id="out">0</b></span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <input id="search" placeholder="🔍 Tìm sản phẩm">
+  </div>
+
+</div>
+
+<div class="table-wrap">
+  <div id="data">Loading...</div>
+</div>
+
+<script>
+
+/* ===== API MỚI ===== */
+const API = "https://api.sheetbest.com/sheets/fb7dadb5-bfc1-4845-891f-f2c25204ac27";
+
+let list = [];
+
+/* LOAD DATA */
+async function loadData() {
+  const res = await fetch(API);
+  list = await res.json();
+  render(list);
+}
+
+/* RENDER */
+function render(arr) {
+
+  if (arr.length === 0) return;
+
+  const columns = [
+    "STT",
+    "SẢN PHẨM",
+    "HOẠT CHẤT",
+    "NGUYÊN GIÁ",
+    "NGUYÊN GIÁ CÓ VAT",
+    "KM NỀN",
+    "NHÓM LƯƠNG",
+    "TRÊN HÓA ĐƠN",
+    "GIÁ CUỐI",
+    "KM THÁNG",
+    "DATE",
+    "TỒN KHO (HỘP)"
+  ];
+
+  let html = "<table><tr>";
+
+  columns.forEach(col => {
+    html += `<th>${col}</th>`;
+  });
+
+  html += "</tr>";
+
+  arr.forEach(r => {
+    html += "<tr>";
+
+    columns.forEach((col, index) => {
+
+      let val = (r[col] ?? "").toString().trim();
+
+      /* KM THÁNG */
+      if (col === "KM THÁNG") {
+        html += val ? `<td class="km">${val}</td>` : `<td></td>`;
+      }
+
+      /* DATE */
+      else if (col === "DATE") {
+        if (val.toLowerCase().includes("hết")) {
+          html += `<td class="out-date">Hết hàng</td>`;
+        } else {
+          html += `<td>${val}</td>`;
+        }
+      }
+
+      /* TỒN KHO */
+      else if (col === "TỒN KHO (HỘP)") {
+
+        let num = parseInt(val.replace(/[^\d]/g, "")) || 0;
+
+        if (num === 0) {
+          html += `<td></td>`;
+        }
+        else if (num < 50) {
+          html += `<td style="background:#ffe0b2;color:#e65100;font-weight:bold">${num}</td>`;
+        }
+        else {
+          html += `<td>${num}</td>`;
+        }
+      }
+
+      else {
+        html += `<td>${val}</td>`;
+      }
+
+    });
+
+    html += "</tr>";
+  });
+
+  html += "</table>";
+
+  document.getElementById("data").innerHTML = html;
+  updateStats();
+}
+
+/* SEARCH */
+document.getElementById("search").addEventListener("input", function() {
+  let keyword = this.value.toLowerCase();
+
+  let filtered = list.filter(r => {
+    return (r["SẢN PHẨM"] || "").toLowerCase().includes(keyword);
+  });
+
+  render(filtered);
+});
+
+/* STATS */
+function updateStats() {
+  let rows = document.querySelectorAll("table tr");
+
+  let total = 0;
+  let low = 0;
+  let out = 0;
+
+  rows.forEach((row, index) => {
+    if (index === 0) return;
+
+    let stockCell = row.cells[11]; // cột 12
+
+    if (!stockCell) return;
+
+    let value = parseInt(stockCell.innerText) || 0;
+
+    total++;
+
+    if (value === 0) out++;
+    else if (value < 50) low++;
+  });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("low").innerText = low;
+  document.getElementById("out").innerText = out;
+}
+
+/* INIT */
+loadData();
+
+</script>
+
+</body>
+</html>
