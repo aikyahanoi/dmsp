@@ -675,12 +675,28 @@ function render(arr) {
     Object.entries(keyMap).forEach(([type, key]) => {
 
 let rawKey = findKey(r, key);
-let val = rawKey ? r[rawKey] : "";
+
+// fallback nếu không tìm thấy key
+let val = "";
+
+if (rawKey) {
+  val = r[rawKey];
+} else {
+  // fallback theo vị trí cột (fix cứng)
+  let keys = Object.keys(r);
+  let indexMap = {
+    gia: 3,
+    vat: 4,
+    luong: 6,
+    don: 7
+  };
+
+  if (indexMap[type] !== undefined) {
+    val = r[keys[indexMap[type]]] || "";
+  }
+}
+
 val = (val ?? "").toString().trim();
-      /* KM nền (KHÔNG màu) */
-      if (type === "km") {
-        html += `<td>${val}</td>`;
-      }
 
       /* KM THÁNG (CÓ MÀU) */
       else if (type === "km2") {
