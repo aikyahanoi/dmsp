@@ -611,9 +611,18 @@ const API = "https://api.sheetbest.com/sheets/74702816-7bb3-47eb-8fbe-643ed2675b
 
 let list = [];
 
+function normalize(str) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt
+    .replace(/\s+/g, "") // bỏ khoảng trắng
+    .trim();
+}
+
 function findKey(obj, keyword) {
   return Object.keys(obj).find(k =>
-    k.toLowerCase().includes(keyword.toLowerCase())
+    normalize(k).includes(normalize(keyword))
   );
 }
 
