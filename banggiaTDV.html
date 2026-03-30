@@ -27,13 +27,7 @@ body {
   margin-bottom: 12px;
 }
 
-.header-left img {
-  height: 45px;
-}
-
-.header-center {
-  text-align: center;
-}
+.header-left img { height: 45px; }
 
 .main-title {
   font-size: 18px;
@@ -49,71 +43,78 @@ body {
 }
 
 .header-right #search {
-  width: 320px;               /* dài hơn */
-  max-width: 100%;            /* mobile không vỡ */
+  width: 320px;
+  max-width: 100%;
   padding: 10px 16px;
-
   border-radius: 25px;
   border: 2px solid #ddd;
-
   font-size: 14px;
-
   outline: none;
-  transition: all 0.25s ease;
-
+  transition: 0.25s;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
 
-/* khi click vào */
 .header-right #search:focus {
   border-color: #d32f2f;
   box-shadow: 0 0 10px rgba(211,47,47,0.4);
 }
 
-/* placeholder đẹp hơn */
-.header-right #search::placeholder {
-  color: #999;
-}
-  .header-right #search:hover {
-  border-color: #d32f2f;
-}
-
 /* TABLE */
 .table-wrap {
-  background: white;
+  background: #fff;
   border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   overflow-x: auto;
 }
 
+/* 🔥 QUAN TRỌNG */
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
 }
 
+/* HEADER */
 th {
-  background: #c62828;
+  background: linear-gradient(to right, #d32f2f, #b71c1c);
   color: white;
   padding: 8px;
-  font-size: 12px;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
 }
 
+/* CELL */
 td {
   padding: 6px;
-  font-size: 12px;
+  font-size: 14px;
   border-bottom: 1px solid #eee;
   text-align: center;
+  color: #333;
 }
 
+/* 👉 CỘT 2,3 FIX CỨNG */
+th:nth-child(2),
+td:nth-child(2) {
+  width: 150px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 160px;
+}
+
+/* 👉 CHO TEXT XUỐNG DÒNG */
 td:nth-child(2),
 td:nth-child(3) {
   text-align: left;
   white-space: normal;
-  overflow-wrap: anywhere;   /* ✅ tốt hơn break-all */
+  overflow-wrap: anywhere;
   line-height: 1.4;
 }
 
+/* STYLE */
 .out-date {
   background: #ffcdd2;
   color: #b71c1c;
@@ -124,83 +125,19 @@ td:nth-child(3) {
   background: #c8e6c9;
 }
 
-/* ===== FIX CỘT 2 & 3 ===== */
-th:nth-child(2),
-td:nth-child(2) {
-  width: 150px  !important;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-  width: 160px  !important;
-}
-
-/* Cho xuống dòng đẹp */
-td:nth-child(2),
-td:nth-child(3) {
-  text-align: left;
-  white-space: normal;
-  word-break: break-word;
-  line-height: 1.4;
-}
-
-/* ===== TĂNG SIZE CHỮ ===== */
-td {
-  font-size: 14px;
-}
-
-th {
-  font-size: 14px;
-}
-
-/* ===== NÂNG CẤP BẢNG ===== */
-
-/* Card bảng */
-.table-wrap {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-/* Header đẹp hơn */
-th {
-  background: linear-gradient(to right, #d32f2f, #b71c1c);
-  color: white;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-/* Zebra dòng */
+/* HOVER */
 tbody tr:nth-child(even) {
   background: #fafafa;
 }
 
-/* Hover hiệu ứng nổi */
-tbody tr {
-  transition: all 0.25s ease;
-}
-
 tbody tr:hover {
-  background: #ffffff !important;
+  background: #fff;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  z-index: 2;
-  position: relative;
+  transition: 0.2s;
 }
 
-/* Hover từng ô mượt hơn */
-tbody tr:hover td {
-  transform: scale(1.01);
-}
-
-/* Bo góc bảng */
-table {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* Tách cột rõ hơn */
+/* BORDER */
 td {
   border-right: 1px solid #f0f0f0;
 }
@@ -208,27 +145,6 @@ td {
 td:last-child {
   border-right: none;
 }
-
-/* Header sticky đẹp hơn */
-th {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-/* Làm chữ rõ nét hơn */
-td {
-  color: #333;
-}
-
-  .table-wrap {
-  scroll-behavior: smooth;
-}
-
-  tbody tr:active {
-  transform: scale(0.98);
-}
-  
 </style>
 </head>
 
@@ -258,11 +174,10 @@ td {
 </div>
 
 <script>
-
 const API = "https://api.sheetbest.com/sheets/fb7dadb5-bfc1-4845-891f-f2c25204ac27";
 let list = [];
 
-/* ===== TÌM KEY CHUẨN ===== */
+/* chuẩn hóa key */
 function normalize(str) {
   return str.toLowerCase()
     .normalize("NFD")
@@ -277,84 +192,68 @@ function findKey(obj, keyword) {
   );
 }
 
-/* ===== LOAD DATA ===== */
+/* LOAD */
 async function loadData() {
   try {
     const res = await fetch(API);
     list = await res.json();
     render(list);
-  } catch (e) {
+  } catch {
     document.getElementById("data").innerHTML = "Lỗi load dữ liệu";
   }
 }
 
-/* ===== RENDER ===== */
+/* RENDER */
 function render(arr) {
 
-  if (!arr || arr.length === 0) {
+  if (!arr.length) {
     document.getElementById("data").innerHTML = "Không có dữ liệu";
     return;
   }
 
-  let keyMap = {
-    stt: "STT",
-    sp: "SẢN PHẨM",
-    tp: "THÀNH PHẦN",
-    gia: "NGUYÊN GIÁ",
-    vat: "NGUYÊN GIÁ CÓ VAT",
-    km: "KM NỀN",
-    luong: "NHÓM LƯƠNG",
-    don: "TRÊN HÓA ĐƠN",
-    cuoi: "GIÁ CUỐI",
-    km2: "KM THÁNG",
-    date: "DATE",
-    ton: "TỒN KHO"
-  };
+  let keyMap = [
+    "STT","SẢN PHẨM","THÀNH PHẦN","NGUYÊN GIÁ",
+    "NGUYÊN GIÁ CÓ VAT","KM NỀN","NHÓM LƯƠNG",
+    "TRÊN HÓA ĐƠN","GIÁ CUỐI","KM THÁNG","DATE","TỒN KHO"
+  ];
 
- let html = "<table><thead><tr>";
+  let html = "<table><thead><tr>";
 
-  Object.values(keyMap).forEach(k => {
-    html += `<th>${k}</th>`;
-  });
+  keyMap.forEach(k => html += `<th>${k}</th>`);
 
-html += "</tr></thead><tbody>";
+  html += "</tr></thead><tbody>";
 
   arr.forEach(r => {
     html += "<tr>";
 
-    Object.entries(keyMap).forEach(([type, key]) => {
-
+    keyMap.forEach(key => {
       let rawKey = findKey(r, key);
       let val = rawKey ? r[rawKey] : "";
       val = String(val || "").trim();
 
-      if (type === "km2") {
+      if (key === "KM THÁNG") {
         html += val ? `<td class="km">${val}</td>` : `<td></td>`;
       }
-      else if (type === "date") {
-        if (val.toLowerCase().includes("hết")) {
-          html += `<td class="out-date">Hết hàng</td>`;
-        } else {
-          html += `<td>${val}</td>`;
-        }
+      else if (key === "DATE") {
+        html += val.toLowerCase().includes("hết")
+          ? `<td class="out-date">Hết hàng</td>`
+          : `<td>${val}</td>`;
       }
-      else if (type === "ton") {
+      else if (key === "TỒN KHO") {
         let num = parseInt(val.replace(/[^\d]/g, "")) || 0;
-
-        if (num === 0) html += `<td></td>`;
-        else if (num < 50) html += `<td style="background:#ffe0b2">${num}</td>`;
-        else html += `<td>${num}</td>`;
+        html += num < 50 && num > 0
+          ? `<td style="background:#ffe0b2">${num}</td>`
+          : `<td>${num || ""}</td>`;
       }
       else {
         html += `<td>${val}</td>`;
       }
-
     });
 
     html += "</tr>";
   });
 
-  html += "</table>";
+  html += "</tbody></table>";
 
   document.getElementById("data").innerHTML = html;
   updateStats();
@@ -362,38 +261,28 @@ html += "</tr></thead><tbody>";
 
 /* SEARCH */
 document.getElementById("search").addEventListener("input", function() {
-  let keyword = this.value.toLowerCase();
-
-  let filtered = list.filter(r => {
-    return JSON.stringify(r).toLowerCase().includes(keyword);
-  });
-
-  render(filtered);
+  let k = this.value.toLowerCase();
+  render(list.filter(r => JSON.stringify(r).toLowerCase().includes(k)));
 });
 
 /* STATS */
 function updateStats() {
-  let rows = document.querySelectorAll("table tr");
-  let total = rows.length - 1;
-  let low = 0;
-  let out = 0;
+  let rows = document.querySelectorAll("tbody tr");
+  let total = rows.length, low = 0, out = 0;
 
-  rows.forEach((row, i) => {
-    if (i === 0) return;
-
+  rows.forEach(row => {
     let val = parseInt(row.cells[11]?.innerText) || 0;
-
     if (val === 0) out++;
     else if (val < 50) low++;
   });
 
+  total = total || 0;
   document.getElementById("total").innerText = total;
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
 }
 
 loadData();
-
 </script>
 
 </body>
