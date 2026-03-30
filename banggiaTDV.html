@@ -134,11 +134,11 @@ tbody tr:hover {
 
 @media screen and (max-width: 768px) {
 
+  /* ===== HEADER ===== */
   body {
     overflow-x: hidden;
   }
 
-  /* HEADER */
   .header-new {
     display: flex;
     flex-wrap: wrap;
@@ -149,17 +149,17 @@ tbody tr:hover {
 
   .header-center {
     flex: 1;
-    text-align: left;
+    text-align: center;
   }
 
   .main-title {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .stats-inline {
-    font-size: 11px;
-    gap: 6px;
-    justify-content: flex-start;
+    font-size: 13px;
+    justify-content: center;
+    gap: 8px;
     flex-wrap: wrap;
   }
 
@@ -174,7 +174,7 @@ tbody tr:hover {
     width: 90%;
   }
 
-  /* TABLE */
+  /* ===== TABLE ===== */
   .table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -192,15 +192,19 @@ tbody tr:hover {
     word-break: break-word;
   }
 
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 140px;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-    width: 140px;
-  }
+  /* ===== CHỈNH TOÀN BỘ CỘT ===== */
+  th:nth-child(1), td:nth-child(1) { width: 40px; }
+  th:nth-child(2), td:nth-child(2) { width: 110px; }
+  th:nth-child(3), td:nth-child(3) { width: 110px; }
+  th:nth-child(4), td:nth-child(4) { width: 80px; }
+  th:nth-child(5), td:nth-child(5) { width: 90px; }
+  th:nth-child(6), td:nth-child(6) { width: 100px; }
+  th:nth-child(7), td:nth-child(7) { width: 90px; }
+  th:nth-child(8), td:nth-child(8) { width: 90px; }
+  th:nth-child(9), td:nth-child(9) { width: 100px; }
+  th:nth-child(10), td:nth-child(10) { width: 90px; }
+  th:nth-child(11), td:nth-child(11) { width: 80px; }
+  th:nth-child(12), td:nth-child(12) { width: 70px; }
 
 }
   
