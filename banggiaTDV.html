@@ -229,31 +229,42 @@ tbody tr:hover {
     border-collapse: separate;
   }
 
-  /* CỘT 1 */
+  /* ===== CỘT 1 ===== */
   th:nth-child(1),
   td:nth-child(1) {
     position: sticky;
     left: 0;
-    z-index: 5;
+    z-index: 6;
     background: white;
   }
 
-  /* CỘT 2 */
+  /* ===== CỘT 2 ===== */
   th:nth-child(2),
   td:nth-child(2) {
     position: sticky;
-    left: 20px; /* = width cột 1 */
-    z-index: 5;
+    left: 20px; /* phải đúng width cột 1 */
+    z-index: 6;
     background: white;
   }
 
-  /* FIX HEADER KHÔNG BỊ MẤT */
+  /* ===== HEADER (QUAN TRỌNG NHẤT) ===== */
   thead th {
     position: sticky;
     top: 0;
-    z-index: 10; /* cao hơn td */
-    background: #c62828; /* giữ màu header */
+    z-index: 10;
+    background: #c62828;
     color: white;
+  }
+
+  /* ===== FIX RIÊNG HEADER CỘT 1 + 2 ===== */
+  thead th:nth-child(1) {
+    left: 0;
+    z-index: 11;
+  }
+
+  thead th:nth-child(2) {
+    left: 20px; /* giống dưới */
+    z-index: 11;
   }
 
 }
