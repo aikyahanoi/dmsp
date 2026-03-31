@@ -211,51 +211,55 @@ tbody tr:hover {
   th:nth-child(11), td:nth-child(11) { width: 60px; }
   th:nth-child(12), td:nth-child(12) { width: 30px; }
 
-  /* ===== STICKY CHUẨN ===== */
+  /* ===== STICKY CHUẨN - FIX HEADER ===== */
 
-  /* CỘT 1 */
-  th:nth-child(1),
-  td:nth-child(1) {
-    position: sticky;
-    left: 0;
-    z-index: 3;
-    background: #fff;
-  }
+table {
+  border-collapse: separate;
+}
 
-  /* CỘT 2 */
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: sticky;
-    left: 20px; /* đúng width cột 1 */
-    z-index: 2;
-    background: #fff;
-  }
+/* HEADER */
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #c62828;
+  color: white;
+}
 
-  /* HEADER */
-  thead th {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: #c62828;
-    color: white;
-  }
+/* CỘT 1 */
+th:nth-child(1),
+td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  background: #fff;
+}
 
-  thead th:nth-child(1) {
-    left: 0;
-    z-index: 7;
-  }
+/* CỘT 2 */
+th:nth-child(2),
+td:nth-child(2) {
+  position: sticky;
+  left: 20px;
+  z-index: 14;
+  background: #fff;
+}
 
-  thead th:nth-child(2) {
-    left: 20px;
-    z-index: 6;
-  }
+/* HEADER CỘT 1 + 2 */
+thead th:nth-child(1) {
+  left: 0;
+  z-index: 30;
+}
 
-  /* VÁCH NGĂN GIỮ CỘT 2 */
-  th:nth-child(2),
-  td:nth-child(2) {
-    box-shadow: 4px 0 6px rgba(0,0,0,0.15);
-  }
+thead th:nth-child(2) {
+  left: 20px;
+  z-index: 29;
+}
 
+/* VÁCH NGĂN */
+th:nth-child(2),
+td:nth-child(2) {
+  box-shadow: 4px 0 6px rgba(0,0,0,0.2);
+}
 }
 </style>
 </head>
