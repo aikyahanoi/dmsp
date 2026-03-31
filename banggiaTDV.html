@@ -137,9 +137,6 @@ tbody tr:hover {
   /* ===== HEADER ===== */
   body {
     overflow-x: hidden;
-    transform: scale(0.6);
-    transform-origin: top left;
-    width: 166%;
   }
 
   .header-new {
@@ -175,10 +172,9 @@ tbody tr:hover {
 
   .header-right #search {
     width: 90%;
-    font-size: 16px; /* tránh zoom */
   }
 
-  /* ===== TABLE WRAP ===== */
+  /* ===== TABLE ===== */
   .table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -187,7 +183,6 @@ tbody tr:hover {
   table {
     width: max-content;
     min-width: 100%;
-    border-collapse: separate;
   }
 
   th, td {
@@ -197,7 +192,7 @@ tbody tr:hover {
     word-break: break-word;
   }
 
-  /* ===== WIDTH CỘT (GIỮ NGUYÊN CỦA BẠN) ===== */
+  /* ===== CHỈNH TOÀN BỘ CỘT ===== */
   th:nth-child(1), td:nth-child(1) { width: 20px; }
   th:nth-child(2), td:nth-child(2) { width: 110px; }
   th:nth-child(3), td:nth-child(3) { width: 110px; }
@@ -211,56 +206,101 @@ tbody tr:hover {
   th:nth-child(11), td:nth-child(11) { width: 60px; }
   th:nth-child(12), td:nth-child(12) { width: 30px; }
 
-  /* ===== STICKY CHUẨN - FIX HEADER ===== */
-
-table {
-  border-collapse: separate;
+}
+  @media screen and (max-width: 768px) {
+  #search {
+    font-size: 16px !important;
+  }
 }
 
-/* HEADER */
-thead th {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: #c62828;
-  color: white;
+@media screen and (max-width: 768px) {
+
+  body {
+    transform: scale(0.6);
+    transform-origin: top left;
+    width: 166%; /* bù lại chiều ngang bị co */
+  }
+
 }
 
-/* CỘT 1 */
-th:nth-child(1),
-td:nth-child(1) {
-  position: sticky;
-  left: 0;
-  z-index: 15;
-  background: #fff;
-}
+@media screen and (max-width: 768px) {
 
-/* CỘT 2 */
-th:nth-child(2),
-td:nth-child(2) {
-  position: sticky;
-  left: 20px;
-  z-index: 14;
-  background: #fff;
-}
+  table {
+    border-collapse: separate;
+  }
 
-/* HEADER CỘT 1 + 2 */
+  /* ===== CỘT 1 ===== */
+  th:nth-child(1),
+  td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 6;
+    background: white;
+  }
+
+  /* ===== CỘT 2 ===== */
+  th:nth-child(2),
+  td:nth-child(2) {
+    position: sticky;
+    left: 20px; /* phải đúng width cột 1 */
+    z-index: 6;
+    background: white;
+  }
+
+  /* ===== HEADER (QUAN TRỌNG NHẤT) ===== */
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #c62828;
+    color: white;
+  }
+
+  /* ===== FIX RIÊNG HEADER CỘT 1 + 2 ===== */
 thead th:nth-child(1) {
-  left: 0;
-  z-index: 30;
-}
+    position: sticky;
+    left: 0;
+    z-index: 20;
+    background: #c62828;
+  }
 
-thead th:nth-child(2) {
-  left: 20px;
-  z-index: 29;
-}
+  thead th:nth-child(2) {
+    position: sticky;
+    left: 20px; /* đúng width cột 1 */
+    z-index: 20;
+    background: #c62828;
+  }
+  /* ===== FIX GIAO DIỆN KHI SCROLL HẾT ===== */
 
-/* VÁCH NGĂN */
+/* đảm bảo cột sticky có nền đè lên */
+th:nth-child(1),
+td:nth-child(1),
 th:nth-child(2),
 td:nth-child(2) {
-  box-shadow: 4px 0 6px rgba(0,0,0,0.2);
+  background: #fff;
+}
+
+/* header giữ màu đỏ */
+th:nth-child(1),
+th:nth-child(2) {
+  background: #c62828;
+  color: #fff;
+}
+
+/* tạo ranh giới rõ giữa cột 2 và phần còn lại */
+td:nth-child(2),
+th:nth-child(2) {
+  box-shadow: 3px 0 6px rgba(0,0,0,0.15);
+  z-index: 4;
+}
+
+/* đẩy nội dung cột 3 ra khỏi mép */
+td:nth-child(3),
+th:nth-child(3) {
+  padding-left: 10px;
 }
 }
+  
 </style>
 </head>
 
