@@ -225,79 +225,63 @@ tbody tr:hover {
 
 @media screen and (max-width: 768px) {
 
-  table {
-    border-collapse: separate;
-  }
+/* ===== STICKY FIX CHUẨN ===== */
 
-  /* ===== CỘT 1 ===== */
-  th:nth-child(1),
-  td:nth-child(1) {
-    position: sticky;
-    left: 0;
-    z-index: 6;
-    background: white;
-  }
+/* đảm bảo bảng không dính */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
-  /* ===== CỘT 2 ===== */
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: sticky;
-    left: 20px; /* phải đúng width cột 1 */
-    z-index: 6;
-    background: white;
-  }
-
-  /* ===== HEADER (QUAN TRỌNG NHẤT) ===== */
-  thead th {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #c62828;
-    color: white;
-  }
-
-  /* ===== FIX RIÊNG HEADER CỘT 1 + 2 ===== */
-thead th:nth-child(1) {
-    position: sticky;
-    left: 0;
-    z-index: 20;
-    background: #c62828;
-  }
-
-  thead th:nth-child(2) {
-    position: sticky;
-    left: 20px; /* đúng width cột 1 */
-    z-index: 20;
-    background: #c62828;
-  }
-  /* ===== FIX GIAO DIỆN KHI SCROLL HẾT ===== */
-
-/* đảm bảo cột sticky có nền đè lên */
+/* ===== CỘT 1 ===== */
 th:nth-child(1),
-td:nth-child(1),
-th:nth-child(2),
-td:nth-child(2) {
+td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 5;
   background: #fff;
 }
 
-/* header giữ màu đỏ */
-th:nth-child(1),
-th:nth-child(2) {
+/* ===== CỘT 2 ===== */
+th:nth-child(2),
+td:nth-child(2) {
+  position: sticky;
+  left: 20px; /* = width CỘT 1 (QUAN TRỌNG) */
+  z-index: 4;
+  background: #fff;
+}
+
+/* ===== HEADER ===== */
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background: #c62828;
   color: #fff;
 }
 
-/* tạo ranh giới rõ giữa cột 2 và phần còn lại */
-td:nth-child(2),
-th:nth-child(2) {
-  box-shadow: 3px 0 6px rgba(0,0,0,0.15);
-  z-index: 4;
+/* HEADER CỘT 1 */
+thead th:nth-child(1) {
+  left: 0;
+  z-index: 12;
 }
 
-/* đẩy nội dung cột 3 ra khỏi mép */
+/* HEADER CỘT 2 */
+thead th:nth-child(2) {
+  left: 20px;
+  z-index: 11;
+}
+
+/* ===== VÁCH NGĂN CHUẨN ===== */
+th:nth-child(2),
+td:nth-child(2) {
+  box-shadow: 2px 0 4px rgba(0,0,0,0.15);
+}
+
+/* ===== CHỐNG CHE CHỮ ===== */
 td:nth-child(3),
 th:nth-child(3) {
-  padding-left: 10px;
+  padding-left: 12px;
 }
 }
   
