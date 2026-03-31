@@ -257,14 +257,18 @@ tbody tr:hover {
   }
 
   /* ===== FIX RIÊNG HEADER CỘT 1 + 2 ===== */
-  thead th:nth-child(1) {
+thead th:nth-child(1) {
+    position: sticky;
     left: 0;
-    z-index: 11;
+    z-index: 20;
+    background: #c62828;
   }
 
   thead th:nth-child(2) {
-    left: 20px; /* giống dưới */
-    z-index: 11;
+    position: sticky;
+    left: 20px; /* đúng width cột 1 */
+    z-index: 20;
+    background: #c62828;
   }
 
 }
