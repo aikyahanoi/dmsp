@@ -270,7 +270,35 @@ thead th:nth-child(1) {
     z-index: 20;
     background: #c62828;
   }
+  /* ===== FIX GIAO DIỆN KHI SCROLL HẾT ===== */
 
+/* đảm bảo cột sticky có nền đè lên */
+th:nth-child(1),
+td:nth-child(1),
+th:nth-child(2),
+td:nth-child(2) {
+  background: #fff;
+}
+
+/* header giữ màu đỏ */
+th:nth-child(1),
+th:nth-child(2) {
+  background: #c62828;
+  color: #fff;
+}
+
+/* tạo ranh giới rõ giữa cột 2 và phần còn lại */
+td:nth-child(2),
+th:nth-child(2) {
+  box-shadow: 3px 0 6px rgba(0,0,0,0.15);
+  z-index: 4;
+}
+
+/* đẩy nội dung cột 3 ra khỏi mép */
+td:nth-child(3),
+th:nth-child(3) {
+  padding-left: 10px;
+}
 }
   
 </style>
