@@ -270,6 +270,34 @@ thead th:nth-child(1) {
     z-index: 20;
     background: #c62828;
   }
+  /* ===== CHẶN LỌT NỘI DUNG BÊN TRÁI ===== */
+
+/* tạo lớp chắn mép trái */
+.table-wrap {
+  position: relative;
+}
+
+.table-wrap::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px; /* = width cột 1 */
+  height: 100%;
+  background: white;
+  z-index: 7;
+}
+
+/* đảm bảo cột 1 luôn trên cùng */
+th:nth-child(1),
+td:nth-child(1) {
+  z-index: 8;
+}
+
+/* header cột 1 cao nhất */
+thead th:nth-child(1) {
+  z-index: 30;
+}
   /* ===== FIX GIAO DIỆN KHI SCROLL HẾT ===== */
 
 /* đảm bảo cột sticky có nền đè lên */
