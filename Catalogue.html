@@ -65,7 +65,6 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
-
   margin-bottom: 6px;
   padding: 8px;
   border-radius: 18px;
@@ -88,9 +87,10 @@ body {
   overflow: hidden;
 
   transition: 0.3s;
+  isolation: isolate;
 }
 
-/* ánh sáng quét */
+/* ánh sáng hover */
 .card::after {
   content: "";
   position: absolute;
@@ -116,6 +116,22 @@ body {
     0 0 20px rgba(33,150,243,0.2);
 }
 
+/* ===== LIGHT SCROLL FIX ===== */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,255,255,0.12),
+    transparent 80%
+  );
+
+  opacity: 0.25;
+  pointer-events: none;
+}
+
 /* ===== IMAGE ===== */
 .img-wrap {
   position: relative;
@@ -125,11 +141,9 @@ body {
   width: 140px;
   height: 140px;
   object-fit: contain;
-
   background: rgba(255,255,255,0.9);
   border-radius: 10px;
   padding: 4px;
-
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -138,16 +152,12 @@ body {
   position: absolute;
   top: -5px;
   right: -5px;
-
   background: linear-gradient(45deg, #ff3d00, #ff9800);
   color: white;
-
   font-size: 11px;
   font-weight: bold;
-
   padding: 4px 6px;
   border-radius: 6px;
-
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
@@ -203,150 +213,60 @@ body {
 
 /* ===== GROUP TITLE ===== */
 .group-title {
-  display: block;
-  width: calc(100% - 20px); /* FIX tràn */
+  width: calc(100% - 20px);
   margin: 14px auto 8px;
-
   text-align: center;
   font-weight: 800;
   font-size: 16px;
-
   padding: 6px 10px;
-
   color: #fff;
-
   background: linear-gradient(135deg, #d32f2f, #ff5252);
-
   border-radius: 999px;
-
-  box-shadow:
-    0 4px 12px rgba(211,47,47,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.4);
-
-  letter-spacing: 0.5px;
-
-  box-sizing: border-box; /* QUAN TRỌNG */
+  box-shadow: 0 4px 12px rgba(211,47,47,0.3);
+  box-sizing: border-box;
 }
 
-/* ===== BADGE XẾP HẠNG ===== */
+/* ===== BADGE ===== */
 .rank-badge {
   position: absolute;
   bottom: -5px;
   left: -5px;
-
   background: linear-gradient(45deg, #00c853, #64dd17);
   color: white;
-
   font-size: 11px;
   font-weight: bold;
-
   padding: 4px 6px;
   border-radius: 6px;
-
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 .rank-new {
   background: linear-gradient(45deg, #2979ff, #00b0ff);
 }
 
-/* ===== ANIMATION GROUP ===== */
-.group {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.5s ease forwards;
-}
-
-/* delay cho từng nhóm */
-.group:nth-child(1) { animation-delay: 0.05s; }
-.group:nth-child(2) { animation-delay: 0.1s; }
-.group:nth-child(3) { animation-delay: 0.15s; }
-.group:nth-child(4) { animation-delay: 0.2s; }
-.group:nth-child(5) { animation-delay: 0.25s; }
-.group:nth-child(6) { animation-delay: 0.3s; }
-.group:nth-child(7) { animation-delay: 0.35s; }
-.group:nth-child(8) { animation-delay: 0.4s; }
-.group:nth-child(9) { animation-delay: 0.45s; }
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* ===== ANIMATION PRO ===== */
-
-/* group ban đầu ẩn */
 .group {
   opacity: 0;
   transform: translateY(25px);
   transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
 }
 
-/* khi hiện */
 .group.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* card animation */
-.card {
-  opacity: 1;
-  transform: none;
-}
-
-/* card hiện ra */
-.group.show .card {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
- /* ===== LIGHT SCROLL EFFECT ===== */
-
-.card {
-  position: relative;
-  overflow: hidden;
-  overflow: hidden;
-  isolation: isolate; /* FIX hiệu ứng ánh sáng */
-}
-
-/* lớp ánh sáng */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    rgba(255,255,255,0.18),  /* giảm sáng */
-    transparent 75%
-  );
-
-  opacity: 0.4; /* giảm mạnh */
-  pointer-events: none;
-
-  transition: opacity 0.3s;
-}
-
-/* hover tăng sáng nhẹ */
-.card:hover::before {
-  opacity: 0.8;
-} 
-
-/* ===== DESKTOP 4 CỘT ===== */
+/* ===== DESKTOP ===== */
 @media screen and (min-width: 1024px) {
 
   #data {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* FIX 4 cột chuẩn */
+    grid-template-columns: repeat(4, 1fr);
     gap: 14px;
   }
 
   .group {
     grid-column: 1 / -1;
-    display: contents; /* 🔥 FIX layout */
+    display: contents;
   }
 
   .group-title {
@@ -359,26 +279,21 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 10px;
   }
 
   .card img {
     width: 160px;
     height: 160px;
-    margin-bottom: 6px;
-  }
-
-  .card-content {
-    width: 100%;
   }
 }
 
+/* ===== MOBILE FIX ===== */
 @media (max-width: 768px) {
   .card::before {
-    opacity: 0.15;   /* gần như không còn bóng */
+    display: none;
   }
 }
-  
+
 </style>
 </head>
 
@@ -407,17 +322,11 @@ const API = "https://api.sheetbest.com/sheets/9ffe2985-c1cb-49a6-beed-5bec9ff6e4
 let list = [];
 
 function normalize(str) {
-  return str.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "")
-    .trim();
+  return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"").trim();
 }
 
 function findKey(obj, keyword) {
-  return Object.keys(obj).find(k =>
-    normalize(k).includes(normalize(keyword))
-  );
+  return Object.keys(obj).find(k => normalize(k).includes(normalize(keyword)));
 }
 
 async function loadData() {
@@ -429,169 +338,121 @@ async function loadData() {
 function render(arr) {
 
   const groupMap = {
-    "C1": "KHÁNG SINH",
-    "C2": "GIẢM ĐAU HẠ SỐT",
-    "C3": "HÔ HẤP",
-    "C4": "DINH DƯỠNG",
-    "C5": "CƠ XƯƠNG KHỚP",
-    "C6": "TIÊU HÓA",
-    "C7": "TUẦN HOÀN NÃO",
-    "C8": "TIM MẠCH TIỂU ĐƯỜNG",
-    "C9": "CHĂM SÓC DA"
+    C1:"KHÁNG SINH",C2:"GIẢM ĐAU HẠ SỐT",C3:"HÔ HẤP",C4:"DINH DƯỠNG",
+    C5:"CƠ XƯƠNG KHỚP",C6:"TIÊU HÓA",C7:"TUẦN HOÀN NÃO",
+    C8:"TIM MẠCH TIỂU ĐƯỜNG",C9:"CHĂM SÓC DA"
   };
 
   let groups = {};
 
-  // gom nhóm
-  arr.forEach(r => {
-    let nganh = (r[findKey(r,"NGÀNH HÀNG")] || "").toUpperCase();
-
-    if (!groups[nganh]) groups[nganh] = [];
+  arr.forEach(r=>{
+    let nganh=(r[findKey(r,"NGÀNH HÀNG")]||"").toUpperCase();
+    if(!groups[nganh]) groups[nganh]=[];
     groups[nganh].push(r);
   });
 
-  let html = "";
-  let total = 0, low = 0, out = 0;
+  let html="",total=0,low=0,out=0;
 
-  Object.keys(groupMap).forEach(key => {
+  Object.keys(groupMap).forEach(key=>{
+    let g=groups[key]; if(!g) return;
 
-    let groupData = groups[key];
-    if (!groupData) return;
-
-    // sort trong nhóm (hết hàng xuống cuối)
-    groupData.sort((a, b) => {
-      let d1 = String(a[findKey(a,"DATE")] || "").toLowerCase();
-      let d2 = String(b[findKey(b,"DATE")] || "").toLowerCase();
-      return d1.includes("hết") - d2.includes("hết");
+    g.sort((a,b)=>{
+      let d1=String(a[findKey(a,"DATE")]||"").toLowerCase();
+      let d2=String(b[findKey(b,"DATE")]||"").toLowerCase();
+      return d1.includes("hết")-d2.includes("hết");
     });
 
-    // tiêu đề nhóm
-  html += `<div class="group">
-            <div class="group-title">${groupMap[key]}</div>`;
+    html+=`<div class="group"><div class="group-title">${groupMap[key]}</div>`;
 
-    groupData.forEach(r => {
+    g.forEach(r=>{
+      let sp=r[findKey(r,"SẢN PHẨM")]||"";
+      let tp=r[findKey(r,"THÀNH PHẦN")]||"";
+      let vat=r[findKey(r,"VAT")]||"";
+      let km=r[findKey(r,"KM NỀN")]||"";
+      let don=r[findKey(r,"HÓA ĐƠN")]||"";
+      let cuoi=r[findKey(r,"CUỐI")]||"";
+      let km2=r[findKey(r,"KM THÁNG")]||"";
+      let date=r[findKey(r,"DATE")]||"";
+      let ton=parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
+      let img=r["HÌNH ẢNH"]||"";
+      let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
 
-      let sp = r[findKey(r,"SẢN PHẨM")] || "";
-      let tp = r[findKey(r,"THÀNH PHẦN")] || "";
-      let vat = r[findKey(r,"VAT")] || "";
-      let km = r[findKey(r,"KM NỀN")] || "";
-      let don = r[findKey(r,"HÓA ĐƠN")] || "";
-      let cuoi = r[findKey(r,"CUỐI")] || "";
-      let km2 = r[findKey(r,"KM THÁNG")] || "";
-      let date = r[findKey(r,"DATE")] || "";
-      let ton = parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
-      let img = r["HÌNH ẢNH"] || "";
-      let rank = (r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
+      total++; if(ton===0) out++; else if(ton<50) low++;
 
-      total++;
-      if(ton===0) out++;
-      else if(ton<50) low++;
-
-      html += `
-        <div class="card">
-
-          <div class="img-wrap">
-            <img src="${img}" onerror="this.src='https://via.placeholder.com/120'">
-
-            ${km2 ? `<div class="sale-badge">SALE</div>` : ""}
-
-            ${
-              rank.includes("bán") 
-              ? `<div class="rank-badge">Bán chạy</div>` 
-              : rank.includes("mới") 
-              ? `<div class="rank-badge rank-new">Mới</div>` 
-              : ""
-            }
-
-          </div>
-
-          <div class="card-content">
-
-            <div class="card-title">${sp}</div>
-
-            <div class="row tp">${tp}</div>
-
-            <div class="row">Nguyên giá có VAT: ${vat}</div>
-
-            <div class="row">KM nền: ${km}</div>
-
-            <div class="row">Giá trên HĐ: ${don}</div>
-
-            <div class="row">Giá cuối: <b>${cuoi}</b></div>
-
-            ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
-
-            <div class="row ${
-              date.toLowerCase().includes("hết") ? "out-date" :
-              (date.includes("2026") || date.includes("2027")) ? "date-hot" : ""
-            }">
-              HSD: ${date}
-              ${ton > 0 && ton < 50 ? `<span class="low"> • Số lượng ít</span>` : ""}
-            </div>
-
-          </div>
-
+      html+=`
+      <div class="card">
+        <div class="img-wrap">
+          <img src="${img}" onerror="this.src='https://via.placeholder.com/120'">
+          ${km2?`<div class="sale-badge">SALE</div>`:""}
+          ${rank.includes("bán")?`<div class="rank-badge">Bán chạy</div>`:
+            rank.includes("mới")?`<div class="rank-badge rank-new">Mới</div>`:""}
         </div>
-      `;
+        <div class="card-content">
+          <div class="card-title">${sp}</div>
+          <div class="row tp">${tp}</div>
+          <div class="row">Nguyên giá có VAT: ${vat}</div>
+          <div class="row">KM nền: ${km}</div>
+          <div class="row">Giá trên HĐ: ${don}</div>
+          <div class="row">Giá cuối: <b>${cuoi}</b></div>
+          ${km2?`<div class="row">KM tháng: <span class="km">${km2}</span></div>`:""}
+          <div class="row ${
+            date.toLowerCase().includes("hết")?"out-date":
+            (date.includes("2026")||date.includes("2027"))?"date-hot":""
+          }">
+            HSD: ${date}
+            ${ton>0&&ton<50?`<span class="low"> • Số lượng ít</span>`:""}
+          </div>
+        </div>
+      </div>`;
     });
- html += `</div>`;
+
+    html+=`</div>`;
   });
 
-  document.getElementById("data").innerHTML = html;
-initAnimation();
+  document.getElementById("data").innerHTML=html;
+  initAnimation();
   initLightScroll();
-  document.getElementById("total").innerText = total;
-  document.getElementById("low").innerText = low;
-  document.getElementById("out").innerText = out;
+
+  document.getElementById("total").innerText=total;
+  document.getElementById("low").innerText=low;
+  document.getElementById("out").innerText=out;
 }
-document.getElementById("search").addEventListener("input", function() {
-  let keyword = this.value.toLowerCase();
 
-  let filtered = list.filter(r => {
-    let sp = r[findKey(r,"SẢN PHẨM")] || "";
-    return sp.toLowerCase().includes(keyword);
-  });
-
-  render(filtered);
+document.getElementById("search").addEventListener("input",function(){
+  let keyword=this.value.toLowerCase();
+  render(list.filter(r=>(r[findKey(r,"SẢN PHẨM")]||"").toLowerCase().includes(keyword)));
 });
 
 loadData();
 
-function initAnimation() {
-  const groups = document.querySelectorAll(".group");
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-      }
-    });
-  }, {
-    threshold: 0.15
-  });
-
-  groups.forEach(g => observer.observe(g));
+/* animation */
+function initAnimation(){
+  const groups=document.querySelectorAll(".group");
+  const ob=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("show");});
+  },{threshold:0.15});
+  groups.forEach(g=>ob.observe(g));
 }
 
-function initLightScroll() {
-  window.addEventListener("scroll", () => {
-    const cards = document.querySelectorAll(".card");
+/* FIX ánh sáng */
+function initLightScroll(){
 
-    const screenH = window.innerHeight;
+  function update(){
+    const cards=document.querySelectorAll(".card");
+    const h=window.innerHeight;
 
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
-
-      // vị trí card trong màn hình
-      const y = ((rect.top + rect.height / 2) / screenH) * 100;
-
-      // ánh sáng di chuyển theo scroll
-      card.style.setProperty("--y", y + "%");
-      card.style.setProperty("--x", "50%");
+    cards.forEach(c=>{
+      const r=c.getBoundingClientRect();
+      let y=((r.top+r.height/2)/h)*100;
+      c.style.setProperty("--y",y+"%");
+      c.style.setProperty("--x","50%");
     });
-  });
+  }
+
+  update();
+  window.addEventListener("scroll",update);
 }
-  
+
 </script>
 
 </body>
