@@ -203,10 +203,13 @@ body {
 
 /* ===== GROUP TITLE ===== */
 .group-title {
+  display: block;            /* đảm bảo chiếm full dòng */
+  width: 100%;
   text-align: center;
+
   font-weight: 800;
   font-size: 16px;
-text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+
   margin: 14px 0 8px;
   padding: 6px 12px;
 
@@ -215,7 +218,6 @@ text-shadow: 0 2px 6px rgba(0,0,0,0.2);
   background: linear-gradient(135deg, #d32f2f, #ff5252);
 
   border-radius: 999px;
-  display: inline-block;
 
   box-shadow:
     0 4px 12px rgba(211,47,47,0.3),
@@ -289,9 +291,8 @@ text-shadow: 0 2px 6px rgba(0,0,0,0.2);
 
 /* card animation */
 .card {
-  opacity: 0;
-  transform: translateY(15px) scale(0.98);
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
+  transform: none;
 }
 
 /* card hiện ra */
@@ -300,14 +301,88 @@ text-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transform: translateY(0) scale(1);
 }
 
-/* delay từng card */
-.group.show .card:nth-child(2) { transition-delay: 0.05s; }
-.group.show .card:nth-child(3) { transition-delay: 0.1s; }
-.group.show .card:nth-child(4) { transition-delay: 0.15s; }
-.group.show .card:nth-child(5) { transition-delay: 0.2s; }
-.group.show .card:nth-child(6) { transition-delay: 0.25s; }
-.group.show .card:nth-child(7) { transition-delay: 0.3s; }
-.group.show .card:nth-child(8) { transition-delay: 0.35s; }
+ /* ===== LIGHT SCROLL EFFECT ===== */
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* lớp ánh sáng */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,255,255,0.25),
+    transparent 70%
+  );
+
+  opacity: 0.6;
+  pointer-events: none;
+
+  transition: opacity 0.3s;
+}
+
+/* hover tăng sáng nhẹ */
+.card:hover::before {
+  opacity: 0.8;
+} 
+
+/* ===== DESKTOP 4 CỘT ===== */
+@media screen and (min-width: 1024px) {
+
+  #data {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+  }
+
+  /* group full width */
+  .group {
+    grid-column: 1 / -1;
+  }
+
+  /* card layout lại cho đẹp desktop */
+  .card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    padding: 10px;
+  }
+
+  /* ảnh to hơn */
+  .card img {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 6px;
+  }
+
+  /* nội dung */
+  .card-content {
+    width: 100%;
+  }
+
+  /* title */
+  .card-title {
+    font-size: 14px;
+  }
+
+  /* row */
+  .row {
+    font-size: 12px;
+  }
+
+  /* tiêu đề nhóm căn giữa đẹp */
+  .group-title {
+    margin: 20px auto 10px;
+    font-size: 18px;
+  }
+
+}
   
 </style>
 </head>
@@ -469,6 +544,7 @@ function render(arr) {
 
   document.getElementById("data").innerHTML = html;
 initAnimation();
+  initLightScroll();
   document.getElementById("total").innerText = total;
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
@@ -500,6 +576,25 @@ function initAnimation() {
   });
 
   groups.forEach(g => observer.observe(g));
+}
+
+function initLightScroll() {
+  window.addEventListener("scroll", () => {
+    const cards = document.querySelectorAll(".card");
+
+    const screenH = window.innerHeight;
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+
+      // vị trí card trong màn hình
+      const y = ((rect.top + rect.height / 2) / screenH) * 100;
+
+      // ánh sáng di chuyển theo scroll
+      card.style.setProperty("--y", y + "%");
+      card.style.setProperty("--x", "50%");
+    });
+  });
 }
   
 </script>
