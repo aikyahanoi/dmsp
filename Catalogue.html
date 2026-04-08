@@ -137,6 +137,160 @@ body {
   font-weight: bold;
 }
 }
+
+/* ===== GLASS CARD XỊN ===== */
+
+body {
+  background: linear-gradient(135deg, #f1f4f9, #e3ecf5);
+}
+
+/* GRID 2 CỘT (nếu đang dùng) */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* CARD KÍNH */
+.card {
+  /* nền kính + gradient */
+  background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0.65),
+      rgba(255,255,255,0.25)
+    ),
+    linear-gradient(
+      120deg,
+      rgba(211,47,47,0.25),
+      rgba(255,255,255,0.1)
+    );
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-radius: 18px;
+  padding: 12px;
+
+  border: 1px solid rgba(255,255,255,0.5);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  position: relative;
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
+/* viền ánh sáng gradient */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border-radius: 18px;
+  padding: 1px;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.9),
+    rgba(211,47,47,0.4),
+    rgba(255,255,255,0.9)
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+/* hover xịn hơn */
+.card:hover {
+  transform: translateY(-5px) scale(1.03);
+
+  box-shadow:
+    0 14px 45px rgba(0,0,0,0.2),
+    0 0 20px rgba(211,47,47,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* hover nổi lên */
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* ẢNH */
+.card img {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+
+  margin-bottom: 8px;
+
+  background: rgba(255,255,255,0.8);
+  border-radius: 12px;
+  padding: 6px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.card-title {
+  font-weight: 700;
+  color: #c62828;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* TEXT */
+.row {
+  font-size: 12px;
+  padding: 3px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.08);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+/* THÀNH PHẦN */
+.tp {
+  color: #607d8b;
+  font-style: italic;
+}
+
+/* KM */
+.km {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* HẾT HÀNG */
+.out-date {
+  background: rgba(244,67,54,0.15);
+  color: #c62828;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* SẮP HẾT */
+.low {
+  color: #ff6f00;
+  font-weight: 800;
+}  
+  
 </style>
 </head>
 
