@@ -466,7 +466,7 @@ function render(arr) {
   });
 
   document.getElementById("data").innerHTML=html;
-  initAnimation();
+
   initLightScroll();
 
   document.getElementById("total").innerText=total;
@@ -474,50 +474,58 @@ function render(arr) {
   document.getElementById("out").innerText=out;
 }
 
-document.getElementById("search").addEventListener("input",function(){
-  let keyword=this.value.toLowerCase();
-  render(list.filter(r=>(r[findKey(r,"SẢN PHẨM")]||"").toLowerCase().includes(keyword)));
+let typingTimer;
+
+document.getElementById("search").addEventListener("input", function(){
+  clearTimeout(typingTimer);
+
+  typingTimer = setTimeout(() => {
+    let keyword = this.value.toLowerCase();
+
+    render(
+      list.filter(r =>
+        (r[findKey(r,"SẢN PHẨM")]||"")
+        .toLowerCase()
+        .includes(keyword)
+      )
+    );
+  }, 250);
 });
 
 loadData();
 
-/* animation */
-function initAnimation(){
 
-  const groups = document.querySelectorAll(".group");
-
-  const ob = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-      }
-    });
-  }, {
-    threshold: 0.01,
-    rootMargin: "200px 0px" // 🔥 preload xa hơn
-  });
-
-  groups.forEach(g => ob.observe(g));
-}
 /* FIX ánh sáng */
 function initLightScroll(){
 
+  let ticking = false;
+
   function update(){
-    const cards=document.querySelectorAll(".card");
-    const h=window.innerHeight;
+    const cards = document.querySelectorAll(".card");
+    const h = window.innerHeight;
 
     cards.forEach(c=>{
-      const r=c.getBoundingClientRect();
-      let y=((r.top+r.height/2)/h)*100;
-      c.style.setProperty("--y",y+"%");
-      c.style.setProperty("--x","50%");
+      const r = c.getBoundingClientRect();
+
+      // 🔥 chỉ xử lý card đang gần màn hình
+      if (r.top < h + 100 && r.bottom > -100) {
+        let y = ((r.top + r.height/2)/h)*100;
+        c.style.setProperty("--y", y + "%");
+        c.style.setProperty("--x", "50%");
+      }
     });
+
+    ticking = false;
   }
 
-  update();
   window.addEventListener("scroll", () => {
-  requestAnimationFrame(update);
-});
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  });
+
+  update();
 }
 
 </script>
