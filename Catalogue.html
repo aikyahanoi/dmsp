@@ -19,15 +19,18 @@ body {
 /* ===== HEADER ===== */
 .header-new {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;              /* 🔥 đổi sang ngang */
   align-items: center;
+  justify-content: center;
+  gap: 10px;
+
   background: linear-gradient(to right, #ffffff, #fff5f5);
   padding: 12px;
   border-radius: 14px;
   border-bottom: 3px solid #d32f2f;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;                 /* 🔥 căn trái */
 }
 
 .header-left img {
@@ -50,9 +53,9 @@ body {
 }
 
 #search {
-  width: 90%;
+  width: 100%;
   max-width: 400px;
-  margin-top: 10px;
+  margin-top: 0;
   padding: 10px 14px;
   border-radius: 25px;
 
@@ -316,19 +319,26 @@ body {
   top: 0;
   z-index: 999;
 
-  background: linear-gradient(to right, #ffffff, #fff5f5);
-  padding: 8px 0;
-
   display: flex;
   justify-content: center;
 
-  /* hiệu ứng nổi */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 8px;
 
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+
+  border-radius: 14px;               /* 🔥 bo góc nền */
+  margin-bottom: 10px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   backdrop-filter: blur(10px);
 }
   .search-sticky input {
   margin-top: 0;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
 }
   
 </style>
@@ -337,19 +347,22 @@ body {
 <body>
 
 <div class="header-new">
+
   <div class="header-left">
-    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+    <img src="...">
   </div>
 
-  <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+  <div class="header-text">
+    <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
 
-  <div class="stats-inline">
-    <span>Tổng: <b id="total">0</b></span>
-    <span>Sắp hết: <b id="low">0</b></span>
-    <span>Hết: <b id="out">0</b></span>
+    <div class="stats-inline">
+      <span>Tổng: <b id="total">0</b></span>
+      <span>Sắp hết: <b id="low">0</b></span>
+      <span>Hết: <b id="out">0</b></span>
+    </div>
   </div>
 
-</div> <!-- đóng header -->
+</div>
 
 <div class="search-sticky">
   <input id="search" placeholder="🔍 Tìm sản phẩm">
