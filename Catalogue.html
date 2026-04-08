@@ -309,6 +309,27 @@ body {
   }
 }
 
+/* ===== STICKY SEARCH ===== */
+
+.search-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 8px 0;
+
+  display: flex;
+  justify-content: center;
+
+  /* hiệu ứng nổi */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+  backdrop-filter: blur(10px);
+}
+  .search-sticky input {
+  margin-top: 0;
+}
   
 </style>
 </head>
@@ -328,7 +349,11 @@ body {
     <span>Hết: <b id="out">0</b></span>
   </div>
 
- <input id="search" placeholder="🔍 Tìm sản phẩm">
+</div> <!-- đóng header -->
+
+<div class="search-sticky">
+  <input id="search" placeholder="🔍 Tìm sản phẩm">
+</div>
 </div>
 
 <div id="data">Loading...</div>
