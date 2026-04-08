@@ -21,12 +21,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to right, #ffffff, #eef6ff);
+  background: linear-gradient(to right, #ffffff, #fff5f5);
   padding: 12px;
   border-radius: 14px;
-  border-bottom: 3px solid #1976d2;
+  border-bottom: 3px solid #d32f2f;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -37,7 +37,7 @@ body {
 .main-title {
   font-size: 20px;
   font-weight: bold;
-  color: #1976d2;
+  color: #d32f2f;
   margin: 6px 0;
 }
 
@@ -57,21 +57,13 @@ body {
   border-radius: 25px;
   border: 1px solid #ddd;
   font-size: 16px;
-}
-
-/* ===== GROUP TITLE ===== */
-.group-title {
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-  margin: 18px 0 8px;
-  color: #1565c0;
+  outline: none;
 }
 
 /* ===== CARD ===== */
 .card {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
 
   margin-bottom: 6px;
@@ -80,21 +72,48 @@ body {
 
   background:
     linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2)),
-    radial-gradient(circle at 30% 20%, rgba(0,122,255,0.2), transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(88,86,214,0.2), transparent 60%);
+    radial-gradient(circle at 30% 20%, rgba(0,122,255,0.25), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(88,86,214,0.25), transparent 60%);
 
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
   border: 1px solid rgba(255,255,255,0.6);
 
   box-shadow:
-    0 8px 20px rgba(0,0,0,0.1),
+    0 8px 24px rgba(0,0,0,0.1),
     inset 0 1px 0 rgba(255,255,255,0.8);
+
+  position: relative;
+  overflow: hidden;
 
   transition: 0.3s;
 }
 
+/* ánh sáng quét */
+.card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: rotate(25deg);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.card:hover::after {
+  left: 100%;
+  opacity: 1;
+}
+
 .card:hover {
   transform: translateY(-3px);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.15),
+    0 0 20px rgba(33,150,243,0.2);
 }
 
 /* ===== IMAGE ===== */
@@ -110,29 +129,26 @@ body {
   background: rgba(255,255,255,0.9);
   border-radius: 10px;
   padding: 4px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
-/* ===== BADGE ===== */
-.badge {
+/* SALE badge */
+.sale-badge {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  background: red;
+  top: -5px;
+  right: -5px;
+
+  background: linear-gradient(45deg, #ff3d00, #ff9800);
   color: white;
+
   font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 6px;
   font-weight: bold;
-}
 
-.badge.new {
-  background: #ff9800;
-}
+  padding: 4px 6px;
+  border-radius: 6px;
 
-.badge.sale {
-  right: 4px;
-  left: auto;
-  background: #e91e63;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 /* ===== CONTENT ===== */
@@ -140,38 +156,34 @@ body {
   flex: 1;
 }
 
-/* TITLE */
 .card-title {
-  font-weight: 700;
-  color: #1976d2;
-  font-size: 15px;
+  font-weight: bold;
+  color: #c62828;
+  font-size: 14px;
+  margin-bottom: 2px;
 }
 
-/* ROW */
 .row {
-  font-size: 13px;
+  font-size: 12px;
   padding: 2px 0;
   line-height: 1.3;
-  border-bottom: 1px dashed rgba(0,0,0,0.05);
+  border-bottom: 1px dashed rgba(0,0,0,0.06);
 }
 
 .row:last-child {
   border-bottom: none;
 }
 
-/* TP */
 .tp {
-  color: #546e7a;
+  color: #607d8b;
   font-style: italic;
 }
 
-/* KM */
 .km {
   color: #2e7d32;
   font-weight: bold;
 }
 
-/* HẾT */
 .out-date {
   background: rgba(244,67,54,0.15);
   color: #c62828;
@@ -179,18 +191,53 @@ body {
   border-radius: 6px;
 }
 
-/* LOW */
 .low {
   color: #ff6f00;
   font-weight: bold;
 }
 
-/* DATE HOT */
 .date-hot {
   color: #d32f2f;
   font-weight: bold;
 }
 
+/* ===== GROUP TITLE ===== */
+.group-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 14px 0 6px;
+  color: #0d47a1;
+
+  background: linear-gradient(90deg, #e3f2fd, #ffffff, #e3f2fd);
+  padding: 6px;
+  border-radius: 10px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+/* ===== BADGE XẾP HẠNG ===== */
+.rank-badge {
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+
+  background: linear-gradient(45deg, #00c853, #64dd17);
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  padding: 4px 6px;
+  border-radius: 6px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.rank-new {
+  background: linear-gradient(45deg, #2979ff, #00b0ff);
+}
+  
 </style>
 </head>
 
@@ -212,23 +259,11 @@ body {
   <input id="search" placeholder="🔍 Tìm sản phẩm">
 </div>
 
-<div id="data"></div>
+<div id="data">Loading...</div>
 
 <script>
 const API = "https://api.sheetbest.com/sheets/9ffe2985-c1cb-49a6-beed-5bec9ff6e4a6";
 let list = [];
-
-const GROUPS = {
-  "C1": "KHÁNG SINH",
-  "C2": "GIẢM ĐAU HẠ SỐT",
-  "C3": "HÔ HẤP",
-  "C4": "DINH DƯỠNG",
-  "C5": "CƠ XƯƠNG KHỚP",
-  "C6": "TIÊU HÓA",
-  "C7": "TUẦN HOÀN NÃO",
-  "C8": "TIM MẠCH TIỂU ĐƯỜNG",
-  "C9": "CHĂM SÓC DA"
-};
 
 function normalize(str) {
   return str.toLowerCase()
@@ -252,28 +287,47 @@ async function loadData() {
 
 function render(arr) {
 
-  let total = 0, low = 0, out = 0;
+  const groupMap = {
+    "C1": "KHÁNG SINH",
+    "C2": "GIẢM ĐAU HẠ SỐT",
+    "C3": "HÔ HẤP",
+    "C4": "DINH DƯỠNG",
+    "C5": "CƠ XƯƠNG KHỚP",
+    "C6": "TIÊU HÓA",
+    "C7": "TUẦN HOÀN NÃO",
+    "C8": "TIM MẠCH TIỂU ĐƯỜNG",
+    "C9": "CHĂM SÓC DA"
+  };
+
+  let groups = {};
+
+  // gom nhóm
+  arr.forEach(r => {
+    let nganh = (r[findKey(r,"NGÀNH HÀNG")] || "").toUpperCase();
+
+    if (!groups[nganh]) groups[nganh] = [];
+    groups[nganh].push(r);
+  });
+
   let html = "";
+  let total = 0, low = 0, out = 0;
 
-  Object.keys(GROUPS).forEach(group => {
+  Object.keys(groupMap).forEach(key => {
 
-    let groupItems = arr.filter(r => {
-      let nganh = r[findKey(r,"NGÀNH")] || "";
-      return nganh.includes(group);
-    });
+    let groupData = groups[key];
+    if (!groupData) return;
 
-    if(groupItems.length === 0) return;
-
-    // sort hết hàng xuống cuối
-    groupItems.sort((a,b)=>{
-      let d1 = String(a[findKey(a,"DATE")]||"").toLowerCase();
-      let d2 = String(b[findKey(b,"DATE")]||"").toLowerCase();
+    // sort trong nhóm (hết hàng xuống cuối)
+    groupData.sort((a, b) => {
+      let d1 = String(a[findKey(a,"DATE")] || "").toLowerCase();
+      let d2 = String(b[findKey(b,"DATE")] || "").toLowerCase();
       return d1.includes("hết") - d2.includes("hết");
     });
 
-    html += `<div class="group-title">${GROUPS[group]}</div>`;
+    // tiêu đề nhóm
+    html += `<div class="group-title">${groupMap[key]}</div>`;
 
-    groupItems.forEach(r => {
+    groupData.forEach(r => {
 
       let sp = r[findKey(r,"SẢN PHẨM")] || "";
       let tp = r[findKey(r,"THÀNH PHẦN")] || "";
@@ -285,57 +339,68 @@ function render(arr) {
       let date = r[findKey(r,"DATE")] || "";
       let ton = parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
       let img = r["HÌNH ẢNH"] || "";
-      let rank = r[findKey(r,"XẾP HẠNG")] || "";
+      let rank = (r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
 
       total++;
       if(ton===0) out++;
       else if(ton<50) low++;
 
       html += `
-      <div class="card">
+        <div class="card">
 
-        <div class="img-wrap">
-          <img src="${img}" onerror="this.src='https://via.placeholder.com/120'">
+          <div class="img-wrap">
+            <img src="${img}" onerror="this.src='https://via.placeholder.com/120'">
 
-          ${rank.includes("Bán chạy") ? `<div class="badge">Bán chạy</div>` : ""}
-          ${rank.includes("Mới") ? `<div class="badge new">Mới</div>` : ""}
-          ${km2 ? `<div class="badge sale">SALE</div>` : ""}
-        </div>
+            ${km2 ? `<div class="sale-badge">SALE</div>` : ""}
 
-        <div class="card-content">
-          <div class="card-title">${sp}</div>
+            ${
+              rank.includes("bán") 
+              ? `<div class="rank-badge">Bán chạy</div>` 
+              : rank.includes("mới") 
+              ? `<div class="rank-badge rank-new">Mới</div>` 
+              : ""
+            }
 
-          <div class="row tp">${tp}</div>
+          </div>
 
-          <div class="row">Nguyên giá có VAT: ${vat}</div>
-          <div class="row">KM nền: ${km}</div>
-          <div class="row">Giá trên HĐ: ${don}</div>
-          <div class="row">Giá cuối: <b>${cuoi}</b></div>
+          <div class="card-content">
 
-          ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
+            <div class="card-title">${sp}</div>
 
-          <div class="row ${
-            date.toLowerCase().includes("hết") ? "out-date" :
-            (date.includes("2026") || date.includes("2027")) ? "date-hot" : ""
-          }">
-            HSD: ${date}
-            ${ton > 0 && ton < 50 ? `<span class="low"> • Số lượng ít</span>` : ""}
+            <div class="row tp">${tp}</div>
+
+            <div class="row">Nguyên giá có VAT: ${vat}</div>
+
+            <div class="row">KM nền: ${km}</div>
+
+            <div class="row">Giá trên HĐ: ${don}</div>
+
+            <div class="row">Giá cuối: <b>${cuoi}</b></div>
+
+            ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
+
+            <div class="row ${
+              date.toLowerCase().includes("hết") ? "out-date" :
+              (date.includes("2026") || date.includes("2027")) ? "date-hot" : ""
+            }">
+              HSD: ${date}
+              ${ton > 0 && ton < 50 ? `<span class="low"> • Số lượng ít</span>` : ""}
+            </div>
+
           </div>
 
         </div>
-
-      </div>`;
+      `;
     });
 
   });
 
   document.getElementById("data").innerHTML = html;
+
   document.getElementById("total").innerText = total;
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
 }
-
-/* SEARCH */
 document.getElementById("search").addEventListener("input", function() {
   let keyword = this.value.toLowerCase();
 
