@@ -295,6 +295,35 @@ body {
   }
 }
 
+/* ===== SEARCH EFFECT ===== */
+
+.search-box {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+}
+
+.search-box input {
+  width: 100%;
+}
+
+/* line đỏ */
+.search-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #ff1744, #d50000);
+  box-shadow: 0 0 6px rgba(211,47,47,0.6);
+  transition: width 0.35s ease;
+}
+
+/* khi focus */
+.search-box input:focus + .search-line {
+  width: 100%;
+}
+  
 </style>
 </head>
 
@@ -313,7 +342,10 @@ body {
     <span>Hết: <b id="out">0</b></span>
   </div>
 
+  <div class="search-box">
   <input id="search" placeholder="🔍 Tìm sản phẩm">
+  <span class="search-line"></span>
+</div>
 </div>
 
 <div id="data">Loading...</div>
