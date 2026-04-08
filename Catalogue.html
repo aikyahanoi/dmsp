@@ -94,7 +94,12 @@ body {
 /* dòng info */
 .row {
   font-size: 13px;
-  margin-bottom: 2px;
+  padding: 4px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.row:last-child {
+  border-bottom: none;
 }
 
 /* badge */
@@ -109,6 +114,10 @@ body {
   color: #b71c1c;
   padding: 2px 4px;
   border-radius: 4px;
+  .low {
+  color: #ff9800;
+  font-weight: bold;
+}
 }
 </style>
 </head>
@@ -211,11 +220,12 @@ function render(arr) {
 
       <div class="row">Giá cuối: <b>${cuoi}</b></div>
 
-      ${km2 ? `<div class="row km">KM tháng: ${km2}</div>` : ""}
+      ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
 
       <div class="row ${date.toLowerCase().includes("hết") ? "out-date":""}">
-        HSD: ${date}
-      </div>
+  HSD: ${date}
+  ${ton > 0 && ton < 50 ? `<span class="low"> • Số lượng ít</span>` : ""}
+</div>
         </div>
       </div>
     `;
