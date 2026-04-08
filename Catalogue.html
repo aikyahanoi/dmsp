@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>BANG GIA TDV</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #eef2f5;
+  margin: 0;
+  padding: 8px;
+}
+
+/* ===== HEADER ===== */
+.header-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 12px;
+  border-radius: 12px;
+  border-bottom: 3px solid #d32f2f;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.header-left img {
+  height: 45px;
+}
+
+.main-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin: 6px 0;
+}
+
+.stats-inline {
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#search {
+  width: 90%;
+  max-width: 400px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  gap: 10px;
+}
+
+/* ảnh */
+.card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain; /* 🔥 fix mọi loại ảnh */
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+/* nội dung */
+.card-content {
+  flex: 1;
+}
+
+/* tên SP */
+.card-title {
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 4px;
+}
+
+/* dòng info */
+.row {
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+/* badge */
+.km {
+  background: #c8e6c9;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.out-date {
+  background: #ffcdd2;
+  color: #b71c1c;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header-new">
+  <div class="header-left">
+    <img src="https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png">
+  </div>
+
+  <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
+
+  <div class="stats-inline">
+    <span>Tổng: <b id="total">0</b></span>
+    <span>Sắp hết: <b id="low">0</b></span>
+    <span>Hết: <b id="out">0</b></span>
+  </div>
+
+  <input id="search" placeholder="🔍 Tìm sản phẩm">
+</div>
+
+<div id="data">Loading...</div>
+
+<script>
+const API = "https://api.sheetbest.com/sheets/9ffe2985-c1cb-49a6-beed-5bec9ff6e4a6";
+let list = [];
+
+function normalize(str) {
+  return str.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function findKey(obj, keyword) {
+  return Object.keys(obj).find(k =>
+    normalize(k).includes(normalize(keyword))
+  );
+}
+
+async function loadData() {
+  const res = await fetch(API);
+  list = await res.json();
+  render(list);
+}
+
+function render(arr) {
+
+  let html = "";
+
+  let total = 0, low = 0, out = 0;
+
+  arr.forEach(r => {
+
+    let sp = r[findKey(r,"SẢN PHẨM")] || "";
+    let tp = r[findKey(r,"THÀNH PHẦN")] || "";
+    let vat = r[findKey(r,"VAT")] || "";
+    let km = r[findKey(r,"KM NỀN")] || "";
+    let don = r[findKey(r,"HÓA ĐƠN")] || "";
+    let cuoi = r[findKey(r,"CUỐI")] || "";
+    let km2 = r[findKey(r,"KM THÁNG")] || "";
+    let date = r[findKey(r,"DATE")] || "";
+    let ton = parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
+    let img = r["HÌNH ẢNH"] || "";
+
+    total++;
+    if(ton===0) out++;
+    else if(ton<50) low++;
+
+    html += `
+      <div class="card">
+        <img src="${img}" onerror="this.src='https://via.placeholder.com/80'">
+
+        <div class="card-content">
+          <div class="card-title">${sp}</div>
+
+          <div class="row">${tp}</div>
+
+          <div class="row">💰 ${vat}</div>
+
+          <div class="row">KM: ${km}</div>
+
+          <div class="row">HĐ: ${don}</div>
+
+          <div class="row">Giá: <b>${cuoi}</b></div>
+
+          ${km2 ? `<div class="row km">${km2}</div>` : ""}
+
+          <div class="row ${date.toLowerCase().includes("hết") ? "out-date":""}">
+            ${date}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("data").innerHTML = html;
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("low").innerText = low;
+  document.getElementById("out").innerText = out;
+}
+
+/* SEARCH CHỈ CỘT SẢN PHẨM */
+document.getElementById("search").addEventListener("input", function() {
+
+  let keyword = this.value.toLowerCase();
+
+  let filtered = list.filter(r => {
+    let sp = r[findKey(r,"SẢN PHẨM")] || "";
+    return sp.toLowerCase().includes(keyword);
+  });
+
+  render(filtered);
+});
+
+loadData();
+</script>
+
+</body>
+</html>
