@@ -427,11 +427,25 @@ loadData();
 
 /* animation */
 function initAnimation(){
-  const groups=document.querySelectorAll(".group");
-  const ob=new IntersectionObserver(e=>{
-    e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("show");});
-  },{threshold:0.15});
-  groups.forEach(g=>ob.observe(g));
+  const groups = document.querySelectorAll(".group");
+
+  const ob = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  }, {
+    threshold: 0.01,              // 🔥 FIX: giảm ngưỡng
+    rootMargin: "100px 0px"       // 🔥 FIX: preload trước
+  });
+
+  groups.forEach(g => ob.observe(g));
+
+  // 🔥 QUAN TRỌNG: hiện ngay khi load (fix mobile)
+  requestAnimationFrame(() => {
+    groups.forEach(g => g.classList.add("show"));
+  });
 }
 
 /* FIX ánh sáng */
