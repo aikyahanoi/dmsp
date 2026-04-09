@@ -451,11 +451,15 @@ function render(arr) {
           <div class="row">Giá trên HĐ: ${don}</div>
           <div class="row">Giá cuối: <b>${cuoi}</b></div>
           ${km2?`<div class="row">KM tháng: <span class="km">${km2}</span></div>`:""}
-          <div class="row ${
-            date.toLowerCase().includes("hết")?"out-date":
-            (date.includes("2026")||date.includes("2027"))?"date-hot":""
-          }">
-            HSD: ${date}
+         <div class="row ${
+  date.toLowerCase().includes("hết") ? "out-date" : ""
+}">
+  HSD: 
+  <span class="${
+    (date.includes("2026")||date.includes("2027")) ? "date-hot" : ""
+  }">
+    ${date}
+  </span>
             ${ton>0&&ton<50?`<span class="low"> • Số lượng ít</span>`:""}
           </div>
         </div>
