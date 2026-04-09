@@ -251,23 +251,25 @@ body {
   position: absolute;
   bottom: -5px;
   left: -5px;
- 
 
-  background: linear-gradient(45deg, #00c853, #64dd17);
+  background: linear-gradient(45deg, #ff3d00, #ff9800); /* 🔥 màu nóng */
   color: white;
 
-  font-size: 13px;      /* 🔥 tăng size chữ */
+  font-size: 12px;        /* 🔥 giảm nhẹ cho gọn */
   font-weight: bold;
 
-  padding: 6px 8px;     /* 🔥 badge to hơn */
-  border-radius: 8px;   /* 🔥 bo mềm hơn */
+  padding: 3px 6px;       /* 🔥 giảm khoảng trống */
+  border-radius: 6px;
 
-  display: flex;        /* 🔥 căn icon + chữ đẹp */
+  display: flex;
   align-items: center;
-  gap: 4px;
- box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-}
+  gap: 3px;               /* 🔥 icon sát chữ hơn */
 
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+ box-shadow:
+    0 2px 6px rgba(0,0,0,0.2),
+    0 0 6px rgba(255,87,34,0.5);
+}
 .rank-new {
   background: linear-gradient(45deg, #2979ff, #00b0ff);
   font-size: 13px;      /* 🔥 tăng size chữ */
