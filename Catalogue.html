@@ -102,7 +102,7 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.8);
 
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* 🔥 cho phép ribbon tràn */
 
   transition: 0.3s;
   isolation: isolate;
@@ -362,34 +362,31 @@ body {
   flex-direction: column;
 }
 
-/* ===== RIBBON CHÉO GHI CHÚ ===== */
+/* ===== RIBBON CHÉO TOÀN CARD ===== */
 .note-badge {
   position: absolute;
-  top: 10px;
-  left: -35px;
+  top: 16px;
+  left: -45px;
 
-  width: 120px;
+  width: 160px;
   text-align: center;
 
   background: linear-gradient(45deg, #8e24aa, #d81b60);
   color: #fff;
 
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
 
-  padding: 4px 0;
+  padding: 6px 0;
 
   transform: rotate(-45deg);
 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 
-  z-index: 2;
-
- white-space: normal;
-word-break: break-word;
+  z-index: 3;
 }
 
-/* 2 đầu ribbon */
+/* đầu ribbon */
 .note-badge::before,
 .note-badge::after {
   content: "";
@@ -401,17 +398,8 @@ word-break: break-word;
   border-right: 6px solid transparent;
 }
 
-.note-badge::before {
-  left: 0;
-}
-
-.note-badge::after {
-  right: 0;
-}
- .img-wrap {
-  position: relative;
-  overflow: visible; /* 🔥 cho phép ribbon tràn ra */
-}
+.note-badge::before { left: 0; }
+.note-badge::after { right: 0; }
  
 </style>
 </head>
@@ -507,9 +495,9 @@ function render(arr) {
 
       html+=`
       <div class="card">
+      ${note ? `<div class="note-badge">${note}</div>` : ""}
         <div class="img-wrap">
-        ${note ? `<div class="note-badge">${note}</div>` : ""}
-          <img src="${img}" onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
+            <img src="${img}" onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
           ${km2?`<div class="sale-badge">SALE</div>`:""}
          ${rank.includes("bán")?`<div class="rank-badge">🔥 Bán chạy</div>`:
   rank.includes("mới")?`<div class="rank-badge rank-new">✨ Mới</div>`:""}
