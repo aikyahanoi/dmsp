@@ -362,6 +362,53 @@ body {
   flex-direction: column;
 }
 
+/* ===== RIBBON CHÉO GHI CHÚ ===== */
+.note-badge {
+  position: absolute;
+  top: 10px;
+  left: -35px;
+
+  width: 120px;
+  text-align: center;
+
+  background: linear-gradient(45deg, #8e24aa, #d81b60);
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  padding: 4px 0;
+
+  transform: rotate(-45deg);
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+
+  z-index: 2;
+}
+
+/* 2 đầu ribbon */
+.note-badge::before,
+.note-badge::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+
+  border-top: 6px solid #6a1b9a;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+
+.note-badge::before {
+  left: 0;
+}
+
+.note-badge::after {
+  right: 0;
+}
+ .img-wrap {
+  position: relative;
+  overflow: visible; /* 🔥 cho phép ribbon tràn ra */
+}
  
 </style>
 </head>
@@ -451,12 +498,14 @@ function render(arr) {
       let ton=parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
       let img=r["HÌNH ẢNH"]||"";
       let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
+     let note = r[findKey(r,"GHI CHÚ")] || "";
 
       total++; if(ton===0) out++; else if(ton<50) low++;
 
       html+=`
       <div class="card">
         <div class="img-wrap">
+        ${note ? `<div class="note-badge">${note}</div>` : ""}
           <img src="${img}" onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
           ${km2?`<div class="sale-badge">SALE</div>`:""}
          ${rank.includes("bán")?`<div class="rank-badge">🔥 Bán chạy</div>`:
