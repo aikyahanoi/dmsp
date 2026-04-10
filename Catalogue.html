@@ -362,41 +362,62 @@ body {
   flex-direction: column;
 }
 
-/* ===== RIBBON CHÉO SÁT GÓC CARD ===== */
-.note-badge {
+/* ===== RIBBON ÔM GÓC CARD (CHUẨN) ===== */
+.note-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 120px;
+  height: 120px;
+
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* phần chữ ribbon */
+.note-ribbon span,
+.note-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-ribbon::before {
+  content: attr(data-text);
+}
+
+/* thanh ribbon */
+.note-ribbon::before {
   position: absolute;
 
-  top: 12px;        /* chỉnh vị trí sát góc */
-  left: -55px;      /* đẩy ra để ôm góc */
-
-  width: 180px;     /* đủ dài để phủ góc */
-  text-align: center;
+  width: 160px;
+  padding: 6px 0;
 
   background: linear-gradient(45deg, #8e24aa, #d81b60);
   color: #fff;
 
   font-size: 12px;
   font-weight: bold;
-
-  padding: 6px 0;
+  text-align: center;
 
   transform: rotate(-45deg);
-
-  z-index: 5;
+  top: 28px;
+  left: -40px;
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
- .note-badge::before,
-.note-badge::after {
+
+/* góc gập */
+.note-ribbon::after {
   content: "";
   position: absolute;
-  bottom: -6px;
-  border-top: 6px solid #6a1b9a;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
+  top: 0;
+  left: 0;
+
+  border-top: 40px solid #6a1b9a;
+  border-right: 40px solid transparent;
 }
-.note-badge::before { left: 0; }
-.note-badge::after { right: 0; }
 </style>
 </head>
 
