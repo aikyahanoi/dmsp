@@ -15,6 +15,7 @@ body {
   background: linear-gradient(135deg, #f1f4f9, #e3ecf5);
   margin: 0;
   padding: 10px;
+ overflow-x: hidden;
 }
 
 /* ===== HEADER ===== */
@@ -120,6 +121,7 @@ body {
   transform: rotate(25deg);
   opacity: 0;
   transition: 0.5s;
+ display: none;
 }
 
 .card:hover::after {
@@ -362,48 +364,38 @@ body {
   flex-direction: column;
 }
 
-/* ===== RIBBON ÔM GÓC CARD (CHUẨN) ===== */
+/* ===== RIBBON ÔM SÁT GÓC CARD ===== */
 .note-ribbon {
   position: absolute;
   top: 0;
   left: 0;
 
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
 
   overflow: hidden;
   z-index: 10;
-}
-
-/* phần chữ ribbon */
-.note-ribbon span,
-.note-ribbon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.note-ribbon::before {
-  content: attr(data-text);
+  pointer-events: none;
 }
 
 /* thanh ribbon */
-.note-ribbon::before {
+.note-ribbon span {
   position: absolute;
 
   width: 160px;
-  padding: 6px 0;
+  padding: 5px 0;
 
   background: linear-gradient(45deg, #8e24aa, #d81b60);
   color: #fff;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
   text-align: center;
 
   transform: rotate(-45deg);
-  top: 28px;
-  left: -40px;
+
+  top: 26px;
+  left: -42px;
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
@@ -415,9 +407,10 @@ body {
   top: 0;
   left: 0;
 
-  border-top: 40px solid #6a1b9a;
-  border-right: 40px solid transparent;
+  border-top: 36px solid #6a1b9a;
+  border-right: 36px solid transparent;
 }
+ 
 </style>
 </head>
 
@@ -512,7 +505,7 @@ function render(arr) {
 
       html+=`
       <div class="card">
-      ${note ? `<div class="note-badge">${note}</div>` : ""}
+      ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
         <div class="img-wrap">
             <img src="${img}" onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
           ${km2?`<div class="sale-badge">SALE</div>`:""}
