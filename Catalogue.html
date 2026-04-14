@@ -107,40 +107,8 @@ body {
 
   transition: 0.3s;
   isolation: isolate;
- transition: all 0.4s ease;
 }
 
-/* ===== VIỀN ÁNH SÁNG THEO LOẠI ===== */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 20px;
-
-  background: linear-gradient(
-    120deg,
-    transparent,
-    var(--glow-color, rgba(255,255,255,0.6)),
-    transparent
-  );
-
-  opacity: 0;
-  transition: 0.4s;
-  z-index: 0;
-}
-
-/* chạy khi hover */
-.card:hover::before {
-  opacity: 1;
-  animation: glowMove 2s linear infinite;
-}
-
-/* animation chạy */
-@keyframes glowMove {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
- 
 /* ===== BACKGROUND THEO NỔI BẬT ===== */
 .card-bg {
   position: absolute;
@@ -542,46 +510,6 @@ function render(arr) {
     g.forEach(r=>{
       let highlight = normalize(r[findKey(r,"NỔI BẬT")] || "");
       let bg = bgMap[highlight] || "";
-   let highlight = normalize(r[findKey(r,"NỔI BẬT")] || "");
-
-let glowStyle = "";
-
-if (highlight.includes("dua")) {
-  // 🍉 Dưa hấu
-  glowStyle = `
-    box-shadow:
-      0 0 12px rgba(211,47,47,0.6),
-      0 0 25px rgba(211,47,47,0.4);
-    background:
-      linear-gradient(135deg, rgba(255,235,238,0.9), rgba(255,205,210,0.6)),
-      radial-gradient(circle at 20% 30%, rgba(76,175,80,0.25), transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(211,47,47,0.35), transparent 60%);
-  `;
-} 
-else if (highlight.includes("chanh")) {
-  // 🍋 Chanh
-  glowStyle = `
-    box-shadow:
-      0 0 12px rgba(76,175,80,0.6),
-      0 0 25px rgba(139,195,74,0.4);
-    background:
-      linear-gradient(135deg, rgba(241,248,233,0.9), rgba(220,237,200,0.6)),
-      radial-gradient(circle at 30% 20%, rgba(205,220,57,0.35), transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(76,175,80,0.25), transparent 60%);
-  `;
-} 
-else if (highlight.includes("cam")) {
-  // 🍊 Cam
-  glowStyle = `
-    box-shadow:
-      0 0 12px rgba(255,152,0,0.6),
-      0 0 25px rgba(255,87,34,0.4);
-    background:
-      linear-gradient(135deg, rgba(255,243,224,0.9), rgba(255,224,178,0.6)),
-      radial-gradient(circle at 30% 20%, rgba(255,152,0,0.35), transparent 60%),
-      radial-gradient(circle at 80% 70%, rgba(255,87,34,0.3), transparent 60%);
-  `;
-}
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
       let tp=r[findKey(r,"THÀNH PHẦN")]||"";
       let vat=r[findKey(r,"VAT")]||"";
@@ -598,7 +526,7 @@ else if (highlight.includes("cam")) {
       total++; if(ton===0) out++; else if(ton<50) low++;
 
       html+=`
-<div class="card" style="${glowStyle}">
+     <div class="card">
   ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
       ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
         <div class="img-wrap">
