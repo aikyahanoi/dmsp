@@ -109,6 +109,37 @@ body {
   isolation: isolate;
 }
 
+/* ===== VIỀN ÁNH SÁNG THEO LOẠI ===== */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    var(--glow-color, rgba(255,255,255,0.6)),
+    transparent
+  );
+
+  opacity: 0;
+  transition: 0.4s;
+  z-index: 0;
+}
+
+/* chạy khi hover */
+.card:hover::before {
+  opacity: 1;
+  animation: glowMove 2s linear infinite;
+}
+
+/* animation chạy */
+@keyframes glowMove {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+ 
 /* ===== BACKGROUND THEO NỔI BẬT ===== */
 .card-bg {
   position: absolute;
@@ -510,6 +541,15 @@ function render(arr) {
     g.forEach(r=>{
       let highlight = normalize(r[findKey(r,"NỔI BẬT")] || "");
       let bg = bgMap[highlight] || "";
+      let glowColor = "";
+
+if (highlight.includes("dua")) {
+  glowColor = "rgba(211,47,47,0.9)"; // 🔴 đỏ ruột dưa hấu
+} else if (highlight.includes("chanh")) {
+  glowColor = "rgba(76,175,80,0.9)"; // 🟢 xanh chanh
+} else if (highlight.includes("cam")) {
+  glowColor = "rgba(255,152,0,0.9)"; // 🟠 cam
+}
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
       let tp=r[findKey(r,"THÀNH PHẦN")]||"";
       let vat=r[findKey(r,"VAT")]||"";
@@ -526,7 +566,7 @@ function render(arr) {
       total++; if(ton===0) out++; else if(ton<50) low++;
 
       html+=`
-     <div class="card">
+   <div class="card" style="--glow-color:${glowColor}">
   ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
       ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
         <div class="img-wrap">
