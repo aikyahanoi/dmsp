@@ -109,6 +109,29 @@ body {
   isolation: isolate;
 }
 
+ /* ===== CARD BACKGROUND RIÊNG CHO SẢN PHẨM HOT ===== */
+.card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.35; /* 🔥 quan trọng: tránh lẫn chữ */
+  filter: blur(2px) brightness(1.1);
+}
+
+/* lớp phủ giúp chữ luôn rõ */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.6);
+  z-index: -1;
+}
+ 
 /* ánh sáng hover */
 .card::after {
   content: "";
@@ -445,7 +468,12 @@ body {
 <script>
 const API = "https://api.sheetbest.com/sheets/9ffe2985-c1cb-49a6-beed-5bec9ff6e4a6";
 let list = [];
-
+// ===== BACKGROUND RIÊNG =====
+const bgMap = {
+  "kudos vitamin c1000 mg": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178710/ChatGPT_Image_Apr_14_2026_09_43_15_PM_edkunk.png",
+  "kudos immunity boost extra": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_57_18_PM_kqul3q.png",
+  "kudos daily vitamin plus biotin & ginseng": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png"
+};
 function normalize(str) {
   return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"").trim();
 }
@@ -491,6 +519,7 @@ function render(arr) {
 
     g.forEach(r=>{
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
+     let bg = bgMap[normalize(sp)] || "";
       let tp=r[findKey(r,"THÀNH PHẦN")]||"";
       let vat=r[findKey(r,"VAT")]||"";
       let km=r[findKey(r,"KM NỀN")]||"";
@@ -506,7 +535,8 @@ function render(arr) {
       total++; if(ton===0) out++; else if(ton<50) low++;
 
       html+=`
-      <div class="card">
+     <div class="card">
+  ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
       ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
         <div class="img-wrap">
             <img src="${img}" onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
