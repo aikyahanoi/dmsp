@@ -468,11 +468,11 @@ body {
 <script>
 const API = "https://api.sheetbest.com/sheets/9ffe2985-c1cb-49a6-beed-5bec9ff6e4a6";
 let list = [];
-// ===== BACKGROUND RIÊNG =====
+// ===== BACKGROUND THEO GHI CHÚ =====
 const bgMap = {
-  "kudos vitamin c1000 mg": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178710/ChatGPT_Image_Apr_14_2026_09_43_15_PM_edkunk.png",
-  "kudos immunity boost extra": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_57_18_PM_kqul3q.png",
-  "kudos daily vitamin plus biotin & ginseng": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png"
+  "dua": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178710/ChatGPT_Image_Apr_14_2026_09_43_15_PM_edkunk.png",
+  "chanh": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_57_18_PM_kqul3q.png",
+  "cam": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png"
 };
 function normalize(str) {
   return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"").trim();
@@ -519,12 +519,12 @@ function render(arr) {
 
     g.forEach(r=>{
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
-    let bg = "";
+      let bg = "";
 
-let spNormalized = normalize(sp);
+let noteNormalized = normalize(note);
 
 Object.keys(bgMap).forEach(key => {
-  if (spNormalized.includes(key)) {
+  if (noteNormalized.includes(key)) {
     bg = bgMap[key];
   }
 });
