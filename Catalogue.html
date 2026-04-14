@@ -462,7 +462,7 @@ let list = [];
 const bgMap = {
   "dua": "https://res.cloudinary.com/doqoe08te/image/upload/v1776181751/ChatGPT_Image_22_48_54_14_thg_4_2026_qsonfj.png",
   "chanh": "https://res.cloudinary.com/doqoe08te/image/upload/v1776181507/ChatGPT_Image_22_44_46_14_thg_4_2026_cxgvh8.png",
-  "cam": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png"
+  "cam": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png",
  "nubo": "https://res.cloudinary.com/doqoe08te/image/upload/v1776183230/Nubo_ern7db.png"
 };
 function normalize(str) {
@@ -488,15 +488,77 @@ function render(arr) {
   };
 
   let groups = {};
+let hotGroup = [];
 
-  arr.forEach(r=>{
-    let nganh=(r[findKey(r,"NGÀNH HÀNG")]||"").toUpperCase();
-    if(!groups[nganh]) groups[nganh]=[];
+ arr.forEach(r=>{
+  let nganh=(r[findKey(r,"NGÀNH HÀNG")]||"").toUpperCase();
+  let highlight = (r[findKey(r,"NỔI BẬT")] || "").trim();
+
+  if(!groups[nganh]) groups[nganh]=[];
+
+  if (highlight !== "") {
+    // 👉 có nổi bật → đưa vào HOT
+    hotGroup.push(r);
+  } else {
+    // 👉 KHÔNG nổi bật → mới cho vào nhóm cũ
     groups[nganh].push(r);
-  });
+  }
+});
 
   let html="",total=0,low=0,out=0;
+// ===== RENDER HOT TRƯỚC =====
+if (hotGroup.length > 0) {
 
+  html += `<div class="group">
+    <div class="group-title">🔥 SẢN PHẨM HOT</div>`;
+
+  hotGroup.forEach(r=>{
+    let highlight = normalize(r[findKey(r,"NỔI BẬT")] || "");
+    let bg = bgMap[highlight] || "";
+
+    let sp=r[findKey(r,"SẢN PHẨM")]||"";
+    let tp=r[findKey(r,"THÀNH PHẦN")]||"";
+    let vat=r[findKey(r,"VAT")]||"";
+    let km=r[findKey(r,"KM NỀN")]||"";
+    let don=r[findKey(r,"HÓA ĐƠN")]||"";
+    let cuoi=r[findKey(r,"CUỐI")]||"";
+    let km2=r[findKey(r,"KM THÁNG")]||"";
+    let date=r[findKey(r,"DATE")]||"";
+    let ton=parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
+    let img=r["HÌNH ẢNH"]||"";
+    let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
+    let note = r[findKey(r,"GHI CHÚ")] || "";
+
+    total++; if(ton===0) out++; else if(ton<50) low++;
+
+    html+=`
+    <div class="card">
+      ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
+      ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
+      <div class="img-wrap">
+        <img src="${img}">
+        ${km2?`<div class="sale-badge">SALE</div>`:""}
+        ${rank.includes("bán")?`<div class="rank-badge">🔥 Bán chạy</div>`:
+        rank.includes("mới")?`<div class="rank-badge rank-new">✨ Mới</div>`:""}
+      </div>
+      <div class="card-content">
+        <div class="card-title">${sp}</div>
+        <div class="row tp">${tp}</div>
+        <div class="row">Nguyên giá có VAT: ${vat}</div>
+        <div class="row">KM nền: ${km}</div>
+        <div class="row">Giá trên HĐ: ${don}</div>
+        <div class="row">Giá cuối: <b>${cuoi}</b></div>
+        ${km2?`<div class="row">KM tháng: <span class="km">${km2}</span></div>`:""}
+        <div class="row">
+          HSD: ${date}
+          ${ton>0&&ton<50?`<span class="low"> • Số lượng ít</span>`:""}
+        </div>
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+}
   Object.keys(groupMap).forEach(key=>{
     let g=groups[key]; if(!g) return;
 
