@@ -519,7 +519,15 @@ function render(arr) {
 
     g.forEach(r=>{
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
-     let bg = bgMap[normalize(sp)] || "";
+    let bg = "";
+
+let spNormalized = normalize(sp);
+
+Object.keys(bgMap).forEach(key => {
+  if (spNormalized.includes(key)) {
+    bg = bgMap[key];
+  }
+});
       let tp=r[findKey(r,"THÀNH PHẦN")]||"";
       let vat=r[findKey(r,"VAT")]||"";
       let km=r[findKey(r,"KM NỀN")]||"";
