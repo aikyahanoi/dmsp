@@ -484,6 +484,7 @@ body {
   <button onclick="filterType('note')">Sắp tăng giá</button>
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
+  <button onclick="filterType('sale')">SALE</button>
 </div>
  
 <div id="data">Loading...</div>
@@ -535,7 +536,13 @@ function filterType(type){
       return rank.includes("bán");
     });
   }
-
+  
+  if(type === "sale"){
+  filtered = list.filter(r => {
+    let km = r[findKey(r,"KM THÁNG")] || "";
+    return km.trim() !== "";
+  });
+}
   render(filtered);
 }
 function render(arr) {
