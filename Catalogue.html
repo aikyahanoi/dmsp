@@ -428,6 +428,29 @@ body {
   border-right: 36px solid transparent;
  display: none;
 }
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-bar button {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  background: #eee;
+  transition: 0.2s;
+}
+
+.filter-bar button:hover {
+  background: #d32f2f;
+  color: #fff;
+}
  
 </style>
 </head>
@@ -455,7 +478,14 @@ body {
 <div class="search-sticky">
   <input id="search" placeholder="🔍 Tìm sản phẩm">
 </div>
-
+ 
+<div class="filter-bar">
+  <button onclick="filterType('all')">Tất cả</button>
+  <button onclick="filterType('note')">Sắp tăng giá</button>
+  <button onclick="filterType('new')">Mới</button>
+  <button onclick="filterType('hot')">Bán chạy</button>
+</div>
+ 
 <div id="data">Loading...</div>
 
 <script>
@@ -481,7 +511,33 @@ async function loadData() {
   list = await res.json();
   render(list);
 }
+function filterType(type){
 
+  let filtered = list;
+
+  if(type === "note"){
+    filtered = list.filter(r => {
+      let note = r[findKey(r,"GHI CHÚ")] || "";
+      return note.trim() !== "";
+    });
+  }
+
+  if(type === "new"){
+    filtered = list.filter(r => {
+      let rank = (r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
+      return rank.includes("mới");
+    });
+  }
+
+  if(type === "hot"){
+    filtered = list.filter(r => {
+      let rank = (r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
+      return rank.includes("bán");
+    });
+  }
+
+  render(filtered);
+}
 function render(arr) {
 
   const groupMap = {
