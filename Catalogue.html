@@ -431,20 +431,19 @@ body {
 
 .filter-bar {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: space-between; /* 🔥 dàn đều */
+
+  flex-wrap: nowrap; /* 🔥 không cho xuống dòng */
 }
 
 .filter-bar button {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  background: #eee;
-  transition: 0.2s;
+  flex: 1;                 /* 🔥 chia đều chiều ngang */
+  padding: 6px 4px;        /* 🔥 giảm padding */
+  font-size: 12px;         /* 🔥 chữ nhỏ lại */
+  border-radius: 16px;
+
+  white-space: nowrap;     /* 🔥 không xuống dòng chữ */
 }
 
 .filter-bar button:hover {
