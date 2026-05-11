@@ -526,6 +526,7 @@ body {
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
   <button onclick="filterType('sale')">SALE</button>
+ <button onclick="filterType('travel')">Du lịch</button>
 </div>
  
 <div id="data">Loading...</div>
@@ -582,6 +583,13 @@ function filterType(type){
   filtered = list.filter(r => {
     let km = r[findKey(r,"KM THÁNG")] || "";
     return km.trim() !== "";
+  });
+}
+
+ if(type === "travel"){
+  filtered = list.filter(r => {
+    let travel = (r[findKey(r,"DU LỊCH")] || "").trim();
+    return travel === "1";
   });
 }
   render(filtered);
