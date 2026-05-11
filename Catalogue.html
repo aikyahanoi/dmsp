@@ -197,6 +197,22 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
+ .travel-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+
+  background: linear-gradient(45deg, #00c853, #64dd17);
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  padding: 4px 6px;
+  border-radius: 6px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
 /* ===== CONTENT ===== */
 .card-content {
   flex: 1;
@@ -619,6 +635,7 @@ if (hotGroup.length > 0) {
     let img=r["HÌNH ẢNH"]||"";
     let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
     let note = r[findKey(r,"GHI CHÚ")] || "";
+   let travel = (r[findKey(r,"DU LỊCH")] || "").trim();
 
     total++; if(ton===0) out++; else if(ton<50) low++;
 
@@ -629,6 +646,7 @@ if (hotGroup.length > 0) {
       <div class="img-wrap">
         <img src="${img}">
         ${km2?`<div class="sale-badge">SALE</div>`:""}
+        ${travel==="1"?`<div class="travel-badge">✈ Du lịch</div>`:""}
         ${rank.includes("bán")?`<div class="rank-badge">🔥 Bán chạy</div>`:
         rank.includes("mới")?`<div class="rank-badge rank-new">✨ Mới</div>`:""}
       </div>
