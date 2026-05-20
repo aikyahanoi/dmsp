@@ -932,17 +932,21 @@ function renderCard(r){
         : ""
       }
 
-      <div class="row">
+     <div class="row ${
+  date.toLowerCase().includes("hết")
+  ? "out-date"
+  : ""
+}">
 
-        HSD:
+  HSD:
 
-        <span class="${
-          (date.includes("2026") || date.includes("2027"))
-          ? "date-hot"
-          : ""
-        }">
-          ${date}
-        </span>
+  <span class="${
+    (date.includes("2026") || date.includes("2027"))
+    ? "date-hot"
+    : ""
+  }">
+    ${date}
+  </span>
 
         ${
           ton > 0 && ton < 50
