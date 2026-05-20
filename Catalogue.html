@@ -540,43 +540,96 @@ const bgMap = {
   "chanh": "https://res.cloudinary.com/doqoe08te/image/upload/v1776181507/ChatGPT_Image_22_44_46_14_thg_4_2026_cxgvh8.png",
   "cam": "https://res.cloudinary.com/doqoe08te/image/upload/v1776178718/ChatGPT_Image_Apr_14_2026_09_43_08_PM_neq09q.png",
   "nubo2": "https://res.cloudinary.com/doqoe08te/image/upload/v1776184799/ChatGPT_Image_23_39_28_14_thg_4_2026_nlqygk.png",
-  "nubo1": "https://res.cloudinary.com/doqoe08te/image/upload/v1776184958/ChatGPT_Image_23_42_14_14_thg_4_2026_sj9cmn.png"
+  "nubo1": "https://res.cloudinary.com/doqoe08te/image/upload/v1776184958/ChatGPT_Image_23_42_14_thg_4_2026_sj9cmn.png"
 };
 
+/* ===== NORMALIZE ===== */
 function normalize(str) {
-
   return String(str || "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .replace(/\s+/g,"")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
     .trim();
 }
 
+/* ===== FIND KEY ===== */
 function findKey(obj, keyword) {
-  return Object.keys(obj).find(k =>
+
+  if (!obj) return null;
+
+  const key = Object.keys(obj).find(k =>
     normalize(k).includes(normalize(keyword))
   );
+
+  return key || null;
 }
 
+/* ===== GET VALUE ===== */
+function getValue(row, keyword) {
+
+  const key = findKey(row, keyword);
+
+  if (!key) return "";
+
+  return row[key] ?? "";
+}
+
+/* ===== FORMAT NUMBER ===== */
+function formatNumber(value) {
+
+  if (value === "" || value === null || value === undefined) return "";
+
+  const num = Number(
+    String(value).replace(/,/g, "").trim()
+  );
+
+  if (isNaN(num)) return value;
+
+  return Math.round(num).toLocaleString("vi-VN");
+}
+
+/* ===== FORMAT DATE ===== */
+function formatDate(value) {
+
+  if (!value) return "";
+
+  const d = new Date(value);
+
+  if (isNaN(d.getTime())) return value;
+
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+/* ===== LOAD DATA ===== */
 async function loadData() {
 
   try {
 
     const res = await fetch(API);
 
-    if(!res.ok){
+    if (!res.ok) {
       throw new Error("API lỗi");
     }
 
-    list = await res.json();
+    const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Dữ liệu không hợp lệ");
+    }
+
+    list = data;
 
     console.log("DATA:", list);
     console.log("FIRST:", list[0]);
 
     render(list);
 
-  } catch(err){
+  } catch(err) {
 
     console.error(err);
 
@@ -585,41 +638,57 @@ async function loadData() {
   }
 }
 
+/* ===== FILTER ===== */
 function filterType(type){
 
   let filtered = list;
 
   if(type === "note"){
+
     filtered = list.filter(r => {
-      let note = String(r[findKey(r,"GHI CHÚ")] || "");
-      return note.trim() !== "";
+
+      let note = getValue(r,"GHI CHÚ");
+
+      return String(note).trim() !== "";
     });
   }
 
   if(type === "new"){
+
     filtered = list.filter(r => {
-      let rank = String(r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
+
+      let rank = String(getValue(r,"XẾP HẠNG")).toLowerCase();
+
       return rank.includes("mới");
     });
   }
 
   if(type === "hot"){
+
     filtered = list.filter(r => {
-      let rank = String(r[findKey(r,"XẾP HẠNG")] || "").toLowerCase();
+
+      let rank = String(getValue(r,"XẾP HẠNG")).toLowerCase();
+
       return rank.includes("bán");
     });
   }
 
   if(type === "sale"){
+
     filtered = list.filter(r => {
-      let km = String(r[findKey(r,"KM THÁNG")] || "");
-      return km.trim() !== "";
+
+      let km = getValue(r,"KM THÁNG");
+
+      return String(km).trim() !== "";
     });
   }
 
   if(type === "travel"){
+
     filtered = list.filter(r => {
-      let travel = String(r[findKey(r,"DU LỊCH")] || "").trim();
+
+      let travel = String(getValue(r,"DU LỊCH")).trim();
+
       return travel === "1";
     });
   }
@@ -627,6 +696,7 @@ function filterType(type){
   render(filtered);
 }
 
+/* ===== RENDER ===== */
 function render(arr) {
 
   const groupMap = {
@@ -644,153 +714,67 @@ function render(arr) {
   let groups = {};
   let hotGroup = [];
 
-  arr.forEach(r=>{
+  arr.forEach(r => {
 
     let nganh = String(
-      r[findKey(r,"NGÀNH HÀNG")] || ""
+      getValue(r,"NGÀNH HÀNG")
     ).toUpperCase();
 
     let highlight = String(
-      r[findKey(r,"NỔI BẬT")] || ""
+      getValue(r,"NỔI BẬT")
     ).trim();
 
-    if(!groups[nganh]) groups[nganh]=[];
+    if(!groups[nganh]) groups[nganh] = [];
 
-    if (highlight !== "") {
+    if(highlight !== ""){
       hotGroup.push(r);
     } else {
       groups[nganh].push(r);
     }
   });
 
-  let html="",total=0,low=0,out=0;
+  let html = "";
 
-  // ===== HOT =====
+  let total = 0;
+  let low = 0;
+  let out = 0;
 
-  if (hotGroup.length > 0) {
+  /* ===== HOT GROUP ===== */
+  if(hotGroup.length > 0){
 
     html += `
     <div class="group">
       <div class="group-title">🔥 SẢN PHẨM HOT</div>
     `;
 
-    hotGroup.forEach(r=>{
+    hotGroup.forEach(r => {
 
-      let highlight = normalize(
-        String(r[findKey(r,"NỔI BẬT")] || "")
-      );
-
-      let bg = bgMap[highlight] || "";
-
-      let sp = String(r[findKey(r,"SẢN PHẨM")] || "");
-      let tp = String(r[findKey(r,"THÀNH PHẦN")] || "");
-      let vat = String(r[findKey(r,"NGUYÊN GIÁ CÓ VAT")] || "");
-      let km = String(r[findKey(r,"KM NỀN")] || "");
-      let don = String(r[findKey(r,"TRÊN HÓA ĐƠN")] || "");
-      let cuoi = String(r[findKey(r,"GIÁ CUỐI")] || "");
-      let km2 = String(r[findKey(r,"KM THÁNG")] || "");
-      let date = String(r[findKey(r,"DATE")] || "");
-
-      let ton = parseInt(
-        String(r[findKey(r,"TỒN")] || "0")
-          .replace(/[^\d]/g,"")
-      ) || 0;
-
-      let img = String(
-        r[findKey(r,"HÌNH ẢNH")] || ""
-      );
-
-      let rank = String(
-        r[findKey(r,"XẾP HẠNG")] || ""
-      ).toLowerCase();
-
-      let note = String(
-        r[findKey(r,"GHI CHÚ")] || ""
-      );
-
-      let travel = String(
-        r[findKey(r,"DU LỊCH")] || ""
-      ).trim();
+      html += renderCard(r);
 
       total++;
 
-      if(ton===0) out++;
-      else if(ton<50) low++;
+      const ton = parseInt(
+        String(getValue(r,"TỒN")).replace(/[^\d]/g,"")
+      ) || 0;
 
-      html += `
-      <div class="card">
-
-        ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
-
-        ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
-
-        <div class="img-wrap">
-
-          <img src="${img}">
-
-          ${km2 ? `<div class="sale-badge">SALE</div>` : ""}
-
-          ${travel==="1" ? `<div class="travel-badge">✈</div>` : ""}
-
-          ${
-            rank.includes("bán")
-            ? `<div class="rank-badge">🔥 Bán chạy</div>`
-            : rank.includes("mới")
-            ? `<div class="rank-badge rank-new">✨ Mới</div>`
-            : ""
-          }
-
-        </div>
-
-        <div class="card-content">
-
-          <div class="card-title">${sp}</div>
-
-          <div class="row tp">${tp}</div>
-
-          <div class="row">Nguyên giá có VAT: ${vat}</div>
-
-          <div class="row">KM nền: ${km}</div>
-
-          <div class="row">Giá trên HĐ: ${don}</div>
-
-          <div class="row">Giá cuối: <b>${cuoi}</b></div>
-
-          ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
-
-          <div class="row ${date.toLowerCase().includes("hết") ? "out-date" : ""}">
-
-            HSD:
-
-            <span class="${(date.includes("2026") || date.includes("2027")) ? "date-hot" : ""}">
-              ${date}
-            </span>
-
-            ${ton>0&&ton<50 ? `<span class="low"> • Còn: ${ton}</span>` : ""}
-
-          </div>
-
-        </div>
-
-      </div>
-      `;
+      if(ton === 0) out++;
+      else if(ton < 50) low++;
     });
 
     html += `</div>`;
   }
 
-  // ===== GROUP =====
-
-  Object.keys(groupMap).forEach(key=>{
+  /* ===== NORMAL GROUP ===== */
+  Object.keys(groupMap).forEach(key => {
 
     let g = groups[key];
 
-    if(!g) return;
+    if(!g || g.length === 0) return;
 
-    g.sort((a,b)=>{
+    g.sort((a,b) => {
 
-      let d1 = String(a[findKey(a,"DATE")] || "").toLowerCase();
-      let d2 = String(b[findKey(b,"DATE")] || "").toLowerCase();
+      let d1 = String(getValue(a,"DATE")).toLowerCase();
+      let d2 = String(getValue(b,"DATE")).toLowerCase();
 
       return d1.includes("hết") - d2.includes("hết");
     });
@@ -800,107 +784,18 @@ function render(arr) {
       <div class="group-title">${groupMap[key]}</div>
     `;
 
-    g.forEach(r=>{
+    g.forEach(r => {
 
-      let highlight = normalize(
-        String(r[findKey(r,"NỔI BẬT")] || "")
-      );
-
-      let bg = bgMap[highlight] || "";
-
-      let sp = String(r[findKey(r,"SẢN PHẨM")] || "");
-      let tp = String(r[findKey(r,"THÀNH PHẦN")] || "");
-      let vat = String(r[findKey(r,"NGUYÊN GIÁ CÓ VAT")] || "");
-      let km = String(r[findKey(r,"KM NỀN")] || "");
-      let don = String(r[findKey(r,"TRÊN HÓA ĐƠN")] || "");
-      let cuoi = String(r[findKey(r,"GIÁ CUỐI")] || "");
-      let km2 = String(r[findKey(r,"KM THÁNG")] || "");
-      let date = String(r[findKey(r,"DATE")] || "");
-
-      let ton = parseInt(
-        String(r[findKey(r,"TỒN")] || "0")
-          .replace(/[^\d]/g,"")
-      ) || 0;
-
-      let img = String(
-        r[findKey(r,"HÌNH ẢNH")] || ""
-      );
-
-      let rank = String(
-        r[findKey(r,"XẾP HẠNG")] || ""
-      ).toLowerCase();
-
-      let note = String(
-        r[findKey(r,"GHI CHÚ")] || ""
-      );
-
-      let travel = String(
-        r[findKey(r,"DU LỊCH")] || ""
-      ).trim();
+      html += renderCard(r);
 
       total++;
 
-      if(ton===0) out++;
-      else if(ton<50) low++;
+      const ton = parseInt(
+        String(getValue(r,"TỒN")).replace(/[^\d]/g,"")
+      ) || 0;
 
-      html += `
-      <div class="card">
-
-        ${bg ? `<div class="card-bg" style="background-image:url('${bg}')"></div>` : ""}
-
-        ${note ? `<div class="note-ribbon"><span>${note}</span></div>` : ""}
-
-        <div class="img-wrap">
-
-          <img src="${img}"
-          onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'">
-
-          ${km2 ? `<div class="sale-badge">SALE</div>` : ""}
-
-          ${travel==="1" ? `<div class="travel-badge">✈</div>` : ""}
-
-          ${
-            rank.includes("bán")
-            ? `<div class="rank-badge">🔥 Bán chạy</div>`
-            : rank.includes("mới")
-            ? `<div class="rank-badge rank-new">✨ Mới</div>`
-            : ""
-          }
-
-        </div>
-
-        <div class="card-content">
-
-          <div class="card-title">${sp}</div>
-
-          <div class="row tp">${tp}</div>
-
-          <div class="row">Nguyên giá có VAT: ${vat}</div>
-
-          <div class="row">KM nền: ${km}</div>
-
-          <div class="row">Giá trên HĐ: ${don}</div>
-
-          <div class="row">Giá cuối: <b>${cuoi}</b></div>
-
-          ${km2 ? `<div class="row">KM tháng: <span class="km">${km2}</span></div>` : ""}
-
-          <div class="row ${date.toLowerCase().includes("hết") ? "out-date" : ""}">
-
-            HSD:
-
-            <span class="${(date.includes("2026") || date.includes("2027")) ? "date-hot" : ""}">
-              ${date}
-            </span>
-
-            ${ton>0&&ton<50 ? `<span class="low"> • Còn: ${ton}</span>` : ""}
-
-          </div>
-
-        </div>
-
-      </div>
-      `;
+      if(ton === 0) out++;
+      else if(ton < 50) low++;
     });
 
     html += `</div>`;
@@ -908,13 +803,162 @@ function render(arr) {
 
   document.getElementById("data").innerHTML = html;
 
-  initLightScroll();
-
   document.getElementById("total").innerText = total;
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
+
+  initLightScroll();
 }
 
+/* ===== CARD ===== */
+function renderCard(r){
+
+  let highlight = normalize(
+    getValue(r,"NỔI BẬT")
+  );
+
+  let bg = bgMap[highlight] || "";
+
+  let sp = getValue(r,"SẢN PHẨM");
+
+  let tp = getValue(r,"THÀNH PHẦN");
+
+  let vat = formatNumber(
+    getValue(r,"NGUYÊN GIÁ CÓ VAT")
+  );
+
+  let km = getValue(r,"KM NỀN");
+
+  let don = formatNumber(
+    getValue(r,"TRÊN HÓA ĐƠN")
+  );
+
+  let cuoi = formatNumber(
+    getValue(r,"GIÁ CUỐI")
+  );
+
+  let km2 = getValue(r,"KM THÁNG");
+
+  let date = formatDate(
+    getValue(r,"DATE")
+  );
+
+  let ton = parseInt(
+    String(getValue(r,"TỒN")).replace(/[^\d]/g,"")
+  ) || 0;
+
+  let img = getValue(r,"HÌNH ẢNH");
+
+  let rank = String(
+    getValue(r,"XẾP HẠNG")
+  ).toLowerCase();
+
+  let note = getValue(r,"GHI CHÚ");
+
+  let travel = String(
+    getValue(r,"DU LỊCH")
+  ).trim();
+
+  return `
+  <div class="card">
+
+    ${bg
+      ? `<div class="card-bg" style="background-image:url('${bg}')"></div>`
+      : ""
+    }
+
+    ${note
+      ? `<div class="note-ribbon"><span>${note}</span></div>`
+      : ""
+    }
+
+    <div class="img-wrap">
+
+      <img
+        src="${img}"
+        onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
+      >
+
+      ${km2
+        ? `<div class="sale-badge">SALE</div>`
+        : ""
+      }
+
+      ${travel === "1"
+        ? `<div class="travel-badge">✈</div>`
+        : ""
+      }
+
+      ${
+        rank.includes("bán")
+        ? `<div class="rank-badge">🔥 Bán chạy</div>`
+        : rank.includes("mới")
+        ? `<div class="rank-badge rank-new">✨ Mới</div>`
+        : ""
+      }
+
+    </div>
+
+    <div class="card-content">
+
+      <div class="card-title">${sp}</div>
+
+      <div class="row tp">${tp}</div>
+
+      <div class="row">
+        Nguyên giá có VAT: ${vat}
+      </div>
+
+      <div class="row">
+        KM nền: ${km}
+      </div>
+
+      <div class="row">
+        Giá trên HĐ: ${don}
+      </div>
+
+      <div class="row">
+        Giá cuối: <b>${cuoi}</b>
+      </div>
+
+      ${
+        km2
+        ? `
+        <div class="row">
+          KM tháng:
+          <span class="km">${km2}</span>
+        </div>
+        `
+        : ""
+      }
+
+      <div class="row">
+
+        HSD:
+
+        <span class="${
+          (date.includes("2026") || date.includes("2027"))
+          ? "date-hot"
+          : ""
+        }">
+          ${date}
+        </span>
+
+        ${
+          ton > 0 && ton < 50
+          ? `<span class="low"> • Còn: ${ton}</span>`
+          : ""
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+  `;
+}
+
+/* ===== SEARCH ===== */
 let typingTimer;
 
 document.getElementById("search").addEventListener("input", function(){
@@ -927,7 +971,7 @@ document.getElementById("search").addEventListener("input", function(){
 
     render(
       list.filter(r =>
-        String(r[findKey(r,"SẢN PHẨM")] || "")
+        String(getValue(r,"SẢN PHẨM"))
           .toLowerCase()
           .includes(keyword)
       )
@@ -936,10 +980,10 @@ document.getElementById("search").addEventListener("input", function(){
   }, 250);
 });
 
+/* ===== INIT ===== */
 loadData();
 
-// ===== LIGHT EFFECT =====
-
+/* ===== LIGHT EFFECT ===== */
 function initLightScroll(){
 
   let ticking = false;
@@ -950,13 +994,13 @@ function initLightScroll(){
 
     const h = window.innerHeight;
 
-    cards.forEach(c=>{
+    cards.forEach(c => {
 
       const r = c.getBoundingClientRect();
 
-      if (r.top < h + 100 && r.bottom > -100) {
+      if(r.top < h + 100 && r.bottom > -100){
 
-        let y = ((r.top + r.height/2)/h)*100;
+        let y = ((r.top + r.height/2)/h) * 100;
 
         c.style.setProperty("--y", y + "%");
         c.style.setProperty("--x", "50%");
@@ -968,7 +1012,7 @@ function initLightScroll(){
 
   window.addEventListener("scroll", () => {
 
-    if (!ticking) {
+    if(!ticking){
 
       requestAnimationFrame(update);
 
