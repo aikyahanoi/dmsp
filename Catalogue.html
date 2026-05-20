@@ -658,7 +658,9 @@ if (hotGroup.length > 0) {
     let cuoi=r[findKey(r,"GIÁ CUỐI")]||"";
     let km2=r[findKey(r,"KM THÁNG")]||"";
     let date=r[findKey(r,"DATE")]||"";
-    let ton=parseInt((r[findKey(r,"TỒN KHO")]||"").replace(/[^\d]/g,""))||0;
+ let ton = parseInt(
+  String(r[findKey(r,"TỒN")] || "0").replace(/[^\d]/g,"")
+) || 0;
     let img = r[findKey(r,"HÌNH ẢNH")] || "";
     let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
     let note = r[findKey(r,"GHI CHÚ")] || "";
@@ -724,7 +726,9 @@ if (hotGroup.length > 0) {
       let cuoi=r[findKey(r,"GIÁ CUỐI")]||"";
       let km2=r[findKey(r,"KM THÁNG")]||"";
       let date=r[findKey(r,"DATE")]||"";
-      let ton=parseInt((r[findKey(r,"TỒN KHO")]||"").replace(/[^\d]/g,""))||0;
+  let ton = parseInt(
+  String(r[findKey(r,"TỒN")] || "0").replace(/[^\d]/g,"")
+) || 0;
   let img = r[findKey(r,"HÌNH ẢNH")] || "";
       let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
      let note = r[findKey(r,"GHI CHÚ")] || "";
