@@ -559,7 +559,8 @@ async function loadData() {
     }
 
     list = await res.json();
-
+console.log("DATA:", list);
+console.log("FIRST:", list[0]);
     console.log(list);
 
     render(list);
@@ -651,14 +652,14 @@ if (hotGroup.length > 0) {
 
     let sp=r[findKey(r,"SẢN PHẨM")]||"";
     let tp=r[findKey(r,"THÀNH PHẦN")]||"";
-    let vat=r[findKey(r,"VAT")]||"";
+    let vat=r[findKey(r,"NGUYÊN GIÁ CÓ VAT")]||"";
     let km=r[findKey(r,"KM NỀN")]||"";
-    let don=r[findKey(r,"HÓA ĐƠN")]||"";
-    let cuoi=r[findKey(r,"CUỐI")]||"";
+    let don=r[findKey(r,"TRÊN HÓA ĐƠN")]||"";
+    let cuoi=r[findKey(r,"GIÁ CUỐI")]||"";
     let km2=r[findKey(r,"KM THÁNG")]||"";
     let date=r[findKey(r,"DATE")]||"";
-    let ton=parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
-    let img=r["HÌNH ẢNH"]||"";
+    let ton=parseInt((r[findKey(r,"TỒN KHO")]||"").replace(/[^\d]/g,""))||0;
+    let img = r[findKey(r,"HÌNH ẢNH")] || "";
     let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
     let note = r[findKey(r,"GHI CHÚ")] || "";
    let travel = (r[findKey(r,"DU LỊCH")] || "").trim();
@@ -717,14 +718,14 @@ if (hotGroup.length > 0) {
       let bg = bgMap[highlight] || "";
       let sp=r[findKey(r,"SẢN PHẨM")]||"";
       let tp=r[findKey(r,"THÀNH PHẦN")]||"";
-      let vat=r[findKey(r,"VAT")]||"";
+      let vat=r[findKey(r,"NGUYÊN GIÁ CÓ VAT")]||"";
       let km=r[findKey(r,"KM NỀN")]||"";
-      let don=r[findKey(r,"HÓA ĐƠN")]||"";
-      let cuoi=r[findKey(r,"CUỐI")]||"";
+      let don=r[findKey(r,"TRÊN HÓA ĐƠN")]||"";
+      let cuoi=r[findKey(r,"GIÁ CUỐI")]||"";
       let km2=r[findKey(r,"KM THÁNG")]||"";
       let date=r[findKey(r,"DATE")]||"";
-      let ton=parseInt((r[findKey(r,"TỒN")]||"").replace(/[^\d]/g,""))||0;
-      let img=r["HÌNH ẢNH"]||"";
+      let ton=parseInt((r[findKey(r,"TỒN KHO")]||"").replace(/[^\d]/g,""))||0;
+  let img = r[findKey(r,"HÌNH ẢNH")] || "";
       let rank=(r[findKey(r,"XẾP HẠNG")]||"").toLowerCase();
      let note = r[findKey(r,"GHI CHÚ")] || "";
      let travel = (r[findKey(r,"DU LỊCH")] || "").trim();
