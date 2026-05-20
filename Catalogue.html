@@ -549,9 +549,28 @@ function findKey(obj, keyword) {
 }
 
 async function loadData() {
-  const res = await fetch(API);
-  list = await res.json();
-  render(list);
+
+  try {
+
+    const res = await fetch(API);
+
+    if(!res.ok){
+      throw new Error("API lỗi");
+    }
+
+    list = await res.json();
+
+    console.log(list);
+
+    render(list);
+
+  } catch(err){
+
+    console.error(err);
+
+    document.getElementById("data").innerHTML =
+      "<div style='padding:20px'>Không tải được dữ liệu</div>";
+  }
 }
 function filterType(type){
 
