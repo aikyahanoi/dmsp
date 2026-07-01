@@ -683,15 +683,7 @@ function filterType(type){
     });
   }
 
-  if(type === "travel"){
-
-    filtered = list.filter(r => {
-
-      let travel = String(getValue(r,"DU LỊCH")).trim();
-
-      return travel === "1";
-    });
-  }
+ 
 
   render(filtered);
 }
@@ -884,10 +876,7 @@ function renderCard(r){
         : ""
       }
 
-      ${travel === "1"
-        ? `<div class="travel-badge">✈</div>`
-        : ""
-      }
+
 
       ${
         rank.includes("bán")
