@@ -219,15 +219,14 @@ body {
   bottom: -5px;
   right: -5px;
 
-  background: #fff;
-  border-radius: 50%;
+  background: linear-gradient(45deg, #ff9800, #fbc02d);
+  color: white;
 
-  width: 26px;
-  height: 26px;
+  font-size: 11px;
+  font-weight: bold;
 
-  padding: 2px;
-
-  object-fit: contain;
+  padding: 4px 6px;
+  border-radius: 6px;
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
@@ -878,7 +877,7 @@ function renderCard(r){
     getValue(r,"DU LỊCH")
   ).trim();
 
- let moon = String(
+let moon = String(
   getValue(r,"TRUNG THU")
 ).trim();
  
@@ -907,11 +906,9 @@ function renderCard(r){
         : ""
       }
 
-     ${moon === "1"
-  ? `<img
-        class="mid-autumn-badge"
-        src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
-        alt="Trung Thu">`
+     ${
+  moon === "1"
+  ? `<div class="mid-autumn-badge">🥮</div>`
   : ""
 }
 
