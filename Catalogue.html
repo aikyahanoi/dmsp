@@ -213,6 +213,25 @@ body {
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
+
+.mid-autumn-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+
+  background: #fff;
+  border-radius: 50%;
+
+  width: 26px;
+  height: 26px;
+
+  padding: 2px;
+
+  object-fit: contain;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+ 
 /* ===== CONTENT ===== */
 .card-content {
   flex: 1;
@@ -859,6 +878,10 @@ function renderCard(r){
     getValue(r,"DU LỊCH")
   ).trim();
 
+ let moon = String(
+  getValue(r,"TRUNG THU")
+).trim();
+ 
   return `
   <div class="card">
 
@@ -884,7 +907,13 @@ function renderCard(r){
         : ""
       }
 
-     
+     ${moon === "1"
+  ? `<img
+        class="mid-autumn-badge"
+        src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
+        alt="Trung Thu">`
+  : ""
+}
 
       ${
         rank.includes("bán")
