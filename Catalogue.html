@@ -213,6 +213,25 @@ body {
 
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
+
+.mid-autumn-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+
+  width: 30px;
+  height: 30px;
+
+  background: #fff;
+  border-radius: 50%;
+
+  padding: 2px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,.2);
+
+  object-fit: contain;
+}
+ 
 /* ===== CONTENT ===== */
 .card-content {
   flex: 1;
@@ -525,6 +544,7 @@ body {
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
   <button onclick="filterType('sale')">SALE</button>
+ <button onclick="filterType('moon')">Trung Thu</button>
 
 </div>
  
@@ -693,6 +713,16 @@ function filterType(type){
     });
   }
 
+ if(type === "moon"){
+
+    filtered = list.filter(r => {
+
+        return String(getValue(r,"TRUNG THU")).trim() === "1";
+
+    });
+
+}
+
   render(filtered);
 }
 
@@ -854,6 +884,9 @@ function renderCard(r){
   ).toLowerCase();
 
   let note = getValue(r,"GHI CHÚ");
+ let moon = String(
+    getValue(r,"TRUNG THU")
+).trim();
 
   let travel = String(
     getValue(r,"DU LỊCH")
@@ -884,7 +917,16 @@ function renderCard(r){
         : ""
       }
 
-     
+     ${
+moon === "1"
+? `
+<img
+class="mid-autumn-badge"
+src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
+alt="Trung Thu">
+`
+: ""
+}
 
       ${
         rank.includes("bán")
