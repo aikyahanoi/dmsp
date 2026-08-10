@@ -6,356 +6,366 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>DANH SÁCH KHÁCH HÀNG</title>
+<title>KHẢO SÁT KHÁCH HÀNG</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
-/* ==============================
-   BODY
-================================ */
-
-* {
-    box-sizing: border-box;
-}
+/* ===== BODY ===== */
 
 body {
-    margin: 0;
-    padding: 15px;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f3f6fa;
-    color: #222;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #f1f4f9, #e3ecf5);
+  margin: 0;
+  padding: 15px;
+  color: #263238;
 }
 
 
-/* ==============================
-   HEADER
-================================ */
+/* ===== CONTAINER ===== */
+
+.container {
+  max-width: 1500px;
+  margin: auto;
+}
+
+
+/* ===== HEADER ===== */
 
 .header {
-    background: white;
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 15px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 18px 20px;
+  border-radius: 16px;
+  border-bottom: 3px solid #d32f2f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  text-align: center;
 }
 
 .title {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    color: #c62828;
-    margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #d32f2f;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #607d8b;
 }
 
 
-/* ==============================
-   SEARCH
-================================ */
+/* ===== SEARCH ===== */
 
 .search-box {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
 }
 
 #search {
-    width: 100%;
-    max-width: 500px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 
-    padding: 11px 16px;
+  padding: 11px 16px;
 
-    border: 1px solid #ddd;
-    border-radius: 25px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
 
-    font-size: 15px;
+  font-size: 15px;
+  outline: none;
 
-    outline: none;
+  background: #fff;
+
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+
+  transition: 0.25s;
 }
 
 #search:focus {
-    border-color: #1976d2;
+  border-color: #d32f2f;
 
-    box-shadow:
-        0 0 0 2px rgba(25,118,210,0.12);
+  box-shadow:
+    0 0 0 2px rgba(211,47,47,0.12),
+    0 3px 12px rgba(0,0,0,0.08);
 }
 
 
-/* ==============================
-   FILTER
-================================ */
-
-.filter-title {
-    text-align: center;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    margin-bottom: 8px;
-}
+/* ===== FILTER ===== */
 
 .filter-bar {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  gap: 7px;
 
-    gap: 8px;
+  justify-content: center;
 
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 
-    margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
-.filter-bar button {
-    border: none;
+.filter-btn {
 
-    background: #e3edf9;
+  border: none;
 
-    color: #222;
+  background: #deeafc;
 
-    padding: 7px 16px;
+  color: #263238;
 
-    border-radius: 20px;
+  padding: 7px 13px;
 
-    font-size: 13px;
+  border-radius: 18px;
 
-    cursor: pointer;
+  font-family: inherit;
 
-    transition: 0.2s;
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+
+  transition: 0.2s;
 }
 
-.filter-bar button:hover {
-    background: #1976d2;
-    color: white;
+.filter-btn:hover {
+  background: #d32f2f;
+  color: #fff;
 }
 
-.filter-bar button.active {
-    background: #1976d2;
-    color: white;
-
-    font-weight: bold;
-}
-
-
-/* ==============================
-   STATS
-================================ */
-
-.stats {
-    text-align: center;
-
-    font-size: 13px;
-
-    color: #666;
-}
-
-.stats b {
-    color: #d32f2f;
+.filter-btn.active {
+  background: #d32f2f;
+  color: #fff;
 }
 
 
-/* ==============================
-   TABLE
-================================ */
+/* ===== TABLE WRAP ===== */
 
 .table-wrap {
-    width: 100%;
 
-    overflow-x: auto;
+  width: 100%;
 
-    background: white;
+  overflow-x: auto;
 
-    border-radius: 14px;
+  background: rgba(255,255,255,0.8);
 
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
 }
+
+
+/* ===== TABLE ===== */
 
 table {
-    width: 100%;
 
-    border-collapse: collapse;
+  width: 100%;
 
-    min-width: 950px;
+  border-collapse: collapse;
 
-    font-size: 13px;
+  background: #fff;
+
+  font-size: 13px;
 }
 
 
-/* ==============================
-   HEADER TABLE
-================================ */
+/* ===== TABLE HEADER ===== */
 
 thead th {
-    position: sticky;
-    top: 0;
 
-    z-index: 5;
+  position: sticky;
 
-    background: #b71c1c;
+  top: 0;
 
-    color: white;
+  z-index: 5;
 
-    padding: 10px 8px;
+  background: linear-gradient(135deg, #d32f2f, #ef5350);
 
-    text-align: center;
+  color: white;
 
-    font-weight: bold;
+  padding: 10px 8px;
 
-    white-space: nowrap;
+  text-align: center;
 
-    border-right: 1px solid rgba(255,255,255,0.25);
+  font-weight: 700;
+
+  white-space: nowrap;
+
 }
 
 
-/* ==============================
-   BODY TABLE
-================================ */
+/* ===== TABLE CELL ===== */
 
 tbody td {
-    padding: 8px;
 
-    border-bottom: 1px solid #e5e5e5;
+  padding: 9px 8px;
 
-    vertical-align: middle;
+  border-bottom: 1px solid #eeeeee;
+
+  vertical-align: middle;
 }
+
+
+/* ===== ALIGNMENT ===== */
+
+td.stt {
+  text-align: center;
+  width: 50px;
+}
+
+td.ten {
+  font-weight: 600;
+  color: #263238;
+}
+
+td.mst {
+  text-align: center;
+  white-space: nowrap;
+}
+
+td.diachi {
+  min-width: 220px;
+}
+
+td.tdv {
+  text-align: center;
+  font-weight: 600;
+  color: #1565c0;
+  white-space: nowrap;
+}
+
+td.trangthai {
+  text-align: center;
+}
+
+
+/* ===== ZEBRA ===== */
 
 tbody tr:nth-child(even) {
-    background: #fafafa;
+  background: #fafafa;
 }
 
 
-/* ==============================
-   DÒNG CÓ NĂM 2026
-================================ */
-
-tbody tr.year-2026 {
-    background: #fff2a8 !important;
-}
-
-tbody tr.year-2026:hover {
-    background: #ffe66d !important;
-}
-
-
-/* ==============================
-   HOVER
-================================ */
+/* ===== HOVER ===== */
 
 tbody tr:hover {
-    background: #eef5ff;
+  background: #fff8e1;
 }
 
 
-/* ==============================
-   CỘT
-================================ */
+/* ===== DÒNG CÓ ĐƠN CUỐI 2026 ===== */
 
-.col-stt {
-    width: 60px;
-
-    text-align: center;
+.row-2026 {
+  background: #fff3a3 !important;
 }
 
-.col-ten {
-    min-width: 220px;
-}
-
-.col-mst {
-    min-width: 130px;
-}
-
-.col-diachi {
-    min-width: 300px;
-}
-
-.col-tdv {
-    min-width: 150px;
-}
-
-.col-trangthai {
-    min-width: 180px;
+.row-2026:hover {
+  background: #ffe97a !important;
 }
 
 
-/* ==============================
-   TRẠNG THÁI
-================================ */
+/* ===== STATUS ===== */
 
-.status {
-    font-weight: bold;
+.status-active {
+  color: #2e7d32;
+  font-weight: 700;
 }
 
-.status-ok {
-    color: #2e7d32;
-}
-
-.status-error {
-    color: #d32f2f;
+.status-inactive {
+  color: #c62828;
+  font-weight: 700;
 }
 
 
-/* ==============================
-   LOADING
-================================ */
+/* ===== LOADING ===== */
 
-#loading {
-    padding: 30px;
+.loading {
 
-    text-align: center;
+  text-align: center;
 
-    color: #666;
+  padding: 30px;
 
-    font-size: 15px;
+  color: #607d8b;
+
+  font-size: 14px;
 }
 
 
-/* ==============================
-   MOBILE
-================================ */
+/* ===== EMPTY ===== */
+
+.empty {
+
+  text-align: center;
+
+  padding: 30px;
+
+  color: #78909c;
+
+}
+
+
+/* ===== MOBILE ===== */
 
 @media (max-width: 768px) {
 
-    body {
-        padding: 8px;
-    }
+  body {
+    padding: 8px;
+  }
 
-    .header {
-        padding: 12px;
-    }
+  .header {
+    padding: 13px 10px;
+  }
 
-    .title {
-        font-size: 18px;
-    }
+  .title {
+    font-size: 18px;
+  }
 
-    #search {
-        font-size: 14px;
-    }
+  .subtitle {
+    font-size: 11px;
+  }
 
-    .filter-bar {
-        justify-content: flex-start;
+  .filter-bar {
+    justify-content: flex-start;
 
-        overflow-x: auto;
+    overflow-x: auto;
 
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
 
-        padding-bottom: 5px;
-    }
+    padding-bottom: 5px;
+  }
 
-    .filter-bar button {
-        flex-shrink: 0;
+  .filter-btn {
+    flex-shrink: 0;
 
-        padding: 7px 13px;
-    }
+    font-size: 12px;
 
-    table {
-        font-size: 12px;
-    }
+    padding: 6px 11px;
+  }
 
-    thead th {
-        padding: 8px 6px;
-    }
+  .table-wrap {
+    border-radius: 10px;
+  }
 
-    tbody td {
-        padding: 7px 6px;
-    }
+  table {
+    min-width: 900px;
+
+    font-size: 12px;
+  }
+
+  thead th {
+    padding: 8px 6px;
+  }
+
+  tbody td {
+    padding: 8px 6px;
+  }
+
+  td.diachi {
+    min-width: 200px;
+  }
 
 }
 
@@ -366,1053 +376,621 @@ tbody tr:hover {
 
 <body>
 
+<div class="container">
 
-<!-- =====================================
-     HEADER
-===================================== -->
 
-<div class="header">
+  <!-- ===== HEADER ===== -->
+
+  <div class="header">
 
     <div class="title">
-        DANH SÁCH KHÁCH HÀNG
+      KHẢO SÁT KHÁCH HÀNG
     </div>
 
-
-    <!-- SEARCH -->
-
-    <div class="search-box">
-
-        <input
-            id="search"
-            type="text"
-            placeholder="🔍 Tìm tên, MST, địa chỉ, TDV..."
-        >
-
+    <div class="subtitle">
+      DANH SÁCH KHÁCH HÀNG
     </div>
 
-
-    <!-- FILTER TDV -->
-
-    <div class="filter-title">
-        LỌC THEO TDV
-    </div>
+  </div>
 
 
-    <div
-        class="filter-bar"
-        id="filterBar"
+  <!-- ===== SEARCH ===== -->
+
+  <div class="search-box">
+
+    <input
+      id="search"
+      type="text"
+      placeholder="🔍 Tìm tên khách hàng, MST, địa chỉ..."
     >
 
-        <button
-            class="active"
-            onclick="filterTDV('ALL', this)"
-        >
-            Tất cả
-        </button>
-
-    </div>
+  </div>
 
 
-    <!-- COUNT -->
+  <!-- ===== FILTER ===== -->
 
-    <div class="stats">
+  <div
+    class="filter-bar"
+    id="filterBar"
+  >
 
-        Hiển thị:
-        <b id="count">0</b>
-        khách hàng
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================
-     TABLE
-===================================== -->
-
-<div class="table-wrap">
-
-
-    <div id="loading">
-
-        ⏳ Đang tải dữ liệu...
-
-    </div>
-
-
-    <table
-        id="customerTable"
-        style="display:none"
+    <button
+      class="filter-btn active"
+      onclick="filterTDV('all', this)"
     >
+      Tất cả
+    </button>
 
-        <thead>
-
-            <tr>
-
-                <th class="col-stt">
-                    STT
-                </th>
-
-                <th class="col-ten">
-                    TEN
-                </th>
-
-                <th class="col-mst">
-                    MST
-                </th>
-
-                <th class="col-diachi">
-                    DIA CHI
-                </th>
-
-                <th class="col-tdv">
-                    TDV
-                </th>
-
-                <th class="col-trangthai">
-                    TRANG THAI HOAT DONG
-                </th>
-
-            </tr>
-
-        </thead>
+  </div>
 
 
-        <tbody id="tableBody">
+  <!-- ===== TABLE ===== -->
 
-        </tbody>
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>STT</th>
+
+          <th>TEN</th>
+
+          <th>MST</th>
+
+          <th>DIA CHI</th>
+
+          <th>TDV</th>
+
+          <th>TRANG THAI HOAT DONG</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="tableBody">
+
+        <tr>
+
+          <td
+            colspan="6"
+            class="loading"
+          >
+            Đang tải dữ liệu...
+          </td>
+
+        </tr>
+
+      </tbody>
 
     </table>
 
-</div>
+  </div>
 
+
+</div>
 
 
 <script>
 
-/* =====================================
-   GOOGLE SHEET
-===================================== */
+/* =====================================================
+   API GOOGLE SHEET
+===================================================== */
 
-const SHEET_ID =
-"138soaMhFmdHiDO8FSQbkHIB3NgXUIKMVIh9mDVkzQVo";
+const API =
+"https://script.google.com/macros/s/AKfycbxPwHeimhAOxm0SNkAaTc2dwboOEhfLBbajCL3tYQ0_Ak49ckYX8DdXW19jULzeKFyK/exec";
 
-const SHEET_NAME =
-"TONG";
 
+/* =====================================================
+   DATA
+===================================================== */
 
-/* =====================================
-   DỮ LIỆU GỐC
-===================================== */
+let list = [];
 
-let allData = [];
+let currentFilter = "all";
 
-let currentData = [];
 
-let currentTDV = "ALL";
-
-
-/* =====================================
-   TẠO URL GOOGLE SHEET
-===================================== */
-
-const API_URL =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(SHEET_NAME);
-
-
-/* =====================================
-   LOAD DATA
-===================================== */
-
-async function loadData() {
-
-    try {
-
-        const response =
-            await fetch(API_URL);
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Không thể kết nối Google Sheet"
-            );
-
-        }
-
-
-        const text =
-            await response.text();
-
-
-        /*
-         Google trả về:
-
-         google.visualization.Query.setResponse(...)
-        */
-
-        const jsonText =
-            text.substring(
-                text.indexOf("{"),
-                text.lastIndexOf("}") + 1
-            );
-
-
-        const json =
-            JSON.parse(jsonText);
-
-
-        if (
-            !json.table ||
-            !json.table.rows
-        ) {
-
-            throw new Error(
-                "Không tìm thấy dữ liệu"
-            );
-
-        }
-
-
-        /*
-         Lấy tên cột
-        */
-
-        const columns =
-            json.table.cols.map(
-                col => col.label || ""
-            );
-
-
-        /*
-         Chuyển dữ liệu thành object
-        */
-
-        allData =
-            json.table.rows.map(
-                row => {
-
-                    const obj = {};
-
-                    columns.forEach(
-                        (column, index) => {
-
-                            const cell =
-                                row.c[index];
-
-                            obj[column] =
-                                cell
-                                ? (
-                                    cell.f ??
-                                    cell.v ??
-                                    ""
-                                )
-                                : "";
-
-                        }
-                    );
-
-                    return obj;
-
-                }
-            );
-
-
-        /*
-         Lưu dữ liệu hiện tại
-        */
-
-        currentData =
-            [...allData];
-
-
-        console.log(
-            "Dữ liệu:",
-            allData
-        );
-
-
-        /*
-         Tạo nút TDV
-        */
-
-        createTDVButtons();
-
-
-        /*
-         Hiển thị bảng
-        */
-
-        renderTable(currentData);
-
-
-    }
-    catch (error) {
-
-        console.error(error);
-
-
-        document.getElementById(
-            "loading"
-        ).innerHTML =
-
-            "❌ Không tải được dữ liệu Google Sheet.<br><br>" +
-            "Hãy kiểm tra Sheet đã được chia sẻ quyền xem chưa.";
-
-    }
-
-}
-
-
-/* =====================================
-   TẠO NÚT LỌC TDV
-===================================== */
-
-function createTDVButtons() {
-
-    const filterBar =
-        document.getElementById(
-            "filterBar"
-        );
-
-
-    /*
-     Xóa các nút cũ
-     */
-
-    filterBar.innerHTML = "";
-
-
-    /*
-     Nút tất cả
-     */
-
-    const allButton =
-        document.createElement("button");
-
-    allButton.textContent =
-        "Tất cả";
-
-    allButton.classList.add(
-        "active"
-    );
-
-    allButton.onclick =
-        function() {
-
-            filterTDV(
-                "ALL",
-                this
-            );
-
-        };
-
-
-    filterBar.appendChild(
-        allButton
-    );
-
-
-    /*
-     Lấy TDV
-     */
-
-    const tdvSet =
-        new Set();
-
-
-    allData.forEach(
-        row => {
-
-            const tdv =
-                getColumn(
-                    row,
-                    "TDV"
-                ).trim();
-
-
-            if (tdv !== "") {
-
-                tdvSet.add(tdv);
-
-            }
-
-        }
-    );
-
-
-    /*
-     Sắp xếp TDV
-     */
-
-    const tdvList =
-        Array.from(tdvSet).sort(
-            (a, b) =>
-                a.localeCompare(
-                    b,
-                    "vi"
-                )
-        );
-
-
-    /*
-     Tạo button
-     */
-
-    tdvList.forEach(
-        tdv => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.textContent =
-                tdv;
-
-
-            button.onclick =
-                function() {
-
-                    filterTDV(
-                        tdv,
-                        this
-                    );
-
-                };
-
-
-            filterBar.appendChild(
-                button
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================
-   LẤY GIÁ TRỊ CỘT
-===================================== */
-
-function getColumn(
-    row,
-    columnName
-) {
-
-    /*
-     Ưu tiên đúng tên cột
-     */
-
-    if (
-        Object.prototype.hasOwnProperty.call(
-            row,
-            columnName
-        )
-    ) {
-
-        return String(
-            row[columnName] ?? ""
-        );
-
-    }
-
-
-    /*
-     Nếu Google Sheet có
-     khoảng trắng / khác chữ hoa
-     */
-
-    const key =
-        Object.keys(row).find(
-            key =>
-                normalize(key) ===
-                normalize(columnName)
-        );
-
-
-    if (!key) {
-
-        return "";
-
-    }
-
-
-    return String(
-        row[key] ?? ""
-    );
-
-}
-
-
-/* =====================================
+/* =====================================================
    NORMALIZE
-===================================== */
+===================================================== */
 
-function normalize(value) {
+function normalize(str) {
 
-    return String(
-        value || ""
-    )
-    .trim()
+  return String(str || "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(
-        /[\u0300-\u036f]/g,
-        ""
-    );
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 
 }
 
 
-/* =====================================
-   LỌC TDV
-===================================== */
+/* =====================================================
+   FIND KEY
+===================================================== */
 
-function filterTDV(
-    tdv,
-    button
-) {
+function findKey(obj, keyword) {
 
-    currentTDV =
-        tdv;
+  if (!obj) return null;
 
+  const target = normalize(keyword);
 
-    /*
-     Đổi trạng thái button
-     */
+  return Object.keys(obj).find(key => {
 
-    document
-        .querySelectorAll(
-            "#filterBar button"
-        )
-        .forEach(
-            btn =>
-                btn.classList.remove(
-                    "active"
-                )
-        );
+    return normalize(key).includes(target);
 
-
-    if (button) {
-
-        button.classList.add(
-            "active"
-        );
-
-    }
-
-
-    /*
-     Lọc dữ liệu
-     */
-
-    if (tdv === "ALL") {
-
-        currentData =
-            [...allData];
-
-    }
-    else {
-
-        currentData =
-            allData.filter(
-                row =>
-
-                    getColumn(
-                        row,
-                        "TDV"
-                    ).trim() ===
-                    tdv
-            );
-
-    }
-
-
-    /*
-     Áp dụng thêm tìm kiếm
-     */
-
-    applySearch();
+  }) || null;
 
 }
 
 
-/* =====================================
-   SEARCH
-===================================== */
+/* =====================================================
+   GET VALUE
+===================================================== */
 
-document
-    .getElementById("search")
-    .addEventListener(
-        "input",
-        function() {
+function getValue(row, keyword) {
 
-            applySearch();
+  const key = findKey(row, keyword);
 
-        }
-    );
+  if (!key) return "";
 
-
-function applySearch() {
-
-    const keyword =
-        normalize(
-            document.getElementById(
-                "search"
-            ).value
-        );
-
-
-    let data;
-
-
-    /*
-     Lọc TDV trước
-     */
-
-    if (
-        currentTDV ===
-        "ALL"
-    ) {
-
-        data =
-            [...allData];
-
-    }
-    else {
-
-        data =
-            allData.filter(
-                row =>
-
-                    getColumn(
-                        row,
-                        "TDV"
-                    ).trim() ===
-                    currentTDV
-            );
-
-    }
-
-
-    /*
-     Tìm kiếm
-     */
-
-    if (keyword !== "") {
-
-        data =
-            data.filter(
-                row => {
-
-                    const text =
-
-                        getColumn(
-                            row,
-                            "TEN"
-                        ) + " " +
-
-                        getColumn(
-                            row,
-                            "MST"
-                        ) + " " +
-
-                        getColumn(
-                            row,
-                            "DIA CHI"
-                        ) + " " +
-
-                        getColumn(
-                            row,
-                            "TDV"
-                        ) + " " +
-
-                        getColumn(
-                            row,
-                            "TRANG THAI HOAT DONG"
-                        );
-
-
-                    return normalize(
-                        text
-                    ).includes(
-                        keyword
-                    );
-
-                }
-            );
-
-    }
-
-
-    currentData =
-        data;
-
-
-    renderTable(
-        currentData
-    );
+  return row[key] ?? "";
 
 }
 
 
-/* =====================================
-   KIỂM TRA DON CUOI CÓ 2026
-===================================== */
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   KIỂM TRA ĐƠN CUỐI 2026
+===================================================== */
 
 function has2026(value) {
 
-    return String(
-        value || ""
-    ).includes("2026");
+  return String(value || "").includes("2026");
 
 }
 
 
-/* =====================================
-   RENDER TABLE
-===================================== */
+/* =====================================================
+   LOAD DATA
+===================================================== */
 
-function renderTable(data) {
+async function loadData() {
 
-    const tbody =
-        document.getElementById(
-            "tableBody"
-        );
+  try {
 
+    const response = await fetch(API);
 
-    tbody.innerHTML = "";
+    if (!response.ok) {
 
-
-    /*
-     Không có dữ liệu
-     */
-
-    if (
-        !data ||
-        data.length === 0
-    ) {
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    style="
-                        text-align:center;
-                        padding:30px;
-                        color:#777;
-                    "
-                >
-
-                    Không tìm thấy dữ liệu
-
-                </td>
-
-            </tr>
-
-        `;
-
-
-        showTable();
-
-        updateCount(0);
-
-        return;
+      throw new Error("API lỗi");
 
     }
 
+    const data = await response.json();
 
-    /*
-     Tạo từng dòng
-     */
+    if (!Array.isArray(data)) {
 
-    data.forEach(
-        (row, index) => {
+      throw new Error("Dữ liệu không hợp lệ");
 
+    }
 
-            const tr =
-                document.createElement(
-                    "tr"
-                );
+    list = data;
 
+    console.log("DỮ LIỆU GOOGLE SHEET:", list);
 
-            /*
-             Đọc DON CUOI
-             */
+    createFilters();
 
-            const donCuoi =
-                getColumn(
-                    row,
-                    "DON CUOI"
-                );
+    render(list);
 
+  }
 
-            /*
-             Nếu DON CUOI
-             có năm 2026
-             */
+  catch(error) {
 
-            if (
-                has2026(
-                    donCuoi
-                )
-            ) {
+    console.error(error);
 
-                tr.classList.add(
-                    "year-2026"
-                );
+    document.getElementById("tableBody").innerHTML = `
 
-            }
+      <tr>
+
+        <td
+          colspan="6"
+          class="empty"
+        >
+          Không tải được dữ liệu.
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
 
 
-            /*
-             STT
-             */
+/* =====================================================
+   TẠO NÚT LỌC TDV
+===================================================== */
 
-            const tdSTT =
-                document.createElement(
-                    "td"
-                );
+function createFilters() {
 
-            tdSTT.className =
-                "col-stt";
+  const filterBar =
+    document.getElementById("filterBar");
 
-            tdSTT.textContent =
-                getColumn(
-                    row,
-                    "STT"
-                ) || (
-                    index + 1
-                );
+  filterBar.innerHTML = `
 
+    <button
+      class="filter-btn active"
+      onclick="filterTDV('all', this)"
+    >
+      Tất cả
+    </button>
 
-            /*
-             TEN
-             */
-
-            const tdTEN =
-                document.createElement(
-                    "td"
-                );
-
-            tdTEN.className =
-                "col-ten";
-
-            tdTEN.textContent =
-                getColumn(
-                    row,
-                    "TEN"
-                );
+  `;
 
 
-            /*
-             MST
-             */
-
-            const tdMST =
-                document.createElement(
-                    "td"
-                );
-
-            tdMST.className =
-                "col-mst";
-
-            tdMST.textContent =
-                getColumn(
-                    row,
-                    "MST"
-                );
+  const tdvSet = new Set();
 
 
-            /*
-             DIA CHI
-             */
+  list.forEach(row => {
 
-            const tdDiaChi =
-                document.createElement(
-                    "td"
-                );
+    const tdv =
+      String(
+        getValue(row, "TDV")
+      ).trim();
 
-            tdDiaChi.className =
-                "col-diachi";
+    if (tdv !== "") {
 
-            tdDiaChi.textContent =
-                getColumn(
-                    row,
-                    "DIA CHI"
-                );
+      tdvSet.add(tdv);
+
+    }
+
+  });
 
 
-            /*
-             TDV
-             */
-
-            const tdTDV =
-                document.createElement(
-                    "td"
-                );
-
-            tdTDV.className =
-                "col-tdv";
-
-            tdTDV.textContent =
-                getColumn(
-                    row,
-                    "TDV"
-                );
+  const tdvList =
+    Array.from(tdvSet).sort(
+      (a, b) =>
+        a.localeCompare(b, "vi")
+    );
 
 
-            /*
-             TRẠNG THÁI
-             */
+  tdvList.forEach(tdv => {
 
-            const tdStatus =
-                document.createElement(
-                    "td"
-                );
+    const button =
+      document.createElement("button");
 
-            tdStatus.className =
-                "col-trangthai";
+    button.className =
+      "filter-btn";
 
+    button.textContent =
+      tdv;
 
-            const status =
-                getColumn(
-                    row,
-                    "TRANG THAI HOAT DONG"
-                );
+    button.onclick =
+      function() {
 
+        filterTDV(tdv, this);
 
-            tdStatus.textContent =
-                status;
+      };
 
+    filterBar.appendChild(button);
 
-            /*
-             Tô màu trạng thái
-             */
+  });
 
-            if (
-                normalize(status)
-                .includes("khong tim thay")
-            ) {
-
-                tdStatus.classList.add(
-                    "status",
-                    "status-error"
-                );
-
-            }
-            else {
-
-                tdStatus.classList.add(
-                    "status",
-                    "status-ok"
-                );
-
-            }
+}
 
 
-            /*
-             Thêm các ô vào dòng
-             */
+/* =====================================================
+   LỌC THEO TDV
+===================================================== */
 
-            tr.appendChild(
-                tdSTT
-            );
+function filterTDV(tdv, button) {
 
-            tr.appendChild(
-                tdTEN
-            );
-
-            tr.appendChild(
-                tdMST
-            );
-
-            tr.appendChild(
-                tdDiaChi
-            );
-
-            tr.appendChild(
-                tdTDV
-            );
-
-            tr.appendChild(
-                tdStatus
-            );
+  currentFilter = tdv;
 
 
-            /*
-             Thêm dòng vào bảng
-             */
+  document
+    .querySelectorAll(".filter-btn")
+    .forEach(btn => {
 
-            tbody.appendChild(
-                tr
-            );
+      btn.classList.remove("active");
+
+    });
+
+
+  if (button) {
+
+    button.classList.add("active");
+
+  }
+
+
+  applyFilters();
+
+}
+
+
+/* =====================================================
+   SEARCH + FILTER
+===================================================== */
+
+document
+  .getElementById("search")
+  .addEventListener("input", function() {
+
+    applyFilters();
+
+  });
+
+
+/* =====================================================
+   APPLY FILTERS
+===================================================== */
+
+function applyFilters() {
+
+  const keyword =
+    normalize(
+      document.getElementById("search").value
+    );
+
+
+  let filtered =
+    list.filter(row => {
+
+      /* ===== TDV ===== */
+
+      if (currentFilter !== "all") {
+
+        const tdv =
+          String(
+            getValue(row, "TDV")
+          ).trim();
+
+        if (tdv !== currentFilter) {
+
+          return false;
 
         }
-    );
+
+      }
 
 
-    showTable();
+      /* ===== SEARCH ===== */
+
+      if (keyword !== "") {
+
+        const text = [
+
+          getValue(row, "STT"),
+
+          getValue(row, "TEN"),
+
+          getValue(row, "MST"),
+
+          getValue(row, "DIA CHI"),
+
+          getValue(row, "TDV"),
+
+          getValue(row, "TRANG THAI HOAT DONG")
+
+        ]
+
+        .map(value =>
+          normalize(value)
+        )
+
+        .join(" ");
 
 
-    updateCount(
-        data.length
-    );
+        if (!text.includes(keyword)) {
+
+          return false;
+
+        }
+
+      }
+
+
+      return true;
+
+    });
+
+
+  render(filtered);
 
 }
 
 
-/* =====================================
-   HIỆN TABLE
-===================================== */
+/* =====================================================
+   RENDER TABLE
+===================================================== */
 
-function showTable() {
+function render(data) {
 
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "none";
+  const tbody =
+    document.getElementById("tableBody");
 
 
-    document.getElementById(
-        "customerTable"
-    ).style.display =
-        "table";
+  if (!data.length) {
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          class="empty"
+        >
+          Không có dữ liệu phù hợp.
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  let html = "";
+
+
+  data.forEach((row, index) => {
+
+    const stt =
+      getValue(row, "STT");
+
+    const ten =
+      getValue(row, "TEN");
+
+    const mst =
+      getValue(row, "MST");
+
+    const diachi =
+      getValue(row, "DIA CHI");
+
+    const tdv =
+      getValue(row, "TDV");
+
+    const trangthai =
+      getValue(
+        row,
+        "TRANG THAI HOAT DONG"
+      );
+
+
+    /* ===== ĐỌC DON CUOI ===== */
+
+    const donCuoi =
+      getValue(row, "DON CUOI");
+
+
+    /* ===== KIỂM TRA 2026 ===== */
+
+    const highlight =
+      has2026(donCuoi);
+
+
+    html += `
+
+      <tr
+        class="${highlight ? "row-2026" : ""}"
+      >
+
+        <td class="stt">
+          ${escapeHTML(stt)}
+        </td>
+
+        <td class="ten">
+          ${escapeHTML(ten)}
+        </td>
+
+        <td class="mst">
+          ${escapeHTML(mst)}
+        </td>
+
+        <td class="diachi">
+          ${escapeHTML(diachi)}
+        </td>
+
+        <td class="tdv">
+          ${escapeHTML(tdv)}
+        </td>
+
+        <td class="trangthai">
+
+          ${formatStatus(trangthai)}
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  tbody.innerHTML = html;
 
 }
 
 
-/* =====================================
-   CẬP NHẬT SỐ LƯỢNG
-===================================== */
+/* =====================================================
+   FORMAT TRẠNG THÁI
+===================================================== */
 
-function updateCount(
-    count
-) {
+function formatStatus(value) {
 
-    document.getElementById(
-        "count"
-    ).textContent =
-        count;
+  const text =
+    String(value || "").trim();
+
+  const normalized =
+    normalize(text);
+
+
+  if (
+    normalized.includes("hoatdong") ||
+    normalized === "1" ||
+    normalized.includes("danghoatdong")
+  ) {
+
+    return `
+      <span class="status-active">
+        ${escapeHTML(text)}
+      </span>
+    `;
+
+  }
+
+
+  if (
+    normalized.includes("ngunghoatdong") ||
+    normalized.includes("nghi") ||
+    normalized === "0"
+  ) {
+
+    return `
+      <span class="status-inactive">
+        ${escapeHTML(text)}
+      </span>
+    `;
+
+  }
+
+
+  return escapeHTML(text);
 
 }
 
 
-/* =====================================
-   KHỞI CHẠY
-===================================== */
+/* =====================================================
+   START
+===================================================== */
 
 loadData();
 
 </script>
+
 
 </body>
 </html>
