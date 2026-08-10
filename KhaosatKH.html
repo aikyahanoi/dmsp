@@ -307,69 +307,8 @@ tbody tr:hover {
 }
 
 
-/* ===== MOBILE ===== */
-
+/* ===== MOBILE - HIỂN THỊ ĐỦ 4 CỘT ===== */
 @media (max-width: 768px) {
-
-  body {
-    padding: 8px;
-  }
-
-  .header {
-    padding: 13px 10px;
-  }
-
-  .title {
-    font-size: 18px;
-  }
-
-  .subtitle {
-    font-size: 11px;
-  }
-
-  .filter-bar {
-    justify-content: flex-start;
-
-    overflow-x: auto;
-
-    flex-wrap: nowrap;
-
-    padding-bottom: 5px;
-  }
-
-  .filter-btn {
-    flex-shrink: 0;
-
-    font-size: 12px;
-
-    padding: 6px 11px;
-  }
-
-  .table-wrap {
-    border-radius: 10px;
-  }
-
-  table {
-    min-width: 900px;
-
-    font-size: 12px;
-  }
-
-  thead th {
-    padding: 8px 6px;
-  }
-
-  tbody td {
-    padding: 8px 6px;
-  }
-
-  td.diachi {
-    min-width: 200px;
-  }
-
-}
-
-  @media (max-width: 768px) {
 
   body {
     padding: 5px;
@@ -379,45 +318,75 @@ tbody tr:hover {
   .table-wrap {
     width: 100%;
     overflow-x: hidden;
+    border-radius: 10px;
   }
 
   table {
     width: 100%;
+    min-width: 0;
     table-layout: fixed;
     border-collapse: collapse;
+    font-size: 9px;
   }
 
-  th,
-  td {
-    padding: 5px 3px;
-    font-size: 10px;
-    line-height: 1.2;
+  thead th {
+    padding: 6px 2px;
+    font-size: 9px;
+    line-height: 1.15;
+    white-space: normal;
     word-break: break-word;
     overflow-wrap: anywhere;
   }
 
-  /* TEN */
+  tbody td {
+    padding: 6px 3px;
+    font-size: 9px;
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  /* ===== TEN ===== */
   th:nth-child(1),
   td:nth-child(1) {
     width: 25%;
   }
 
-  /* DIA CHI */
+  /* ===== DIA CHI ===== */
   th:nth-child(2),
   td:nth-child(2) {
     width: 35%;
   }
 
-  /* TDV */
+  /* ===== TDV ===== */
   th:nth-child(3),
   td:nth-child(3) {
     width: 15%;
   }
 
-  /* TRANG THAI HOAT DONG */
+  /* ===== TRANG THAI HOAT DONG ===== */
   th:nth-child(4),
   td:nth-child(4) {
     width: 25%;
+  }
+
+  td.ten {
+    font-weight: 600;
+  }
+
+  td.diachi {
+    min-width: 0;
+  }
+
+  td.tdv {
+    white-space: normal;
+    text-align: center;
+  }
+
+  td.trangthai {
+    white-space: normal;
+    text-align: center;
   }
 
 }
