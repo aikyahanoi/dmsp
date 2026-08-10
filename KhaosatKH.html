@@ -369,6 +369,59 @@ tbody tr:hover {
 
 }
 
+  @media (max-width: 768px) {
+
+  body {
+    padding: 5px;
+    overflow-x: hidden;
+  }
+
+  .table-wrap {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 5px 3px;
+    font-size: 10px;
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* TEN */
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 25%;
+  }
+
+  /* DIA CHI */
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 35%;
+  }
+
+  /* TDV */
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 15%;
+  }
+
+  /* TRANG THAI HOAT DONG */
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 25%;
+  }
+
+}
+  
 </style>
 
 </head>
@@ -434,11 +487,8 @@ tbody tr:hover {
 
         <tr>
 
-          <th>STT</th>
-
+    
           <th>TEN</th>
-
-          <th>MST</th>
 
           <th>DIA CHI</th>
 
@@ -780,11 +830,7 @@ function applyFilters() {
 
         const text = [
 
-          getValue(row, "STT"),
-
           getValue(row, "TEN"),
-
-          getValue(row, "MST"),
 
           getValue(row, "DIA CHI"),
 
@@ -857,16 +903,11 @@ function render(data) {
 
   data.forEach((row, index) => {
 
-    const stt =
-      getValue(row, "STT");
 
     const ten =
       getValue(row, "TEN");
 
-    const mst =
-      getValue(row, "MST");
-
-    const diachi =
+     const diachi =
       getValue(row, "DIA CHI");
 
     const tdv =
@@ -897,19 +938,11 @@ function render(data) {
         class="${highlight ? "row-2026" : ""}"
       >
 
-        <td class="stt">
-          ${escapeHTML(stt)}
-        </td>
-
         <td class="ten">
           ${escapeHTML(ten)}
         </td>
 
-        <td class="mst">
-          ${escapeHTML(mst)}
-        </td>
-
-        <td class="diachi">
+           <td class="diachi">
           ${escapeHTML(diachi)}
         </td>
 
