@@ -892,6 +892,15 @@ function render(data) {
 
   let html = "";
 
+  // ===== ĐƯA DÒNG CÓ ĐƠN CUỐI 2026 LÊN ĐẦU =====
+data.sort((a, b) => {
+
+  const a2026 = has2026(getValue(a, "DON CUOI"));
+  const b2026 = has2026(getValue(b, "DON CUOI"));
+
+  return Number(b2026) - Number(a2026);
+
+});
 
   data.forEach((row, index) => {
 
