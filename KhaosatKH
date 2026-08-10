@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>DANH SÁCH KHÁCH HÀNG</title>
+
+<style>
+
+/* ==============================
+   BODY
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f6fa;
+    color: #222;
+}
+
+
+/* ==============================
+   HEADER
+================================ */
+
+.header {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #c62828;
+    margin-bottom: 15px;
+}
+
+
+/* ==============================
+   SEARCH
+================================ */
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+#search {
+    width: 100%;
+    max-width: 500px;
+
+    padding: 11px 16px;
+
+    border: 1px solid #ddd;
+    border-radius: 25px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+#search:focus {
+    border-color: #1976d2;
+
+    box-shadow:
+        0 0 0 2px rgba(25,118,210,0.12);
+}
+
+
+/* ==============================
+   FILTER
+================================ */
+
+.filter-title {
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 12px;
+}
+
+.filter-bar button {
+    border: none;
+
+    background: #e3edf9;
+
+    color: #222;
+
+    padding: 7px 16px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.filter-bar button:hover {
+    background: #1976d2;
+    color: white;
+}
+
+.filter-bar button.active {
+    background: #1976d2;
+    color: white;
+
+    font-weight: bold;
+}
+
+
+/* ==============================
+   STATS
+================================ */
+
+.stats {
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #666;
+}
+
+.stats b {
+    color: #d32f2f;
+}
+
+
+/* ==============================
+   TABLE
+================================ */
+
+.table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+
+    background: white;
+
+    border-radius: 14px;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 950px;
+
+    font-size: 13px;
+}
+
+
+/* ==============================
+   HEADER TABLE
+================================ */
+
+thead th {
+    position: sticky;
+    top: 0;
+
+    z-index: 5;
+
+    background: #b71c1c;
+
+    color: white;
+
+    padding: 10px 8px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    border-right: 1px solid rgba(255,255,255,0.25);
+}
+
+
+/* ==============================
+   BODY TABLE
+================================ */
+
+tbody td {
+    padding: 8px;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+
+/* ==============================
+   DÒNG CÓ NĂM 2026
+================================ */
+
+tbody tr.year-2026 {
+    background: #fff2a8 !important;
+}
+
+tbody tr.year-2026:hover {
+    background: #ffe66d !important;
+}
+
+
+/* ==============================
+   HOVER
+================================ */
+
+tbody tr:hover {
+    background: #eef5ff;
+}
+
+
+/* ==============================
+   CỘT
+================================ */
+
+.col-stt {
+    width: 60px;
+
+    text-align: center;
+}
+
+.col-ten {
+    min-width: 220px;
+}
+
+.col-mst {
+    min-width: 130px;
+}
+
+.col-diachi {
+    min-width: 300px;
+}
+
+.col-tdv {
+    min-width: 150px;
+}
+
+.col-trangthai {
+    min-width: 180px;
+}
+
+
+/* ==============================
+   TRẠNG THÁI
+================================ */
+
+.status {
+    font-weight: bold;
+}
+
+.status-ok {
+    color: #2e7d32;
+}
+
+.status-error {
+    color: #d32f2f;
+}
+
+
+/* ==============================
+   LOADING
+================================ */
+
+#loading {
+    padding: 30px;
+
+    text-align: center;
+
+    color: #666;
+
+    font-size: 15px;
+}
+
+
+/* ==============================
+   MOBILE
+================================ */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 12px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    #search {
+        font-size: 14px;
+    }
+
+    .filter-bar {
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        flex-wrap: nowrap;
+
+        padding-bottom: 5px;
+    }
+
+    .filter-bar button {
+        flex-shrink: 0;
+
+        padding: 7px 13px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    thead th {
+        padding: 8px 6px;
+    }
+
+    tbody td {
+        padding: 7px 6px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<div class="header">
+
+    <div class="title">
+        DANH SÁCH KHÁCH HÀNG
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <input
+            id="search"
+            type="text"
+            placeholder="🔍 Tìm tên, MST, địa chỉ, TDV..."
+        >
+
+    </div>
+
+
+    <!-- FILTER TDV -->
+
+    <div class="filter-title">
+        LỌC THEO TDV
+    </div>
+
+
+    <div
+        class="filter-bar"
+        id="filterBar"
+    >
+
+        <button
+            class="active"
+            onclick="filterTDV('ALL', this)"
+        >
+            Tất cả
+        </button>
+
+    </div>
+
+
+    <!-- COUNT -->
+
+    <div class="stats">
+
+        Hiển thị:
+        <b id="count">0</b>
+        khách hàng
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================
+     TABLE
+===================================== -->
+
+<div class="table-wrap">
+
+
+    <div id="loading">
+
+        ⏳ Đang tải dữ liệu...
+
+    </div>
+
+
+    <table
+        id="customerTable"
+        style="display:none"
+    >
+
+        <thead>
+
+            <tr>
+
+                <th class="col-stt">
+                    STT
+                </th>
+
+                <th class="col-ten">
+                    TEN
+                </th>
+
+                <th class="col-mst">
+                    MST
+                </th>
+
+                <th class="col-diachi">
+                    DIA CHI
+                </th>
+
+                <th class="col-tdv">
+                    TDV
+                </th>
+
+                <th class="col-trangthai">
+                    TRANG THAI HOAT DONG
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="tableBody">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<script>
+
+/* =====================================
+   GOOGLE SHEET
+===================================== */
+
+const SHEET_ID =
+"138soaMhFmdHiDO8FSQbkHIB3NgXUIKMVIh9mDVkzQVo";
+
+const SHEET_NAME =
+"TONG";
+
+
+/* =====================================
+   DỮ LIỆU GỐC
+===================================== */
+
+let allData = [];
+
+let currentData = [];
+
+let currentTDV = "ALL";
+
+
+/* =====================================
+   TẠO URL GOOGLE SHEET
+===================================== */
+
+const API_URL =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(SHEET_NAME);
+
+
+/* =====================================
+   LOAD DATA
+===================================== */
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Không thể kết nối Google Sheet"
+            );
+
+        }
+
+
+        const text =
+            await response.text();
+
+
+        /*
+         Google trả về:
+
+         google.visualization.Query.setResponse(...)
+        */
+
+        const jsonText =
+            text.substring(
+                text.indexOf("{"),
+                text.lastIndexOf("}") + 1
+            );
+
+
+        const json =
+            JSON.parse(jsonText);
+
+
+        if (
+            !json.table ||
+            !json.table.rows
+        ) {
+
+            throw new Error(
+                "Không tìm thấy dữ liệu"
+            );
+
+        }
+
+
+        /*
+         Lấy tên cột
+        */
+
+        const columns =
+            json.table.cols.map(
+                col => col.label || ""
+            );
+
+
+        /*
+         Chuyển dữ liệu thành object
+        */
+
+        allData =
+            json.table.rows.map(
+                row => {
+
+                    const obj = {};
+
+                    columns.forEach(
+                        (column, index) => {
+
+                            const cell =
+                                row.c[index];
+
+                            obj[column] =
+                                cell
+                                ? (
+                                    cell.f ??
+                                    cell.v ??
+                                    ""
+                                )
+                                : "";
+
+                        }
+                    );
+
+                    return obj;
+
+                }
+            );
+
+
+        /*
+         Lưu dữ liệu hiện tại
+        */
+
+        currentData =
+            [...allData];
+
+
+        console.log(
+            "Dữ liệu:",
+            allData
+        );
+
+
+        /*
+         Tạo nút TDV
+        */
+
+        createTDVButtons();
+
+
+        /*
+         Hiển thị bảng
+        */
+
+        renderTable(currentData);
+
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+
+        document.getElementById(
+            "loading"
+        ).innerHTML =
+
+            "❌ Không tải được dữ liệu Google Sheet.<br><br>" +
+            "Hãy kiểm tra Sheet đã được chia sẻ quyền xem chưa.";
+
+    }
+
+}
+
+
+/* =====================================
+   TẠO NÚT LỌC TDV
+===================================== */
+
+function createTDVButtons() {
+
+    const filterBar =
+        document.getElementById(
+            "filterBar"
+        );
+
+
+    /*
+     Xóa các nút cũ
+     */
+
+    filterBar.innerHTML = "";
+
+
+    /*
+     Nút tất cả
+     */
+
+    const allButton =
+        document.createElement("button");
+
+    allButton.textContent =
+        "Tất cả";
+
+    allButton.classList.add(
+        "active"
+    );
+
+    allButton.onclick =
+        function() {
+
+            filterTDV(
+                "ALL",
+                this
+            );
+
+        };
+
+
+    filterBar.appendChild(
+        allButton
+    );
+
+
+    /*
+     Lấy TDV
+     */
+
+    const tdvSet =
+        new Set();
+
+
+    allData.forEach(
+        row => {
+
+            const tdv =
+                getColumn(
+                    row,
+                    "TDV"
+                ).trim();
+
+
+            if (tdv !== "") {
+
+                tdvSet.add(tdv);
+
+            }
+
+        }
+    );
+
+
+    /*
+     Sắp xếp TDV
+     */
+
+    const tdvList =
+        Array.from(tdvSet).sort(
+            (a, b) =>
+                a.localeCompare(
+                    b,
+                    "vi"
+                )
+        );
+
+
+    /*
+     Tạo button
+     */
+
+    tdvList.forEach(
+        tdv => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.textContent =
+                tdv;
+
+
+            button.onclick =
+                function() {
+
+                    filterTDV(
+                        tdv,
+                        this
+                    );
+
+                };
+
+
+            filterBar.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   LẤY GIÁ TRỊ CỘT
+===================================== */
+
+function getColumn(
+    row,
+    columnName
+) {
+
+    /*
+     Ưu tiên đúng tên cột
+     */
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            row,
+            columnName
+        )
+    ) {
+
+        return String(
+            row[columnName] ?? ""
+        );
+
+    }
+
+
+    /*
+     Nếu Google Sheet có
+     khoảng trắng / khác chữ hoa
+     */
+
+    const key =
+        Object.keys(row).find(
+            key =>
+                normalize(key) ===
+                normalize(columnName)
+        );
+
+
+    if (!key) {
+
+        return "";
+
+    }
+
+
+    return String(
+        row[key] ?? ""
+    );
+
+}
+
+
+/* =====================================
+   NORMALIZE
+===================================== */
+
+function normalize(value) {
+
+    return String(
+        value || ""
+    )
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    );
+
+}
+
+
+/* =====================================
+   LỌC TDV
+===================================== */
+
+function filterTDV(
+    tdv,
+    button
+) {
+
+    currentTDV =
+        tdv;
+
+
+    /*
+     Đổi trạng thái button
+     */
+
+    document
+        .querySelectorAll(
+            "#filterBar button"
+        )
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    if (button) {
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+
+    /*
+     Lọc dữ liệu
+     */
+
+    if (tdv === "ALL") {
+
+        currentData =
+            [...allData];
+
+    }
+    else {
+
+        currentData =
+            allData.filter(
+                row =>
+
+                    getColumn(
+                        row,
+                        "TDV"
+                    ).trim() ===
+                    tdv
+            );
+
+    }
+
+
+    /*
+     Áp dụng thêm tìm kiếm
+     */
+
+    applySearch();
+
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+document
+    .getElementById("search")
+    .addEventListener(
+        "input",
+        function() {
+
+            applySearch();
+
+        }
+    );
+
+
+function applySearch() {
+
+    const keyword =
+        normalize(
+            document.getElementById(
+                "search"
+            ).value
+        );
+
+
+    let data;
+
+
+    /*
+     Lọc TDV trước
+     */
+
+    if (
+        currentTDV ===
+        "ALL"
+    ) {
+
+        data =
+            [...allData];
+
+    }
+    else {
+
+        data =
+            allData.filter(
+                row =>
+
+                    getColumn(
+                        row,
+                        "TDV"
+                    ).trim() ===
+                    currentTDV
+            );
+
+    }
+
+
+    /*
+     Tìm kiếm
+     */
+
+    if (keyword !== "") {
+
+        data =
+            data.filter(
+                row => {
+
+                    const text =
+
+                        getColumn(
+                            row,
+                            "TEN"
+                        ) + " " +
+
+                        getColumn(
+                            row,
+                            "MST"
+                        ) + " " +
+
+                        getColumn(
+                            row,
+                            "DIA CHI"
+                        ) + " " +
+
+                        getColumn(
+                            row,
+                            "TDV"
+                        ) + " " +
+
+                        getColumn(
+                            row,
+                            "TRANG THAI HOAT DONG"
+                        );
+
+
+                    return normalize(
+                        text
+                    ).includes(
+                        keyword
+                    );
+
+                }
+            );
+
+    }
+
+
+    currentData =
+        data;
+
+
+    renderTable(
+        currentData
+    );
+
+}
+
+
+/* =====================================
+   KIỂM TRA DON CUOI CÓ 2026
+===================================== */
+
+function has2026(value) {
+
+    return String(
+        value || ""
+    ).includes("2026");
+
+}
+
+
+/* =====================================
+   RENDER TABLE
+===================================== */
+
+function renderTable(data) {
+
+    const tbody =
+        document.getElementById(
+            "tableBody"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    /*
+     Không có dữ liệu
+     */
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#777;
+                    "
+                >
+
+                    Không tìm thấy dữ liệu
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        showTable();
+
+        updateCount(0);
+
+        return;
+
+    }
+
+
+    /*
+     Tạo từng dòng
+     */
+
+    data.forEach(
+        (row, index) => {
+
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            /*
+             Đọc DON CUOI
+             */
+
+            const donCuoi =
+                getColumn(
+                    row,
+                    "DON CUOI"
+                );
+
+
+            /*
+             Nếu DON CUOI
+             có năm 2026
+             */
+
+            if (
+                has2026(
+                    donCuoi
+                )
+            ) {
+
+                tr.classList.add(
+                    "year-2026"
+                );
+
+            }
+
+
+            /*
+             STT
+             */
+
+            const tdSTT =
+                document.createElement(
+                    "td"
+                );
+
+            tdSTT.className =
+                "col-stt";
+
+            tdSTT.textContent =
+                getColumn(
+                    row,
+                    "STT"
+                ) || (
+                    index + 1
+                );
+
+
+            /*
+             TEN
+             */
+
+            const tdTEN =
+                document.createElement(
+                    "td"
+                );
+
+            tdTEN.className =
+                "col-ten";
+
+            tdTEN.textContent =
+                getColumn(
+                    row,
+                    "TEN"
+                );
+
+
+            /*
+             MST
+             */
+
+            const tdMST =
+                document.createElement(
+                    "td"
+                );
+
+            tdMST.className =
+                "col-mst";
+
+            tdMST.textContent =
+                getColumn(
+                    row,
+                    "MST"
+                );
+
+
+            /*
+             DIA CHI
+             */
+
+            const tdDiaChi =
+                document.createElement(
+                    "td"
+                );
+
+            tdDiaChi.className =
+                "col-diachi";
+
+            tdDiaChi.textContent =
+                getColumn(
+                    row,
+                    "DIA CHI"
+                );
+
+
+            /*
+             TDV
+             */
+
+            const tdTDV =
+                document.createElement(
+                    "td"
+                );
+
+            tdTDV.className =
+                "col-tdv";
+
+            tdTDV.textContent =
+                getColumn(
+                    row,
+                    "TDV"
+                );
+
+
+            /*
+             TRẠNG THÁI
+             */
+
+            const tdStatus =
+                document.createElement(
+                    "td"
+                );
+
+            tdStatus.className =
+                "col-trangthai";
+
+
+            const status =
+                getColumn(
+                    row,
+                    "TRANG THAI HOAT DONG"
+                );
+
+
+            tdStatus.textContent =
+                status;
+
+
+            /*
+             Tô màu trạng thái
+             */
+
+            if (
+                normalize(status)
+                .includes("khong tim thay")
+            ) {
+
+                tdStatus.classList.add(
+                    "status",
+                    "status-error"
+                );
+
+            }
+            else {
+
+                tdStatus.classList.add(
+                    "status",
+                    "status-ok"
+                );
+
+            }
+
+
+            /*
+             Thêm các ô vào dòng
+             */
+
+            tr.appendChild(
+                tdSTT
+            );
+
+            tr.appendChild(
+                tdTEN
+            );
+
+            tr.appendChild(
+                tdMST
+            );
+
+            tr.appendChild(
+                tdDiaChi
+            );
+
+            tr.appendChild(
+                tdTDV
+            );
+
+            tr.appendChild(
+                tdStatus
+            );
+
+
+            /*
+             Thêm dòng vào bảng
+             */
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+    );
+
+
+    showTable();
+
+
+    updateCount(
+        data.length
+    );
+
+}
+
+
+/* =====================================
+   HIỆN TABLE
+===================================== */
+
+function showTable() {
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "customerTable"
+    ).style.display =
+        "table";
+
+}
+
+
+/* =====================================
+   CẬP NHẬT SỐ LƯỢNG
+===================================== */
+
+function updateCount(
+    count
+) {
+
+    document.getElementById(
+        "count"
+    ).textContent =
+        count;
+
+}
+
+
+/* =====================================
+   KHỞI CHẠY
+===================================== */
+
+loadData();
+
+</script>
+
+</body>
+</html>
