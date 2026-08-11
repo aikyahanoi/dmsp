@@ -413,6 +413,15 @@ tbody tr:hover {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+/* ===== DÒNG ĐÃ THỰC HIỆN ===== */
+.row-done {
+  background: #c8e6c9 !important;
+}
+
+.row-done:hover {
+  background: #a5d6a7 !important;
+}
   
 </style>
 
@@ -892,13 +901,39 @@ function render(data) {
 
   let html = "";
 
-  // ===== ĐƯA DÒNG CÓ ĐƠN CUỐI 2026 LÊN ĐẦU =====
+// ===== SẮP XẾP DÒNG =====
+// 1. DON CUOI có 2026 lên đầu
+// 2. Dòng bình thường ở giữa
+// 3. THUC HIEN = 1 xuống cuối
+
 data.sort((a, b) => {
 
-  const a2026 = has2026(getValue(a, "DON CUOI"));
-  const b2026 = has2026(getValue(b, "DON CUOI"));
+  const a2026 =
+    has2026(getValue(a, "DON CUOI"));
 
-  return Number(b2026) - Number(a2026);
+  const b2026 =
+    has2026(getValue(b, "DON CUOI"));
+
+  const aDone =
+    String(getValue(a, "THUC HIEN")).trim() === "1";
+
+  const bDone =
+    String(getValue(b, "THUC HIEN")).trim() === "1";
+
+
+  // ===== THỰC HIỆN = 1 LUÔN XUỐNG CUỐI =====
+
+  if (aDone && !bDone) return 1;
+  if (!aDone && bDone) return -1;
+
+
+  // ===== DON CUOI 2026 LÊN ĐẦU =====
+
+  if (a2026 && !b2026) return -1;
+  if (!a2026 && b2026) return 1;
+
+
+  return 0;
 
 });
 
@@ -931,12 +966,16 @@ data.sort((a, b) => {
 
     const highlight =
       has2026(donCuoi);
+const thucHien =
+  String(getValue(row, "THUC HIEN")).trim();
 
+const done =
+  thucHien === "1";
 
     html += `
 
       <tr
-        class="${highlight ? "row-2026" : ""}"
+         class="${done ? "row-done" : ""} ${highlight ? "row-2026" : ""}"
       >
 
         <td class="ten">
