@@ -214,29 +214,6 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-.mid-autumn-badge {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-
-  width: 32px;
-  height: 32px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: linear-gradient(45deg,#7b1fa2,#ab47bc);
-  color: #fff;
-
-  font-size: 20px;
-
-  border-radius: 50%;
-
-  box-shadow:
-    0 3px 8px rgba(0,0,0,.25),
-    0 0 8px rgba(123,31,162,.35);
-}
  
 /* ===== CONTENT ===== */
 .card-content {
@@ -550,7 +527,6 @@ body {
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
   <button onclick="filterType('sale')">SALE</button>
- <button onclick="filterType('moon')">Trung Thu</button>
 
 </div>
  
@@ -719,15 +695,6 @@ function filterType(type){
     });
   }
 
- if(type === "moon"){
-
-  filtered = list.filter(r => {
-
-    return String(getValue(r,"TRUNG THU")).trim() === "1";
-
-  });
-
-}
 
   render(filtered);
 }
@@ -894,10 +861,6 @@ function renderCard(r){
   let travel = String(
     getValue(r,"DU LỊCH")
   ).trim();
-
-let moon = String(
-  getValue(r,"TRUNG THU")
-).trim();
  
   return `
   <div class="card">
@@ -924,12 +887,7 @@ let moon = String(
         : ""
       }
 
-     ${
-  moon === "1"
-  ? `<div class="mid-autumn-badge">🥮</div>`
-  : ""
-}
-
+   
       ${
         rank.includes("bán")
         ? `<div class="rank-badge">🔥 Bán chạy</div>`
