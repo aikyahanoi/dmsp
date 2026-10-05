@@ -1,0 +1,1396 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<title>CATALOGUE AIKYA</title>
+
+<style>
+
+/* ===== BODY ===== */
+body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #f1f4f9, #e3ecf5);
+  margin: 0;
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+.header-new {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 12px;
+  border-radius: 14px;
+  border-bottom: 3px solid #d32f2f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.header-left img {
+  height: 45px;
+}
+
+.main-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin: 6px 0;
+}
+
+.stats-inline {
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#search {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 0;
+  padding: 10px 14px;
+  border-radius: 25px;
+
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+
+  transition: all 0.25s ease;
+}
+
+#search:focus {
+  border: 1px solid #d32f2f;
+
+  box-shadow:
+    0 0 0 2px rgba(211,47,47,0.2),
+    0 0 8px rgba(211,47,47,0.4);
+
+  background: #fff;
+}
+
+/* ===== CARD ===== */
+.card {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+  padding: 8px;
+  border-radius: 18px;
+
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2)),
+    radial-gradient(circle at 30% 20%, rgba(0,122,255,0.25), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(88,86,214,0.25), transparent 60%);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.6);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+
+  position: relative;
+  overflow: visible;
+
+  transition: 0.3s;
+  isolation: isolate;
+}
+
+/* ===== BACKGROUND THEO NỔI BẬT ===== */
+.card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.35;
+  filter: blur(2px) brightness(1.1);
+
+  border-radius: inherit;
+}
+
+/* ===== ÁNH SÁNG HOVER ===== */
+.card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  transform: rotate(25deg);
+  opacity: 0;
+  transition: 0.5s;
+  display: none;
+}
+
+.card:hover::after {
+  left: 100%;
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.15),
+    0 0 20px rgba(33,150,243,0.2);
+}
+
+/* ===== LIGHT SCROLL FIX ===== */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,255,255,0.12),
+    transparent 80%
+  );
+
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ===== IMAGE ===== */
+.img-wrap {
+  position: relative;
+}
+
+.card img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ===== SALE BADGE ===== */
+.sale-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(45deg, #ff3d00, #ff9800);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 6px;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.travel-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+
+  background: linear-gradient(45deg, #00c853, #64dd17);
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  padding: 4px 6px;
+  border-radius: 6px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* ===== CONTENT ===== */
+.card-content {
+  flex: 1;
+}
+
+.card-title {
+  font-weight: bold;
+  color: #c62828;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.row {
+  font-size: 12px;
+  padding: 2px 0;
+  line-height: 1.3;
+  border-bottom: 1px dashed rgba(0,0,0,0.06);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.tp {
+  color: #607d8b;
+  font-style: italic;
+}
+
+.km {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.out-date {
+  background: rgba(244,67,54,0.15);
+  color: #c62828;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.low {
+  color: #ff6f00;
+  font-weight: bold;
+}
+
+.date-hot {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+/* ===== GROUP TITLE ===== */
+.group-title {
+  width: calc(100% - 20px);
+  margin: 14px auto 8px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 6px 10px;
+  color: #fff;
+  background: linear-gradient(135deg, #d32f2f, #ff5252);
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(211,47,47,0.3);
+  box-sizing: border-box;
+  letter-spacing: 0.5px;
+}
+
+/* ===== BADGE ===== */
+.rank-badge {
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+
+  background: linear-gradient(45deg, #ff3d00, #ff9800);
+  color: white;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  padding: 3px 6px;
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.2),
+    0 0 6px rgba(255,87,34,0.5);
+}
+
+.rank-new {
+  background: linear-gradient(45deg, #2979ff, #00b0ff);
+
+  font-size: 13px;
+  padding: 4px 5px;
+
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.15),
+    0 0 4px rgba(41,121,255,0.25);
+}
+
+/* ===== ANIMATION PRO ===== */
+.group {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.group.show {
+  transform: translateY(0);
+}
+
+/* ===== DESKTOP ===== */
+@media screen and (min-width: 1024px) {
+
+  #data {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .group {
+    grid-column: 1 / -1;
+    display: contents;
+  }
+
+  .group-title {
+    grid-column: 1 / -1;
+    margin: 20px 0 10px;
+    font-size: 18px;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .card img {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 768px) {
+
+  .card::before {
+    display: none;
+  }
+
+}
+
+/* ===== STICKY SEARCH ===== */
+.search-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 8px;
+
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+
+  border-radius: 14px;
+  margin-bottom: 10px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  backdrop-filter: blur(10px);
+}
+
+.search-sticky input {
+  margin-top: 0;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== RIBBON ÔM SÁT GÓC CARD ===== */
+.note-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 110px;
+  height: 110px;
+
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.note-ribbon span {
+  position: absolute;
+
+  width: 160px;
+  padding: 5px 0;
+
+  background: linear-gradient(45deg, #8e24aa, #d81b60);
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+
+  transform: rotate(-45deg);
+
+  top: 26px;
+  left: -42px;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  border-radius: 6px;
+}
+
+/* ===== FILTER ===== */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+
+  flex-wrap: nowrap;
+}
+
+.filter-bar button {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 12px;
+  border-radius: 16px;
+
+  white-space: nowrap;
+}
+
+.filter-bar button:hover {
+  background: #d32f2f;
+  color: #fff;
+}
+
+/* ===== FIX FILTER BUTTON DESKTOP ===== */
+@media (min-width: 1024px) {
+
+  .filter-bar {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .filter-bar button {
+    flex: unset;
+    width: auto;
+    min-width: 100px;
+    max-width: 140px;
+
+    padding: 3px 6px;
+    font-size: 14px;
+  }
+
+  .filter-bar button {
+    border: none;
+    background: #deeafc;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header-new">
+
+  <div class="header-left">
+    <img
+      src="https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/LOGO%20AIKYA%20-%20NEWEST.png"
+      alt="logo"
+    >
+  </div>
+
+  <div class="header-text">
+
+    <div class="main-title">
+      DANH MỤC SẢN PHẨM AIKYA 2026
+    </div>
+
+    <div class="stats-inline">
+      <span>Tổng: <b id="total">0</b></span>
+      <span>Sắp hết: <b id="low">0</b></span>
+      <span>Hết: <b id="out">0</b></span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="search-sticky">
+
+  <input
+    id="search"
+    placeholder="🔍 Tìm sản phẩm"
+  >
+
+</div>
+
+<div class="filter-bar">
+
+  <button onclick="filterType('all')">
+    Tất cả
+  </button>
+
+  <button onclick="filterType('new')">
+    Mới
+  </button>
+
+  <button onclick="filterType('hot')">
+    Bán chạy
+  </button>
+
+  <button onclick="filterType('sale')">
+    SALE
+  </button>
+
+</div>
+
+<div id="data">
+  Loading...
+</div>
+
+<script>
+
+const API =
+"https://script.google.com/macros/s/AKfycbwIRUk_7uMGpQVmSQBYxjZiH15nhNV3q3w0YzfqBMt-0jvKEIEBpNpMS6N-dsG5xdIx/exec";
+
+let list = [];
+
+
+/* ===== BACKGROUND MAP ===== */
+
+const bgMap = {
+
+  "dua":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20duahau.png",
+
+  "chanh":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20chanh.png",
+
+  "cam":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20camgung.png",
+
+  "nubo2":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20dau.png",
+
+  "nubo1":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/Anh%20nen%20cam.png",
+
+  "1":
+  "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20euca.png"
+
+};
+
+
+/* ===== NORMALIZE ===== */
+
+function normalize(str) {
+
+  return String(str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "")
+    .trim();
+
+}
+
+
+/* ===== FIND KEY ===== */
+
+function findKey(obj, keyword) {
+
+  if (!obj) return null;
+
+  const key = Object.keys(obj).find(k =>
+    normalize(k).includes(normalize(keyword))
+  );
+
+  return key || null;
+
+}
+
+
+/* ===== GET VALUE ===== */
+
+function getValue(row, keyword) {
+
+  const key = findKey(row, keyword);
+
+  if (!key) return "";
+
+  return row[key] ?? "";
+
+}
+
+
+/* ===== FORMAT NUMBER ===== */
+
+function formatNumber(value) {
+
+  if (
+    value === "" ||
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  const num = Number(
+    String(value)
+      .replace(/,/g, "")
+      .trim()
+  );
+
+  if (isNaN(num)) return value;
+
+  return Math.round(num).toLocaleString("vi-VN");
+
+}
+
+
+/* ===== FORMAT DATE ===== */
+
+function formatDate(value) {
+
+  if (!value) return "";
+
+  const d = new Date(value);
+
+  if (isNaN(d.getTime())) return value;
+
+  const day =
+    String(d.getDate()).padStart(2, "0");
+
+  const month =
+    String(d.getMonth() + 1).padStart(2, "0");
+
+  const year =
+    d.getFullYear();
+
+  return `${day}/${month}/${year}`;
+
+}
+
+
+/* ===== LOAD DATA ===== */
+
+async function loadData() {
+
+  try {
+
+    const res = await fetch(API);
+
+    if (!res.ok) {
+      throw new Error("API lỗi");
+    }
+
+    const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Dữ liệu không hợp lệ");
+    }
+
+    list = data;
+
+    console.log("DATA:", list);
+    console.log("FIRST:", list[0]);
+
+    render(list);
+
+  }
+
+  catch(err) {
+
+    console.error(err);
+
+    document.getElementById("data").innerHTML =
+      "<div style='padding:20px'>Không tải được dữ liệu</div>";
+
+  }
+
+}
+
+
+/* ===== FILTER ===== */
+
+function filterType(type) {
+
+  let filtered = list;
+
+
+  if(type === "note") {
+
+    filtered = list.filter(r => {
+
+      let note =
+        getValue(r,"GHI CHÚ");
+
+      return String(note).trim() !== "";
+
+    });
+
+  }
+
+
+  if(type === "new") {
+
+    filtered = list.filter(r => {
+
+      let rank =
+        String(
+          getValue(r,"XẾP HẠNG")
+        ).toLowerCase();
+
+      return rank.includes("mới");
+
+    });
+
+  }
+
+
+  if(type === "hot") {
+
+    filtered = list.filter(r => {
+
+      let rank =
+        String(
+          getValue(r,"XẾP HẠNG")
+        ).toLowerCase();
+
+      return rank.includes("bán");
+
+    });
+
+  }
+
+
+  if(type === "sale") {
+
+    filtered = list.filter(r => {
+
+      let km =
+        getValue(r,"KM THÁNG");
+
+      return String(km).trim() !== "";
+
+    });
+
+  }
+
+
+  if(type === "travel") {
+
+    filtered = list.filter(r => {
+
+      let travel =
+        String(
+          getValue(r,"DU LỊCH")
+        ).trim();
+
+      return travel === "1";
+
+    });
+
+  }
+
+
+  render(filtered);
+
+}
+
+
+/* ===== RENDER ===== */
+
+function render(arr) {
+
+  const groupMap = {
+
+    C1:"KHÁNG SINH",
+
+    C2:"GIẢM ĐAU HẠ SỐT",
+
+    C3:"HÔ HẤP",
+
+    C4:"DINH DƯỠNG",
+
+    C5:"CƠ XƯƠNG KHỚP",
+
+    C6:"TIÊU HÓA",
+
+    C7:"TUẦN HOÀN NÃO",
+
+    C8:"TIM MẠCH TIỂU ĐƯỜNG",
+
+    C9:"CHĂM SÓC DA"
+
+  };
+
+
+  let groups = {};
+
+  let hotGroup = [];
+
+
+  arr.forEach(r => {
+
+    let nganh =
+      String(
+        getValue(r,"NGÀNH HÀNG")
+      ).toUpperCase();
+
+
+    let highlight =
+      String(
+        getValue(r,"NỔI BẬT")
+      ).trim();
+
+
+    if(!groups[nganh])
+      groups[nganh] = [];
+
+
+    if(highlight !== "") {
+
+      hotGroup.push(r);
+
+    }
+
+    else {
+
+      groups[nganh].push(r);
+
+    }
+
+  });
+
+
+  let html = "";
+
+  let total = 0;
+
+  let low = 0;
+
+  let out = 0;
+
+
+  /* ===== HOT GROUP ===== */
+
+  if(hotGroup.length > 0) {
+
+    html += `
+      <div class="group">
+
+        <div class="group-title">
+          🔥 SẢN PHẨM HOT
+        </div>
+    `;
+
+
+    hotGroup.forEach(r => {
+
+      html += renderCard(r);
+
+      total++;
+
+
+      const ton =
+        parseInt(
+          String(
+            getValue(r,"TỒN")
+          ).replace(/[^\d]/g,"")
+        ) || 0;
+
+
+      if(ton === 0)
+        out++;
+
+      else if(ton < 50)
+        low++;
+
+    });
+
+
+    html += `</div>`;
+
+  }
+
+
+  /* ===== NORMAL GROUP ===== */
+
+  Object.keys(groupMap).forEach(key => {
+
+    let g = groups[key];
+
+
+    if(!g || g.length === 0)
+      return;
+
+
+    g.sort((a,b) => {
+
+      let d1 =
+        String(
+          getValue(a,"DATE")
+        ).toLowerCase();
+
+
+      let d2 =
+        String(
+          getValue(b,"DATE")
+        ).toLowerCase();
+
+
+      return d1.includes("hết")
+        - d2.includes("hết");
+
+    });
+
+
+    html += `
+      <div class="group">
+
+        <div class="group-title">
+          ${groupMap[key]}
+        </div>
+    `;
+
+
+    g.forEach(r => {
+
+      html += renderCard(r);
+
+      total++;
+
+
+      const ton =
+        parseInt(
+          String(
+            getValue(r,"TỒN")
+          ).replace(/[^\d]/g,"")
+        ) || 0;
+
+
+      if(ton === 0)
+        out++;
+
+      else if(ton < 50)
+        low++;
+
+    });
+
+
+    html += `</div>`;
+
+  });
+
+
+  document.getElementById("data").innerHTML =
+    html;
+
+
+  document.getElementById("total").innerText =
+    total;
+
+  document.getElementById("low").innerText =
+    low;
+
+  document.getElementById("out").innerText =
+    out;
+
+
+  initLightScroll();
+
+}
+
+
+/* ================================================= */
+/* ===== CARD – PHIÊN BẢN KHÔNG HIỂN THỊ GIÁ CUỐI */
+/* ===== VÀ GIÁ TRÊN HÓA ĐƠN ======================== */
+/* ================================================= */
+
+function renderCard(r) {
+
+  let highlight =
+    normalize(
+      getValue(r,"NỔI BẬT")
+    );
+
+
+  let bg =
+    bgMap[highlight] || "";
+
+
+  let sp =
+    getValue(r,"SẢN PHẨM");
+
+
+  let tp =
+    getValue(r,"THÀNH PHẦN");
+
+
+  let vat =
+    formatNumber(
+      getValue(r,"NGUYÊN GIÁ CÓ VAT")
+    );
+
+
+  let km =
+    getValue(r,"KM NỀN");
+
+
+  /*
+    KHÔNG CÒN ĐỌC:
+    - TRÊN HÓA ĐƠN
+    - GIÁ CUỐI
+
+    Dữ liệu vẫn có thể tồn tại trong Google Sheet,
+    nhưng catalogue này sẽ không hiển thị chúng.
+  */
+
+
+  let km2 =
+    getValue(r,"KM THÁNG");
+
+
+  let date =
+    formatDate(
+      getValue(r,"DATE")
+    );
+
+
+  let ton =
+    parseInt(
+      String(
+        getValue(r,"TỒN")
+      ).replace(/[^\d]/g,"")
+    ) || 0;
+
+
+  let img =
+    getValue(r,"HÌNH ẢNH");
+
+
+  let rank =
+    String(
+      getValue(r,"XẾP HẠNG")
+    ).toLowerCase();
+
+
+  let note =
+    getValue(r,"GHI CHÚ");
+
+
+  let travel =
+    String(
+      getValue(r,"DU LỊCH")
+    ).trim();
+
+
+  return `
+
+  <div class="card">
+
+
+    ${
+      bg
+      ?
+      `<div
+        class="card-bg"
+        style="background-image:url('${bg}')">
+      </div>`
+      :
+      ""
+    }
+
+
+    ${
+      note
+      ?
+      `<div class="note-ribbon">
+        <span>${note}</span>
+      </div>`
+      :
+      ""
+    }
+
+
+    <div class="img-wrap">
+
+
+      <img
+        src="${img}"
+        onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
+      >
+
+
+      ${
+        km2
+        ?
+        `<div class="sale-badge">
+          SALE
+        </div>`
+        :
+        ""
+      }
+
+
+      ${
+        rank.includes("bán")
+        ?
+        `<div class="rank-badge">
+          🔥 Bán chạy
+        </div>`
+        :
+        rank.includes("mới")
+        ?
+        `<div class="rank-badge rank-new">
+          ✨ Mới
+        </div>`
+        :
+        ""
+      }
+
+
+    </div>
+
+
+    <div class="card-content">
+
+
+      <div class="card-title">
+        ${sp}
+      </div>
+
+
+      <div class="row tp">
+        ${tp}
+      </div>
+
+
+      <!-- CHỈ GIỮ NGUYÊN GIÁ CÓ VAT -->
+
+      <div class="row">
+        Nguyên giá có VAT: ${vat}
+      </div>
+
+
+      <div class="row">
+        KM nền: ${km}
+      </div>
+
+
+      <!-- ĐÃ BỎ:
+           Giá trên HĐ
+           Giá cuối
+      -->
+
+
+      ${
+        km2
+        ?
+        `
+        <div class="row">
+
+          KM tháng:
+
+          <span
+            class="km"
+            style="white-space: pre-line;"
+          >
+            ${km2}
+          </span>
+
+        </div>
+        `
+        :
+        ""
+      }
+
+
+      <div
+        class="row ${
+          date.toLowerCase().includes("hết")
+          ? "out-date"
+          : ""
+        }"
+      >
+
+        HSD:
+
+
+        <span
+          class="${
+            (
+              date.includes("2026") ||
+              date.includes("2027")
+            )
+            ? "date-hot"
+            : ""
+          }"
+        >
+
+          ${date}
+
+        </span>
+
+
+        ${
+          ton > 0 && ton < 50
+          ?
+          `<span class="low">
+            • Còn: ${ton}
+          </span>`
+          :
+          ""
+        }
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  `;
+
+}
+
+
+/* ===== SEARCH ===== */
+
+let typingTimer;
+
+
+document
+  .getElementById("search")
+  .addEventListener("input", function() {
+
+
+    clearTimeout(typingTimer);
+
+
+    typingTimer =
+      setTimeout(() => {
+
+
+        let keyword =
+          this.value.toLowerCase();
+
+
+        render(
+
+          list.filter(r =>
+
+            String(
+              getValue(r,"SẢN PHẨM")
+            )
+            .toLowerCase()
+            .includes(keyword)
+
+          )
+
+        );
+
+
+      }, 250);
+
+  });
+
+
+/* ===== INIT ===== */
+
+loadData();
+
+
+/* ===== LIGHT EFFECT ===== */
+
+function initLightScroll() {
+
+
+  let ticking = false;
+
+
+  function update() {
+
+
+    const cards =
+      document.querySelectorAll(".card");
+
+
+    const h =
+      window.innerHeight;
+
+
+    cards.forEach(c => {
+
+
+      const r =
+        c.getBoundingClientRect();
+
+
+      if(
+        r.top < h + 100 &&
+        r.bottom > -100
+      ) {
+
+
+        let y =
+          (
+            (r.top + r.height / 2) /
+            h
+          ) * 100;
+
+
+        c.style.setProperty(
+          "--y",
+          y + "%"
+        );
+
+
+        c.style.setProperty(
+          "--x",
+          "50%"
+        );
+
+      }
+
+    });
+
+
+    ticking = false;
+
+  }
+
+
+  window.addEventListener(
+    "scroll",
+    () => {
+
+
+      if(!ticking) {
+
+
+        requestAnimationFrame(update);
+
+        ticking = true;
+
+      }
+
+    }
+  );
+
+
+  update();
+
+}
+
+</script>
+
+</body>
+</html>
+```
