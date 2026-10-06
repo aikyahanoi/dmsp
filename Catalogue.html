@@ -527,7 +527,7 @@ body {
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
   <button onclick="filterType('sale')">SALE</button>
-
+  <button onclick="filterType('nutrition')">Vé số Dinh dưỡng</button>
 </div>
  
 <div id="data">Loading...</div>
@@ -695,7 +695,16 @@ function filterType(type){
       return travel === "1";
     });
   }
+     // ===== VÉ SỐ DINH DƯỠNG =====
+  if(type === "nutrition"){
 
+    filtered = list.filter(r => {
+
+      return String(getValue(r,"TRUNG THU")).trim() === "1";
+
+    });
+
+  }
 
   render(filtered);
 }
