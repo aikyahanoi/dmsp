@@ -214,6 +214,28 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
+/* ICON MÁY BAY - SẢN PHẨM HÀ GIANG */
+.travel-badge {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  z-index: 5;
+
+  background: linear-gradient(45deg, #1565c0, #42a5f5);
+  color: white;
+
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
  
 /* ===== CONTENT ===== */
 .card-content {
@@ -527,7 +549,8 @@ body {
   <button onclick="filterType('new')">Mới</button>
   <button onclick="filterType('hot')">Bán chạy</button>
   <button onclick="filterType('sale')">SALE</button>
-  <button onclick="filterType('nutrition')">Vé số Dinh dưỡng</button>
+  <button onclick="filterType('nutrition')">Dinh dưỡng</button>
+  <button onclick="filterType('travel')">✈️ Hà Giang</button>
 </div>
  
 <div id="data">Loading...</div>
@@ -891,7 +914,10 @@ function renderCard(r){
         src="${img}"
         onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
       >
-
+      ${travel === "1"
+  ? `<div class="travel-badge" title="Sản phẩm Hà Giang">✈️</div>`
+  : ""
+}
       ${km2
         ? `<div class="sale-badge">SALE</div>`
         : ""
