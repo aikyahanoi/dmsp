@@ -214,26 +214,42 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* ICON MÁY BAY - SẢN PHẨM HÀ GIANG */
+/* ICON DU LỊCH - GIỐNG HÌNH MẪU */
 .travel-badge {
   position: absolute;
-  top: -5px;
-  left: -5px;
-  z-index: 5;
+  right: -2px;
+  bottom: -2px;
+  z-index: 10;
 
-  background: linear-gradient(45deg, #1565c0, #42a5f5);
-  color: white;
-
-  font-size: 20px;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+
+  background: #ffffff;
+  border: 3px solid #e60012;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.travel-badge .plane-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+
+  background: linear-gradient(145deg, #54e84b, #00c853);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 19px;
+  line-height: 1;
 }
 
  
@@ -914,10 +930,14 @@ function renderCard(r){
         src="${img}"
         onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
       >
-      ${travel === "1"
-  ? `<div class="travel-badge" title="Sản phẩm Hà Giang">✈️</div>`
+   
+${travel === "1"
+  ? `<div class="travel-badge" title="Sản phẩm Hà Giang">
+       <div class="plane-icon">✈</div>
+     </div>`
   : ""
 }
+
       ${km2
         ? `<div class="sale-badge">SALE</div>`
         : ""
