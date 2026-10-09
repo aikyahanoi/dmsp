@@ -214,42 +214,57 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* ICON DU LỊCH - GIỐNG HÌNH MẪU */
+
+/* ===== PREMIUM TRAVEL ICON ===== */
 .travel-badge {
   position: absolute;
-  right: -2px;
-  bottom: -2px;
+  right: 7px;
+  bottom: 7px;
   z-index: 10;
 
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-
-  background: #ffffff;
-  border: 3px solid #e60012;
+  width: 39px;
+  height: 39px;
+  border-radius: 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  box-sizing: border-box;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  background: linear-gradient(
+    145deg,
+    #39e6a5 0%,
+    #00b982 48%,
+    #008f72 100%
+  );
+
+  border: 2px solid rgba(255,255,255,0.95);
+
+  box-shadow:
+    0 4px 12px rgba(0, 150, 110, 0.28),
+    0 1px 3px rgba(0,0,0,0.12),
+    inset 0 1px 1px rgba(255,255,255,0.45);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .travel-badge .plane-icon {
-  width: 25px;
-  height: 25px;
-  border-radius: 5px;
-
-  background: linear-gradient(145deg, #54e84b, #00c853);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 23px;
+  height: 23px;
+  display: block;
 
   color: #ffffff;
-  font-size: 19px;
-  line-height: 1;
+
+  filter: drop-shadow(0 1px 1px rgba(0,70,50,0.2));
+}
+
+.card:hover .travel-badge {
+  transform: translateY(-2px) scale(1.05);
+
+  box-shadow:
+    0 6px 16px rgba(0, 150, 110, 0.35),
+    inset 0 1px 1px rgba(255,255,255,0.5);
 }
 
  
@@ -931,12 +946,26 @@ function renderCard(r){
         onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
       >
    
+
 ${travel === "1"
-  ? `<div class="travel-badge" title="Sản phẩm Hà Giang">
-       <div class="plane-icon">✈</div>
-     </div>`
+  ? `
+    <div class="travel-badge" title="Sản phẩm Hà Giang">
+      <svg
+        class="plane-icon"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M21.5 2.5a1.2 1.2 0 0 0-1.3-.2L2.8 9.8a1.7 1.7 0 0 0 .2 3.2l6.1 1.8 1.8 6.1a1.7 1.7 0 0 0 3.2.2l7.5-17.4a1.2 1.2 0 0 0-.1-1.2ZM11 13l-4.8-1.4 9.5-4.1L11 13Zm1.4 4.8L11 13l5.5-5.5-4.1 10.3Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+  `
   : ""
 }
+
 
       ${km2
         ? `<div class="sale-badge">SALE</div>`
