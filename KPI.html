@@ -204,7 +204,8 @@ tbody tr:hover {
 /* COLUMN FORMATTING */
 td.id-cell {
   text-align: center;
-  color: #78909c;
+  color: #000;
+  font-weight: 400;
 }
 
 td.customer-cell {
@@ -216,22 +217,26 @@ td.customer-cell {
 td.nvbh-cell {
   min-width: 130px;
   text-align: center;
-  font-weight: 700;
-  color: #1565c0;
+  color: #000;
+  font-weight: 400;
 }
 
 td.number-cell {
   text-align: center;
+  color: #000;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
 td.clb-cell {
   text-align: center;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 td.dophu-cell {
   text-align: right;
+  color: #000;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
@@ -245,14 +250,25 @@ td.checkin-cell {
   min-width: 48px;
   padding: 4px 8px;
   border-radius: 7px;
-  background: #f3e5f5;
-  color: #7b1fa2;
+  background: transparent;
+  color: #d32f2f;
+  font-weight: 400;
+}
+
+.kpi-value.qualified {
+  background: #e8f5e9;
+  color: #2e7d32;
   font-weight: 800;
 }
 
 .coverage-value {
-  color: #1565c0;
-  font-weight: 700;
+  color: #000;
+  font-weight: 400;
+}
+
+.coverage-value.low {
+  color: #d32f2f;
+  font-weight: 400;
 }
 
 .checkin-badge {
@@ -262,27 +278,16 @@ td.checkin-cell {
   min-width: 28px;
   padding: 4px 9px;
   border-radius: 7px;
-  background: #e8f5e9;
-  color: #2e7d32;
-  font-weight: 800;
+  background: transparent;
+  color: #000;
+  font-weight: 400;
 }
 
 .checkin-badge.not-done {
-  background: #f5f5f5;
-  color: #78909c;
+  background: transparent;
+  color: #000;
 }
 
-.loading,
-.empty {
-  text-align: center;
-  padding: 30px !important;
-  color: #78909c;
-}
-
-.error {
-  color: #c62828;
-  font-weight: 600;
-}
 
 /* MOBILE: HIỂN THỊ ĐỦ 8 CỘT, KHÔNG CUỘN NGANG */
 @media (max-width: 768px) {
@@ -486,6 +491,23 @@ td.checkin-cell {
     font-size: 7px;
   }
 }
+
+/* GIẢM CỠ CHỮ MỨC KÝ HĐTL VÀ THỰC HIỆN */
+td.contract-cell,
+td.actual-cell {
+  font-size: 11px;
+  color: #000;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  td.contract-cell,
+  td.actual-cell {
+    font-size: 8px;
+  }
+}
+
+  
 </style>
 </head>
 
@@ -842,6 +864,7 @@ function applyFilters() {
   render(filtered);
 }
 
+
 /* HIỂN THỊ BẢNG */
 function render(data) {
   const tbody = document.getElementById("tableBody");
@@ -871,11 +894,25 @@ function render(data) {
     const isCLBQualified =
       Number.isFinite(clbPercent) && clbPercent >= 100;
 
+    const isCLBLow =
+      Number.isFinite(clbPercent) && clbPercent < 100;
+
+    const coverageNumber = parseNumber(coverage);
+    const isCoverageLow =
+      Number.isFinite(coverageNumber) &&
+      coverageNumber > 0 &&
+      coverageNumber < 500000;
+
+    const hasCheckIn =
+      String(checkIn ?? "").trim() !== "";
+
     const checkInDone = isCheckedIn(checkIn);
 
     return `
       <tr>
-        <td class="id-cell">${escapeHTML(id)}</td>
+        <td class="id-cell">
+          ${escapeHTML(id)}
+        </td>
 
         <td class="customer-cell">
           ${escapeHTML(customer)}
@@ -885,43 +922,51 @@ function render(data) {
           ${escapeHTML(nvbh)}
         </td>
 
-        <td class="number-cell">
+        <td class="number-cell contract-cell">
           ${formatNumericCell(contract)}
         </td>
 
-        <td class="number-cell">
+        <td class="number-cell actual-cell">
           ${formatNumericCell(actual)}
         </td>
 
         <td class="clb-cell">
-          <span class="kpi-value"
-            style="${
-              isCLBQualified
-                ? "background:#e8f5e9;color:#2e7d32;"
-                : ""
-            }">
+          <span class="kpi-value ${
+            isCLBQualified ? "qualified" : ""
+          }" style="${
+            isCLBLow
+              ? "color:#d32f2f;"
+              : (!isCLBQualified ? "background:transparent;color:inherit;" : "")
+          }">
             ${formatPercent(clb)}
           </span>
         </td>
 
         <td class="dophu-cell">
-          <span class="coverage-value">
+          <span class="coverage-value ${
+            isCoverageLow ? "low" : ""
+          }" style="${
+            !isCoverageLow
+              ? "background:transparent;color:#000;"
+              : ""
+          }">
             ${formatNumericCell(coverage)}
           </span>
         </td>
 
         <td class="checkin-cell">
-          <span class="checkin-badge ${
-            checkInDone ? "" : "not-done"
-          }">
-            ${escapeHTML(checkIn)}
-          </span>
+          ${
+            hasCheckIn
+              ? `<span class="checkin-badge ${
+                  checkInDone ? "" : "not-done"
+                }">${escapeHTML(checkIn)}</span>`
+              : ""
+          }
         </td>
       </tr>
     `;
   }).join("");
 }
-
 /* KHỞI CHẠY */
 loadData();
 </script>
