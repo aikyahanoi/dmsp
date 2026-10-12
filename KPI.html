@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -9,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ===== BODY ===== */
 * {
   box-sizing: border-box;
 }
@@ -23,17 +23,18 @@ body {
 }
 
 .container {
+  width: 100%;
   max-width: 1600px;
   margin: auto;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header {
-  background: linear-gradient(to right, #ffffff, #fff5f5);
+  background: linear-gradient(to right, #fff, #fff5f5);
   padding: 18px 12px;
   border-radius: 16px;
   border-bottom: 3px solid #d32f2f;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
   margin-bottom: 12px;
   text-align: center;
 }
@@ -46,7 +47,7 @@ body {
   margin-bottom: 12px;
 }
 
-/* ===== KPI SUMMARY ===== */
+/* KPI SUMMARY */
 .stats-inline {
   display: flex;
   justify-content: center;
@@ -77,19 +78,11 @@ body {
   flex-shrink: 0;
 }
 
-.dot-clb {
-  background: #7b1fa2;
-}
+.dot-clb { background: #7b1fa2; }
+.dot-phu { background: #1976d2; }
+.dot-checkin { background: #2e7d32; }
 
-.dot-phu {
-  background: #1976d2;
-}
-
-.dot-checkin {
-  background: #2e7d32;
-}
-
-/* ===== SEARCH ===== */
+/* SEARCH */
 .search-box {
   position: sticky;
   top: 0;
@@ -98,9 +91,9 @@ body {
   justify-content: center;
   padding: 8px;
   margin-bottom: 12px;
-  background: linear-gradient(to right, #ffffff, #fff5f5);
+  background: linear-gradient(to right, #fff, #fff5f5);
   border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -108,6 +101,7 @@ body {
 #search {
   width: 100%;
   max-width: 600px;
+  min-width: 0;
   padding: 11px 16px;
   border: 1px solid #ddd;
   border-radius: 25px;
@@ -115,15 +109,14 @@ body {
   font-size: 14px;
   outline: none;
   background: #fff;
-  transition: 0.25s;
 }
 
 #search:focus {
   border-color: #d32f2f;
-  box-shadow: 0 0 0 2px rgba(211,47,47,0.12);
+  box-shadow: 0 0 0 2px rgba(211,47,47,.12);
 }
 
-/* ===== FILTER ===== */
+/* FILTER */
 .filter-bar {
   display: flex;
   gap: 7px;
@@ -142,43 +135,35 @@ body {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
-  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,.07);
+  flex-shrink: 0;
 }
 
 .filter-btn:hover,
 .filter-btn.active {
   background: linear-gradient(135deg, #d32f2f, #ef5350);
   color: #fff;
-  box-shadow: 0 3px 9px rgba(211,47,47,0.2);
 }
 
-.filter-btn:focus-visible {
-  outline: 2px solid #d32f2f;
-  outline-offset: 2px;
-}
-
-/* ===== TABLE WRAP ===== */
+/* TABLE */
 .table-wrap {
   width: 100%;
   overflow-x: auto;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,.9);
   border-radius: 14px;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
 }
 
-/* ===== TABLE ===== */
 table {
   width: 100%;
   min-width: 1050px;
   border-collapse: separate;
   border-spacing: 0;
+  table-layout: auto;
   background: #fff;
   font-size: 13px;
 }
 
-/* ===== TABLE HEADER ===== */
 thead th {
   position: sticky;
   top: 0;
@@ -189,7 +174,7 @@ thead th {
   text-align: center;
   font-weight: 700;
   white-space: nowrap;
-  border-right: 1px solid rgba(255,255,255,0.18);
+  border-right: 1px solid rgba(255,255,255,.18);
 }
 
 thead th:first-child {
@@ -201,12 +186,12 @@ thead th:last-child {
   border-right: none;
 }
 
-/* ===== TABLE CELLS ===== */
 tbody td {
   padding: 11px 10px;
   border-bottom: 1px solid #edf0f2;
   vertical-align: middle;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 tbody tr:nth-child(even) {
@@ -217,11 +202,10 @@ tbody tr:hover {
   background: #fff4e5;
 }
 
-/* ===== COLUMN FORMATTING ===== */
+/* COLUMN FORMATTING */
 td.id-cell {
   text-align: center;
   color: #78909c;
-  width: 60px;
 }
 
 td.customer-cell {
@@ -235,33 +219,28 @@ td.nvbh-cell {
   text-align: center;
   font-weight: 700;
   color: #1565c0;
-  white-space: nowrap;
 }
 
 td.number-cell {
   text-align: center;
-  white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
 td.clb-cell {
   text-align: center;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 td.dophu-cell {
   text-align: right;
-  white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
 td.checkin-cell {
   text-align: center;
-  white-space: nowrap;
 }
 
-/* ===== KPI VALUE BADGES ===== */
+/* KPI BADGES */
 .kpi-value {
   display: inline-block;
   min-width: 48px;
@@ -294,7 +273,6 @@ td.checkin-cell {
   color: #78909c;
 }
 
-/* ===== STATUS ===== */
 .loading,
 .empty {
   text-align: center;
@@ -307,78 +285,206 @@ td.checkin-cell {
   font-weight: 600;
 }
 
-/* ===== MOBILE ===== */
+/* MOBILE: HIỂN THỊ ĐỦ 8 CỘT, KHÔNG CUỘN NGANG */
 @media (max-width: 768px) {
   body {
-    padding: 6px;
+    padding: 5px;
+  }
+
+  .container {
+    width: 100%;
+    min-width: 0;
   }
 
   .header {
-    padding: 14px 8px;
-    border-radius: 12px;
+    padding: 12px 5px;
+    border-radius: 10px;
+    margin-bottom: 8px;
   }
 
   .title {
-    font-size: 19px;
+    font-size: 17px;
+    line-height: 1.3;
     margin-bottom: 10px;
   }
 
   .stats-inline {
-    gap: 9px 13px;
+    gap: 8px 12px;
   }
 
   .stat-item {
-    gap: 5px;
-    font-size: 11px;
+    gap: 4px;
+    font-size: 10px;
   }
 
   .stat-item b {
-    font-size: 14px;
+    font-size: 13px;
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
   }
 
   .search-box {
-    border-radius: 12px;
-    padding: 7px;
+    padding: 6px;
+    margin-bottom: 8px;
+    border-radius: 10px;
   }
 
   #search {
-    font-size: 13px;
-    padding: 10px 13px;
+    padding: 9px 12px;
+    font-size: 12px;
   }
 
   .filter-bar {
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding: 2px 1px 9px;
-    margin-bottom: 8px;
+    max-width: 100%;
+    padding: 2px 1px 8px;
+    margin-bottom: 7px;
     -webkit-overflow-scrolling: touch;
   }
 
   .filter-btn {
-    flex: 0 0 auto;
-    font-size: 12px;
-    padding: 8px 12px;
+    padding: 7px 10px;
+    font-size: 11px;
   }
 
   .table-wrap {
-    border-radius: 10px;
+    overflow-x: hidden;
+    border-radius: 8px;
+    width: 100%;
   }
 
-  /* Giữ đủ 8 cột, cuộn ngang trong bảng */
   table {
-    min-width: 1000px;
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 9px;
+  }
+
+  /* Phân bổ độ rộng cho đủ 8 cột */
+  thead th:nth-child(1),
+  tbody td:nth-child(1) { width: 6%; }
+
+  thead th:nth-child(2),
+  tbody td:nth-child(2) { width: 18%; }
+
+  thead th:nth-child(3),
+  tbody td:nth-child(3) { width: 12%; }
+
+  thead th:nth-child(4),
+  tbody td:nth-child(4) { width: 13%; }
+
+  thead th:nth-child(5),
+  tbody td:nth-child(5) { width: 10%; }
+
+  thead th:nth-child(6),
+  tbody td:nth-child(6) { width: 14%; }
+
+  thead th:nth-child(7),
+  tbody td:nth-child(7) { width: 14%; }
+
+  thead th:nth-child(8),
+  tbody td:nth-child(8) { width: 13%; }
+
+  thead th {
+    position: static;
+    padding: 7px 2px;
+    font-size: 8px;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  tbody td {
+    min-width: 0 !important;
+    padding: 6px 2px;
+    font-size: 9px;
+    line-height: 1.3;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  td.id-cell {
+    font-size: 8px;
+  }
+
+  td.customer-cell,
+  td.nvbh-cell {
+    font-weight: 600;
+  }
+
+  td.number-cell,
+  td.dophu-cell {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .kpi-value {
+    display: inline-block;
+    min-width: 0;
+    max-width: 100%;
+    padding: 3px 2px;
+    border-radius: 4px;
+    font-size: 8px;
+    white-space: normal;
+  }
+
+  .coverage-value {
+    font-size: 8px;
+  }
+
+  .checkin-badge {
+    min-width: 0;
+    max-width: 100%;
+    padding: 3px 4px;
+    border-radius: 4px;
+    font-size: 8px;
+  }
+
+  .loading,
+  .empty {
+    padding: 20px 5px !important;
+    font-size: 11px;
+  }
+}
+
+/* ĐIỆN THOẠI MÀN HÌNH RẤT NHỎ */
+@media (max-width: 380px) {
+  body {
+    padding: 3px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .stat-item {
+    font-size: 9px;
+  }
+
+  .stat-item b {
     font-size: 12px;
   }
 
   thead th {
-    padding: 10px 8px;
-    font-size: 11px;
+    font-size: 7px;
+    padding: 6px 1px;
   }
 
   tbody td {
-    padding: 9px 8px;
-    font-size: 11px;
+    font-size: 8px;
+    padding: 5px 1px;
+  }
+
+  .kpi-value,
+  .coverage-value,
+  .checkin-badge {
+    font-size: 7px;
   }
 }
 </style>
@@ -387,11 +493,8 @@ td.checkin-cell {
 <body>
 <div class="container">
 
-  <!-- ===== HEADER ===== -->
   <div class="header">
-    <div class="title">
-      KPI THÁNG - CHI NHÁNH HÀ NỘI
-    </div>
+    <div class="title">KPI THÁNG - CHI NHÁNH HÀ NỘI</div>
 
     <div class="stats-inline">
       <div class="stat-item">
@@ -414,7 +517,6 @@ td.checkin-cell {
     </div>
   </div>
 
-  <!-- ===== SEARCH ===== -->
   <div class="search-box">
     <input
       id="search"
@@ -424,7 +526,6 @@ td.checkin-cell {
     >
   </div>
 
-  <!-- ===== FILTER BY NVBH ===== -->
   <div class="filter-bar" id="filterBar">
     <button class="filter-btn active"
       onclick="filterNVBH('all', this)">
@@ -432,7 +533,6 @@ td.checkin-cell {
     </button>
   </div>
 
-  <!-- ===== TABLE ===== -->
   <div class="table-wrap">
     <table>
       <thead>
@@ -459,18 +559,13 @@ td.checkin-cell {
 </div>
 
 <script>
-/* =====================================================
-   API GOOGLE SHEET
-   THAY BẰNG API CỦA BẢNG KPI MỚI NẾU KHÁC
-===================================================== */
 const API =
 "https://script.google.com/macros/s/AKfycbzc0jHD7RE1E_XOhUQe1nG80H8f_SrsPWXR5AZlq5Wpt9ugk03MN5ZwGzZNX4IbDgNT/exec";
 
-/* ===== DATA ===== */
 let list = [];
 let currentFilter = "all";
 
-/* ===== NORMALIZE HEADER / SEARCH ===== */
+/* CHUẨN HÓA TÊN CỘT VÀ TỪ KHÓA */
 function normalize(str) {
   return String(str ?? "")
     .toLowerCase()
@@ -481,7 +576,6 @@ function normalize(str) {
     .trim();
 }
 
-/* ===== FIND COLUMN ===== */
 function findKey(obj, keyword) {
   if (!obj) return null;
 
@@ -492,13 +586,11 @@ function findKey(obj, keyword) {
   ) || null;
 }
 
-/* ===== GET CELL VALUE ===== */
 function getValue(row, keyword) {
   const key = findKey(row, keyword);
   return key ? (row[key] ?? "") : "";
 }
 
-/* ===== ESCAPE HTML ===== */
 function escapeHTML(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -508,7 +600,7 @@ function escapeHTML(value) {
     .replace(/'/g, "&#039;");
 }
 
-/* ===== FORMAT NUMBER ===== */
+/* CHUYỂN DỮ LIỆU SANG SỐ */
 function parseNumber(value) {
   if (value === null || value === undefined || value === "") {
     return NaN;
@@ -519,11 +611,8 @@ function parseNumber(value) {
   }
 
   let text = String(value).trim();
-
-  // Bỏ dấu phân cách hàng nghìn thông thường
   text = text.replace(/\s/g, "").replace(/₫/g, "");
 
-  // Dữ liệu dạng 500.000 hoặc 500,000
   if (/^-?\d{1,3}([.,]\d{3})+$/.test(text)) {
     text = text.replace(/[.,]/g, "");
   } else {
@@ -533,9 +622,7 @@ function parseNumber(value) {
   return Number(text);
 }
 
-/* ===== PARSE % CLB =====
-   Hỗ trợ 100%, 100, hoặc 1 (tức 100%).
-*/
+/* CHUYỂN GIÁ TRỊ PHẦN TRĂM */
 function parsePercent(value) {
   if (value === null || value === undefined || value === "") {
     return NaN;
@@ -545,16 +632,13 @@ function parsePercent(value) {
   const num = parseNumber(String(value).replace(/%/g, ""));
 
   if (!Number.isFinite(num)) return NaN;
-
   if (hasPercent) return num;
 
-  // Google Sheets API có thể trả 1 cho ô định dạng 100%
   if (num >= 0 && num <= 1) return num * 100;
 
   return num;
 }
 
-/* ===== DISPLAY PERCENT ===== */
 function formatPercent(value) {
   if (value === "" || value === null || value === undefined) {
     return "";
@@ -573,7 +657,6 @@ function formatPercent(value) {
       }) + "%";
 }
 
-/* ===== DISPLAY NUMBER ===== */
 function formatNumericCell(value) {
   const num = parseNumber(value);
 
@@ -586,12 +669,11 @@ function formatNumericCell(value) {
   });
 }
 
-/* ===== CHECK IN = 1 ===== */
 function isCheckedIn(value) {
   return String(value ?? "").trim() === "1";
 }
 
-/* ===== LOAD DATA ===== */
+/* TẢI DỮ LIỆU */
 async function loadData() {
   const tbody = document.getElementById("tableBody");
 
@@ -613,7 +695,6 @@ async function loadData() {
     console.log("DỮ LIỆU KPI:", list);
     console.log("CÁC CỘT:", list.length ? Object.keys(list[0]) : []);
 
-    updateStats();
     createFilters();
     applyFilters();
 
@@ -631,18 +712,14 @@ async function loadData() {
   }
 }
 
-/* ===== SUMMARY COUNTS ===== */
-function updateStats() {
+/* TÍNH KPI THEO DỮ LIỆU ĐANG HIỂN THỊ */
+function updateStats(filteredData) {
   let clb = 0;
   let doPhu = 0;
   let checkIn = 0;
 
-  list.forEach(row => {
-    const percent = parsePercent(
-      getValue(row, "DO PHU - KHONG")
-    );
-
-    // Đếm CLB >= 100%
+  filteredData.forEach(row => {
+    /* CLB đạt từ 100% */
     const clbPercent = parsePercent(
       getValue(row, "% CLB THANG")
     );
@@ -651,7 +728,7 @@ function updateStats() {
       clb++;
     }
 
-    // Đếm Độ phủ >= 500000
+    /* Độ phủ đạt từ 500.000 */
     const coverage = parseNumber(
       getValue(row, "DO PHU")
     );
@@ -660,7 +737,7 @@ function updateStats() {
       doPhu++;
     }
 
-    // Đếm Check in = 1
+    /* Check in bằng 1 */
     if (isCheckedIn(getValue(row, "CHECK IN"))) {
       checkIn++;
     }
@@ -671,7 +748,7 @@ function updateStats() {
   document.getElementById("statCheckIn").textContent = checkIn;
 }
 
-/* ===== CREATE FILTER BUTTONS ===== */
+/* TẠO NÚT LỌC NVBH */
 function createFilters() {
   const filterBar = document.getElementById("filterBar");
   filterBar.innerHTML = "";
@@ -679,16 +756,17 @@ function createFilters() {
   const allButton = document.createElement("button");
   allButton.className = "filter-btn active";
   allButton.textContent = "Tất cả";
+
   allButton.onclick = function() {
     filterNVBH("all", this);
   };
+
   filterBar.appendChild(allButton);
 
   const names = new Set();
 
   list.forEach(row => {
     const name = String(getValue(row, "NVBH")).trim();
-
     if (name !== "") names.add(name);
   });
 
@@ -699,6 +777,7 @@ function createFilters() {
 
       button.className = "filter-btn";
       button.textContent = name;
+
       button.onclick = function() {
         filterNVBH(name, this);
       };
@@ -707,7 +786,7 @@ function createFilters() {
     });
 }
 
-/* ===== FILTER NVBH ===== */
+/* LỌC NVBH */
 function filterNVBH(name, button) {
   currentFilter = name;
 
@@ -720,31 +799,32 @@ function filterNVBH(name, button) {
   applyFilters();
 }
 
-/* ===== SEARCH ===== */
-document.getElementById("search").addEventListener("input", applyFilters);
+/* TÌM KIẾM */
+document.getElementById("search")
+  .addEventListener("input", applyFilters);
 
-/* ===== APPLY FILTER + SEARCH ===== */
+/* ÁP DỤNG ĐỒNG THỜI BỘ LỌC VÀ TÌM KIẾM */
 function applyFilters() {
   const keyword = normalize(
     document.getElementById("search").value
   );
 
   const filtered = list.filter(row => {
-    // Lọc theo NVBH
+    /* Lọc theo NVBH */
     if (currentFilter !== "all") {
       const name = String(getValue(row, "NVBH")).trim();
 
       if (name !== currentFilter) return false;
     }
 
-    // Tìm kiếm trên toàn bộ 8 cột
+    /* Tìm kiếm trên cả 8 cột */
     if (keyword !== "") {
       const searchable = [
         getValue(row, "ID"),
         getValue(row, "KHACH HANG"),
         getValue(row, "NVBH"),
         getValue(row, "MUC KY HDTL"),
-        getValue(row, "THU HIEN"),
+        getValue(row, "THUC HIEN"),
         getValue(row, "% CLB THANG"),
         getValue(row, "DO PHU"),
         getValue(row, "CHECK IN")
@@ -756,10 +836,14 @@ function applyFilters() {
     return true;
   });
 
+  /* QUAN TRỌNG: cập nhật KPI theo đúng kết quả lọc */
+  updateStats(filtered);
+
+  /* Hiển thị bảng theo kết quả lọc */
   render(filtered);
 }
 
-/* ===== RENDER TABLE ===== */
+/* HIỂN THỊ BẢNG */
 function render(data) {
   const tbody = document.getElementById("tableBody");
 
@@ -774,12 +858,12 @@ function render(data) {
     return;
   }
 
-  const html = data.map(row => {
+  tbody.innerHTML = data.map(row => {
     const id = getValue(row, "ID");
     const customer = getValue(row, "KHACH HANG");
     const nvbh = getValue(row, "NVBH");
     const contract = getValue(row, "MUC KY HDTL");
-    const actual = getValue(row, "THU HIEN");
+    const actual = getValue(row, "THUC HIEN");
     const clb = getValue(row, "% CLB THANG");
     const coverage = getValue(row, "DO PHU");
     const checkIn = getValue(row, "CHECK IN");
@@ -837,11 +921,9 @@ function render(data) {
       </tr>
     `;
   }).join("");
-
-  tbody.innerHTML = html;
 }
 
-/* ===== START ===== */
+/* KHỞI CHẠY */
 loadData();
 </script>
 
