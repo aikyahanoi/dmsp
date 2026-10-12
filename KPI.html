@@ -416,12 +416,12 @@ td.checkin-cell {
     font-size: 8px;
   }
 
-  td.customer-cell,
-  td.nvbh-cell {
+  td.customer-cell {
     font-weight: 600;
   }
 
   td.number-cell,
+  td.nvbh-cell,
   td.dophu-cell {
   
   }
@@ -737,7 +737,7 @@ function updateStats(filteredData) {
       getValue(row, "DO PHU")
     );
 
-    if (Number.isFinite(coverage) && coverage >= 500000) {
+    if (Number.isFinite(coverage) && coverage >= 500) {
       doPhu++;
     }
 
@@ -884,7 +884,7 @@ function render(data) {
     const isCoverageLow =
       Number.isFinite(coverageNumber) &&
       coverageNumber > 0 &&
-      coverageNumber < 500000;
+      coverageNumber < 500;
 
     const hasCheckIn =
       String(checkIn ?? "").trim() !== "";
@@ -930,7 +930,7 @@ function render(data) {
             isCoverageLow ? "low" : ""
           }" style="${
             !isCoverageLow
-              ? "background:transparent;color:#000;"
+              ? "background:transparent;color:inherit;"
               : ""
           }">
             ${formatNumericCell(coverage)}
