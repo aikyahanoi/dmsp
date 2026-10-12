@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>KPI THÁNG - CHI NHÁNH HÀ NỘI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BODY ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #f1f4f9, #e3ecf5);
+  margin: 0;
+  padding: 12px;
+  color: #263238;
+}
+
+.container {
+  max-width: 1600px;
+  margin: auto;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  padding: 18px 12px;
+  border-radius: 16px;
+  border-bottom: 3px solid #d32f2f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 800;
+  color: #d32f2f;
+  margin-bottom: 12px;
+}
+
+/* ===== KPI SUMMARY ===== */
+.stats-inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #546e7a;
+}
+
+.stat-item b {
+  font-size: 16px;
+  font-weight: 800;
+  color: #d32f2f;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-clb {
+  background: #7b1fa2;
+}
+
+.dot-phu {
+  background: #1976d2;
+}
+
+.dot-checkin {
+  background: #2e7d32;
+}
+
+/* ===== SEARCH ===== */
+.search-box {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  margin-bottom: 12px;
+  background: linear-gradient(to right, #ffffff, #fff5f5);
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#search {
+  width: 100%;
+  max-width: 600px;
+  padding: 11px 16px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  transition: 0.25s;
+}
+
+#search:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 2px rgba(211,47,47,0.12);
+}
+
+/* ===== FILTER ===== */
+.filter-bar {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.filter-btn {
+  border: 1px solid transparent;
+  background: #deeafc;
+  color: #263238;
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+  transition: 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: linear-gradient(135deg, #d32f2f, #ef5350);
+  color: #fff;
+  box-shadow: 0 3px 9px rgba(211,47,47,0.2);
+}
+
+.filter-btn:focus-visible {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}
+
+/* ===== TABLE WRAP ===== */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  font-size: 13px;
+}
+
+/* ===== TABLE HEADER ===== */
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: linear-gradient(135deg, #c62828, #ef5350);
+  color: #fff;
+  padding: 12px 10px;
+  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255,255,255,0.18);
+}
+
+thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 10px;
+  border-right: none;
+}
+
+/* ===== TABLE CELLS ===== */
+tbody td {
+  padding: 11px 10px;
+  border-bottom: 1px solid #edf0f2;
+  vertical-align: middle;
+  line-height: 1.45;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+tbody tr:hover {
+  background: #fff4e5;
+}
+
+/* ===== COLUMN FORMATTING ===== */
+td.id-cell {
+  text-align: center;
+  color: #78909c;
+  width: 60px;
+}
+
+td.customer-cell {
+  min-width: 180px;
+  font-weight: 700;
+  color: #263238;
+}
+
+td.nvbh-cell {
+  min-width: 130px;
+  text-align: center;
+  font-weight: 700;
+  color: #1565c0;
+  white-space: nowrap;
+}
+
+td.number-cell {
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+td.clb-cell {
+  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+td.dophu-cell {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+td.checkin-cell {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== KPI VALUE BADGES ===== */
+.kpi-value {
+  display: inline-block;
+  min-width: 48px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: #f3e5f5;
+  color: #7b1fa2;
+  font-weight: 800;
+}
+
+.coverage-value {
+  color: #1565c0;
+  font-weight: 700;
+}
+
+.checkin-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 800;
+}
+
+.checkin-badge.not-done {
+  background: #f5f5f5;
+  color: #78909c;
+}
+
+/* ===== STATUS ===== */
+.loading,
+.empty {
+  text-align: center;
+  padding: 30px !important;
+  color: #78909c;
+}
+
+.error {
+  color: #c62828;
+  font-weight: 600;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 6px;
+  }
+
+  .header {
+    padding: 14px 8px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+
+  .stats-inline {
+    gap: 9px 13px;
+  }
+
+  .stat-item {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .stat-item b {
+    font-size: 14px;
+  }
+
+  .search-box {
+    border-radius: 12px;
+    padding: 7px;
+  }
+
+  #search {
+    font-size: 13px;
+    padding: 10px 13px;
+  }
+
+  .filter-bar {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 2px 1px 9px;
+    margin-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-btn {
+    flex: 0 0 auto;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .table-wrap {
+    border-radius: 10px;
+  }
+
+  /* Giữ đủ 8 cột, cuộn ngang trong bảng */
+  table {
+    min-width: 1000px;
+    font-size: 12px;
+  }
+
+  thead th {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+
+  tbody td {
+    padding: 9px 8px;
+    font-size: 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="title">
+      KPI THÁNG - CHI NHÁNH HÀ NỘI
+    </div>
+
+    <div class="stats-inline">
+      <div class="stat-item">
+        <span class="stat-dot dot-clb"></span>
+        <span>CLB:</span>
+        <b id="statCLB">0</b>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-dot dot-phu"></span>
+        <span>Độ phủ:</span>
+        <b id="statDoPhu">0</b>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-dot dot-checkin"></span>
+        <span>Check in:</span>
+        <b id="statCheckIn">0</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SEARCH ===== -->
+  <div class="search-box">
+    <input
+      id="search"
+      type="text"
+      placeholder="🔍 Tìm khách hàng, NVBH..."
+      autocomplete="off"
+    >
+  </div>
+
+  <!-- ===== FILTER BY NVBH ===== -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active"
+      onclick="filterNVBH('all', this)">
+      Tất cả
+    </button>
+  </div>
+
+  <!-- ===== TABLE ===== -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>KHÁCH HÀNG</th>
+          <th>NVBH</th>
+          <th>MỨC KÝ HĐTL</th>
+          <th>THỰC HIỆN</th>
+          <th>% CLB THÁNG</th>
+          <th>ĐỘ PHỦ</th>
+          <th>CHECK IN</th>
+        </tr>
+      </thead>
+
+      <tbody id="tableBody">
+        <tr>
+          <td colspan="8" class="loading">Đang tải dữ liệu...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================
+   API GOOGLE SHEET
+   THAY BẰNG API CỦA BẢNG KPI MỚI NẾU KHÁC
+===================================================== */
+const API =
+"https://script.google.com/macros/s/AKfycbzc0jHD7RE1E_XOhUQe1nG80H8f_SrsPWXR5AZlq5Wpt9ugk03MN5ZwGzZNX4IbDgNT/exec";
+
+/* ===== DATA ===== */
+let list = [];
+let currentFilter = "all";
+
+/* ===== NORMALIZE HEADER / SEARCH ===== */
+function normalize(str) {
+  return String(str ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+/* ===== FIND COLUMN ===== */
+function findKey(obj, keyword) {
+  if (!obj) return null;
+
+  const target = normalize(keyword);
+
+  return Object.keys(obj).find(key =>
+    normalize(key) === target
+  ) || null;
+}
+
+/* ===== GET CELL VALUE ===== */
+function getValue(row, keyword) {
+  const key = findKey(row, keyword);
+  return key ? (row[key] ?? "") : "";
+}
+
+/* ===== ESCAPE HTML ===== */
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/* ===== FORMAT NUMBER ===== */
+function parseNumber(value) {
+  if (value === null || value === undefined || value === "") {
+    return NaN;
+  }
+
+  if (typeof value === "number") {
+    return value;
+  }
+
+  let text = String(value).trim();
+
+  // Bỏ dấu phân cách hàng nghìn thông thường
+  text = text.replace(/\s/g, "").replace(/₫/g, "");
+
+  // Dữ liệu dạng 500.000 hoặc 500,000
+  if (/^-?\d{1,3}([.,]\d{3})+$/.test(text)) {
+    text = text.replace(/[.,]/g, "");
+  } else {
+    text = text.replace(",", ".");
+  }
+
+  return Number(text);
+}
+
+/* ===== PARSE % CLB =====
+   Hỗ trợ 100%, 100, hoặc 1 (tức 100%).
+*/
+function parsePercent(value) {
+  if (value === null || value === undefined || value === "") {
+    return NaN;
+  }
+
+  const hasPercent = String(value).includes("%");
+  const num = parseNumber(String(value).replace(/%/g, ""));
+
+  if (!Number.isFinite(num)) return NaN;
+
+  if (hasPercent) return num;
+
+  // Google Sheets API có thể trả 1 cho ô định dạng 100%
+  if (num >= 0 && num <= 1) return num * 100;
+
+  return num;
+}
+
+/* ===== DISPLAY PERCENT ===== */
+function formatPercent(value) {
+  if (value === "" || value === null || value === undefined) {
+    return "";
+  }
+
+  const num = parsePercent(value);
+
+  if (!Number.isFinite(num)) {
+    return escapeHTML(value);
+  }
+
+  return Number.isInteger(num)
+    ? num + "%"
+    : num.toLocaleString("vi-VN", {
+        maximumFractionDigits: 2
+      }) + "%";
+}
+
+/* ===== DISPLAY NUMBER ===== */
+function formatNumericCell(value) {
+  const num = parseNumber(value);
+
+  if (!Number.isFinite(num)) {
+    return escapeHTML(value);
+  }
+
+  return num.toLocaleString("vi-VN", {
+    maximumFractionDigits: 2
+  });
+}
+
+/* ===== CHECK IN = 1 ===== */
+function isCheckedIn(value) {
+  return String(value ?? "").trim() === "1";
+}
+
+/* ===== LOAD DATA ===== */
+async function loadData() {
+  const tbody = document.getElementById("tableBody");
+
+  try {
+    const response = await fetch(API);
+
+    if (!response.ok) {
+      throw new Error("API trả về HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Dữ liệu API không phải một danh sách");
+    }
+
+    list = data;
+
+    console.log("DỮ LIỆU KPI:", list);
+    console.log("CÁC CỘT:", list.length ? Object.keys(list[0]) : []);
+
+    updateStats();
+    createFilters();
+    applyFilters();
+
+  } catch (error) {
+    console.error("Lỗi tải KPI:", error);
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty error">
+          Không tải được dữ liệu KPI.
+          Vui lòng kiểm tra URL API và tên các cột trong Google Sheet.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+/* ===== SUMMARY COUNTS ===== */
+function updateStats() {
+  let clb = 0;
+  let doPhu = 0;
+  let checkIn = 0;
+
+  list.forEach(row => {
+    const percent = parsePercent(
+      getValue(row, "DO PHU - KHONG")
+    );
+
+    // Đếm CLB >= 100%
+    const clbPercent = parsePercent(
+      getValue(row, "% CLB THANG")
+    );
+
+    if (Number.isFinite(clbPercent) && clbPercent >= 100) {
+      clb++;
+    }
+
+    // Đếm Độ phủ >= 500000
+    const coverage = parseNumber(
+      getValue(row, "DO PHU")
+    );
+
+    if (Number.isFinite(coverage) && coverage >= 500000) {
+      doPhu++;
+    }
+
+    // Đếm Check in = 1
+    if (isCheckedIn(getValue(row, "CHECK IN"))) {
+      checkIn++;
+    }
+  });
+
+  document.getElementById("statCLB").textContent = clb;
+  document.getElementById("statDoPhu").textContent = doPhu;
+  document.getElementById("statCheckIn").textContent = checkIn;
+}
+
+/* ===== CREATE FILTER BUTTONS ===== */
+function createFilters() {
+  const filterBar = document.getElementById("filterBar");
+  filterBar.innerHTML = "";
+
+  const allButton = document.createElement("button");
+  allButton.className = "filter-btn active";
+  allButton.textContent = "Tất cả";
+  allButton.onclick = function() {
+    filterNVBH("all", this);
+  };
+  filterBar.appendChild(allButton);
+
+  const names = new Set();
+
+  list.forEach(row => {
+    const name = String(getValue(row, "NVBH")).trim();
+
+    if (name !== "") names.add(name);
+  });
+
+  Array.from(names)
+    .sort((a, b) => a.localeCompare(b, "vi"))
+    .forEach(name => {
+      const button = document.createElement("button");
+
+      button.className = "filter-btn";
+      button.textContent = name;
+      button.onclick = function() {
+        filterNVBH(name, this);
+      };
+
+      filterBar.appendChild(button);
+    });
+}
+
+/* ===== FILTER NVBH ===== */
+function filterNVBH(name, button) {
+  currentFilter = name;
+
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (button) button.classList.add("active");
+
+  applyFilters();
+}
+
+/* ===== SEARCH ===== */
+document.getElementById("search").addEventListener("input", applyFilters);
+
+/* ===== APPLY FILTER + SEARCH ===== */
+function applyFilters() {
+  const keyword = normalize(
+    document.getElementById("search").value
+  );
+
+  const filtered = list.filter(row => {
+    // Lọc theo NVBH
+    if (currentFilter !== "all") {
+      const name = String(getValue(row, "NVBH")).trim();
+
+      if (name !== currentFilter) return false;
+    }
+
+    // Tìm kiếm trên toàn bộ 8 cột
+    if (keyword !== "") {
+      const searchable = [
+        getValue(row, "ID"),
+        getValue(row, "KHACH HANG"),
+        getValue(row, "NVBH"),
+        getValue(row, "MUC KY HDTL"),
+        getValue(row, "THU HIEN"),
+        getValue(row, "% CLB THANG"),
+        getValue(row, "DO PHU"),
+        getValue(row, "CHECK IN")
+      ].map(value => normalize(value)).join(" ");
+
+      if (!searchable.includes(keyword)) return false;
+    }
+
+    return true;
+  });
+
+  render(filtered);
+}
+
+/* ===== RENDER TABLE ===== */
+function render(data) {
+  const tbody = document.getElementById("tableBody");
+
+  if (!data.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          Không có dữ liệu phù hợp.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const html = data.map(row => {
+    const id = getValue(row, "ID");
+    const customer = getValue(row, "KHACH HANG");
+    const nvbh = getValue(row, "NVBH");
+    const contract = getValue(row, "MUC KY HDTL");
+    const actual = getValue(row, "THU HIEN");
+    const clb = getValue(row, "% CLB THANG");
+    const coverage = getValue(row, "DO PHU");
+    const checkIn = getValue(row, "CHECK IN");
+
+    const clbPercent = parsePercent(clb);
+    const isCLBQualified =
+      Number.isFinite(clbPercent) && clbPercent >= 100;
+
+    const checkInDone = isCheckedIn(checkIn);
+
+    return `
+      <tr>
+        <td class="id-cell">${escapeHTML(id)}</td>
+
+        <td class="customer-cell">
+          ${escapeHTML(customer)}
+        </td>
+
+        <td class="nvbh-cell">
+          ${escapeHTML(nvbh)}
+        </td>
+
+        <td class="number-cell">
+          ${formatNumericCell(contract)}
+        </td>
+
+        <td class="number-cell">
+          ${formatNumericCell(actual)}
+        </td>
+
+        <td class="clb-cell">
+          <span class="kpi-value"
+            style="${
+              isCLBQualified
+                ? "background:#e8f5e9;color:#2e7d32;"
+                : ""
+            }">
+            ${formatPercent(clb)}
+          </span>
+        </td>
+
+        <td class="dophu-cell">
+          <span class="coverage-value">
+            ${formatNumericCell(coverage)}
+          </span>
+        </td>
+
+        <td class="checkin-cell">
+          <span class="checkin-badge ${
+            checkInDone ? "" : "not-done"
+          }">
+            ${escapeHTML(checkIn)}
+          </span>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  tbody.innerHTML = html;
+}
+
+/* ===== START ===== */
+loadData();
+</script>
+
+</body>
+</html>
+```
