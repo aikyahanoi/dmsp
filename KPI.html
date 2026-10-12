@@ -286,8 +286,18 @@ td.checkin-cell {
   color: #000;
 }
 
+.loading,
+.empty {
+  text-align: center;
+  padding: 25px 10px;
+  color: #607d8b;
+}
 
-/* MOBILE: HIỂN THỊ ĐỦ 8 CỘT, KHÔNG CUỘN NGANG */
+.error {
+  color: #d32f2f;
+}
+
+/* MOBILE: HIỂN THỊ ĐỦ 8 CỘT */
 @media (max-width: 768px) {
   body {
     padding: 5px;
@@ -367,7 +377,6 @@ td.checkin-cell {
     font-size: 9px;
   }
 
-  /* Phân bổ độ rộng cho đủ 8 cột */
   thead th:nth-child(1),
   tbody td:nth-child(1) { width: 6%; }
 
@@ -418,12 +427,6 @@ td.checkin-cell {
 
   td.customer-cell {
     font-weight: 600;
-  }
-
-  td.number-cell,
-  td.nvbh-cell,
-  td.dophu-cell {
-  
   }
 
   .kpi-value {
@@ -489,18 +492,21 @@ td.checkin-cell {
     font-size: 8px;
   }
 }
-
-  
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
   <div class="header">
-    <div class="title">KPI THÁNG - CHI NHÁNH HÀ NỘI</div>
+
+    <div class="title">
+      KPI THÁNG - CHI NHÁNH HÀ NỘI
+    </div>
 
     <div class="stats-inline">
+
       <div class="stat-item">
         <span class="stat-dot dot-clb"></span>
         <span>CLB:</span>
@@ -518,6 +524,7 @@ td.checkin-cell {
         <span>Check in:</span>
         <b id="statCheckIn">0</b>
       </div>
+
     </div>
   </div>
 
@@ -539,6 +546,7 @@ td.checkin-cell {
 
   <div class="table-wrap">
     <table>
+
       <thead>
         <tr>
           <th>ID</th>
@@ -554,48 +562,200 @@ td.checkin-cell {
 
       <tbody id="tableBody">
         <tr>
-          <td colspan="8" class="loading">Đang tải dữ liệu...</td>
+          <td colspan="8" class="loading">
+            Đang tải dữ liệu...
+          </td>
         </tr>
       </tbody>
+
     </table>
   </div>
 
 </div>
 
 <script>
+
+/* =========================================
+   CẤU HÌNH API
+========================================= */
+
 const API =
 "https://script.google.com/macros/s/AKfycbzc0jHD7RE1E_XOhUQe1nG80H8f_SrsPWXR5AZlq5Wpt9ugk03MN5ZwGzZNX4IbDgNT/exec";
 
 let list = [];
 let currentFilter = "all";
 
-/* CHUẨN HÓA TÊN CỘT VÀ TỪ KHÓA */
+/* =========================================
+   CHUẨN HÓA TÊN CỘT
+========================================= */
+
 function normalize(str) {
   return String(str ?? "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
-    .replace(/\s+/g, "")
+    .replace(/[^a-z0-9]/g, "")
     .trim();
 }
 
+/* =========================================
+   DANH SÁCH TÊN CỘT CÓ THỂ NHẬN DIỆN
+========================================= */
+
+const COLUMN_ALIASES = {
+
+  "ID": [
+    "ID",
+    "STT",
+    "MA KH"
+  ],
+
+  "KHACH HANG": [
+    "KHACH HANG",
+    "TEN KHACH HANG",
+    "TEN KH",
+    "CUSTOMER"
+  ],
+
+  "NVBH": [
+    "NVBH",
+    "NHAN VIEN BAN HANG",
+    "TDV"
+  ],
+
+  "MUC KY HDTL": [
+    "MUC KY HDTL",
+    "MUC KY",
+    "HDTL",
+    "CHI TIEU",
+    "TARGET"
+  ],
+
+  "THUC HIEN": [
+    "THUC HIEN",
+    "THỰC HIỆN",
+    "THUC_HIEN",
+    "THUCHIEN",
+    "DOANH SO THUC HIEN",
+    "DOANH THU THUC HIEN",
+    "GIA TRI THUC HIEN",
+    "ACTUAL",
+    "ACTUAL SALES",
+    "REALIZED"
+  ],
+
+  "% CLB THANG": [
+    "% CLB THANG",
+    "CLB THANG",
+    "TY LE CLB THANG",
+    "PHAN TRAM CLB THANG"
+  ],
+
+  "DO PHU": [
+    "DO PHU",
+    "ĐỘ PHỦ",
+    "COVERAGE"
+  ],
+
+  "CHECK IN": [
+    "CHECK IN",
+    "CHECKIN",
+    "CHECK_IN"
+  ]
+};
+
+/* =========================================
+   TÌM TÊN CỘT
+========================================= */
+
 function findKey(obj, keyword) {
-  if (!obj) return null;
+
+  if (!obj || typeof obj !== "object") {
+    return null;
+  }
+
+  const keys = Object.keys(obj);
 
   const target = normalize(keyword);
 
-  return Object.keys(obj).find(key =>
-    normalize(key) === target
-  ) || null;
+  const aliases =
+    COLUMN_ALIASES[keyword] || [keyword];
+
+  const normalizedAliases =
+    [...new Set(
+      aliases.map(alias => normalize(alias))
+    )];
+
+  /* Ưu tiên khớp chính xác tên cột */
+
+  for (const alias of normalizedAliases) {
+
+    const found = keys.find(key =>
+      normalize(key) === alias
+    );
+
+    if (found !== undefined) {
+      return found;
+    }
+  }
+
+  /*
+    Khớp tên cột có phần mở rộng.
+
+    Ví dụ:
+    THỰC HIỆN (VNĐ)
+    THỰC HIỆN DOANH SỐ
+  */
+
+  for (const alias of normalizedAliases) {
+
+    const found = keys.find(key => {
+
+      const normalizedKey = normalize(key);
+
+      return (
+        normalizedKey.startsWith(alias) &&
+        normalizedKey.length > alias.length
+      );
+
+    });
+
+    if (found !== undefined) {
+      return found;
+    }
+  }
+
+  return null;
 }
+
+/* =========================================
+   LẤY GIÁ TRỊ
+========================================= */
 
 function getValue(row, keyword) {
+
   const key = findKey(row, keyword);
-  return key ? (row[key] ?? "") : "";
+
+  if (key === null) {
+    return "";
+  }
+
+  const value = row[key];
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return value;
 }
 
+/* =========================================
+   CHỐNG LỖI HTML
+========================================= */
+
 function escapeHTML(value) {
+
   return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -604,9 +764,17 @@ function escapeHTML(value) {
     .replace(/'/g, "&#039;");
 }
 
-/* CHUYỂN DỮ LIỆU SANG SỐ */
+/* =========================================
+   CHUYỂN DỮ LIỆU SANG SỐ
+========================================= */
+
 function parseNumber(value) {
-  if (value === null || value === undefined || value === "") {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
     return NaN;
   }
 
@@ -615,53 +783,70 @@ function parseNumber(value) {
   }
 
   let text = String(value).trim();
-  text = text.replace(/\s/g, "").replace(/₫/g, "");
+
+  text = text
+    .replace(/\s/g, "")
+    .replace(/[₫đ]/gi, "");
+
+  /*
+    Nhận diện số hàng nghìn:
+
+    1.000
+    1,000
+    1.000.000
+    1,000,000
+  */
 
   if (/^-?\d{1,3}([.,]\d{3})+$/.test(text)) {
+
     text = text.replace(/[.,]/g, "");
+
+  } else if (text.includes(".") && text.includes(",")) {
+
+    const lastDot = text.lastIndexOf(".");
+    const lastComma = text.lastIndexOf(",");
+
+    if (lastComma > lastDot) {
+
+      // 1.234,56
+      text = text
+        .replace(/\./g, "")
+        .replace(",", ".");
+
+    } else {
+
+      // 1,234.56
+      text = text.replace(/,/g, "");
+
+    }
+
   } else {
+
     text = text.replace(",", ".");
+
   }
 
-  return Number(text);
+  const result = Number(text);
+
+  return Number.isFinite(result)
+    ? result
+    : NaN;
 }
 
-/* CHUYỂN GIÁ TRỊ PHẦN TRĂM */
-function parsePercent(value) {
-  if (value === null || value === undefined || value === "") {
-    return NaN;
-  }
+/* =========================================
+   ĐỊNH DẠNG SỐ
+========================================= */
 
-  const hasPercent = String(value).includes("%");
-  const num = parseNumber(String(value).replace(/%/g, ""));
+function formatNumericCell(value) {
 
-  if (!Number.isFinite(num)) return NaN;
-  if (hasPercent) return num;
-
-  if (num >= 0 && num <= 1) return num * 100;
-
-  return num;
-}
-
-function formatPercent(value) {
-  if (value === "" || value === null || value === undefined) {
+  if (
+    value === "" ||
+    value === null ||
+    value === undefined
+  ) {
     return "";
   }
 
-  const num = parsePercent(value);
-
-  if (!Number.isFinite(num)) {
-    return escapeHTML(value);
-  }
-
-  return Number.isInteger(num)
-    ? num + "%"
-    : num.toLocaleString("vi-VN", {
-        maximumFractionDigits: 2
-      }) + "%";
-}
-
-function formatNumericCell(value) {
   const num = parseNumber(value);
 
   if (!Number.isFinite(num)) {
@@ -673,96 +858,280 @@ function formatNumericCell(value) {
   });
 }
 
+/* =========================================
+   XỬ LÝ PHẦN TRĂM
+========================================= */
+
+function parsePercent(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return NaN;
+  }
+
+  const text = String(value);
+
+  const hasPercent = text.includes("%");
+
+  const num = parseNumber(
+    text.replace(/%/g, "")
+  );
+
+  if (!Number.isFinite(num)) {
+    return NaN;
+  }
+
+  if (hasPercent) {
+    return num;
+  }
+
+  if (num >= 0 && num <= 1) {
+    return num * 100;
+  }
+
+  return num;
+}
+
+function formatPercent(value) {
+
+  if (
+    value === "" ||
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  const num = parsePercent(value);
+
+  if (!Number.isFinite(num)) {
+    return escapeHTML(value);
+  }
+
+  const formatted = num.toLocaleString("vi-VN", {
+    maximumFractionDigits: 2
+  });
+
+  return formatted + "%";
+}
+
+/* =========================================
+   CHECK IN
+========================================= */
+
 function isCheckedIn(value) {
   return String(value ?? "").trim() === "1";
 }
 
-/* TẢI DỮ LIỆU */
+/* =========================================
+   KIỂM TRA DỮ LIỆU API
+========================================= */
+
+function inspectAPI(data) {
+
+  console.log("===== KIỂM TRA API KPI =====");
+
+  console.log("Tổng số dòng:", data.length);
+
+  if (!data.length) {
+    return;
+  }
+
+  const firstRow = data[0];
+
+  console.log(
+    "Danh sách tên cột:",
+    Object.keys(firstRow)
+  );
+
+  const actualKey = findKey(
+    firstRow,
+    "THUC HIEN"
+  );
+
+  console.log(
+    "Tên cột THỰC HIỆN:",
+    actualKey
+  );
+
+  console.log(
+    "Giá trị THỰC HIỆN dòng đầu:",
+    getValue(firstRow, "THUC HIEN")
+  );
+
+  if (actualKey === null) {
+
+    console.warn(
+      "KHÔNG TÌM THẤY CỘT THỰC HIỆN TRONG API"
+    );
+
+  } else {
+
+    console.log(
+      "ĐÃ NHẬN DIỆN CỘT THỰC HIỆN"
+    );
+
+  }
+
+  console.log("============================");
+}
+
+/* =========================================
+   TẢI DỮ LIỆU
+========================================= */
+
 async function loadData() {
-  const tbody = document.getElementById("tableBody");
+
+  const tbody =
+    document.getElementById("tableBody");
 
   try {
-    const response = await fetch(API);
+
+    const response = await fetch(API, {
+      method: "GET",
+      redirect: "follow",
+      cache: "no-store"
+    });
 
     if (!response.ok) {
-      throw new Error("API trả về HTTP " + response.status);
+
+      throw new Error(
+        "API trả về HTTP " + response.status
+      );
+
     }
 
     const data = await response.json();
 
     if (!Array.isArray(data)) {
-      throw new Error("Dữ liệu API không phải một danh sách");
+
+      throw new Error(
+        "API không trả về danh sách dữ liệu"
+      );
+
     }
 
-    list = data;
+    list = data.filter(row =>
+      row &&
+      typeof row === "object" &&
+      !Array.isArray(row)
+    );
 
-    console.log("DỮ LIỆU KPI:", list);
-    console.log("CÁC CỘT:", list.length ? Object.keys(list[0]) : []);
+    inspectAPI(list);
 
     createFilters();
+
     applyFilters();
 
   } catch (error) {
-    console.error("Lỗi tải KPI:", error);
+
+    console.error(
+      "Lỗi tải dữ liệu KPI:",
+      error
+    );
 
     tbody.innerHTML = `
       <tr>
         <td colspan="8" class="empty error">
           Không tải được dữ liệu KPI.
-          Vui lòng kiểm tra URL API và tên các cột trong Google Sheet.
+          Vui lòng kiểm tra kết nối và API.
         </td>
       </tr>
     `;
+
   }
 }
 
-/* TÍNH KPI THEO DỮ LIỆU ĐANG HIỂN THỊ */
+/* =========================================
+   TÍNH KPI THEO DỮ LIỆU ĐANG HIỂN THỊ
+========================================= */
+
 function updateStats(filteredData) {
+
   let clb = 0;
   let doPhu = 0;
   let checkIn = 0;
 
   filteredData.forEach(row => {
+
     /* CLB đạt từ 100% */
+
     const clbPercent = parsePercent(
       getValue(row, "% CLB THANG")
     );
 
-    if (Number.isFinite(clbPercent) && clbPercent >= 100) {
+    if (
+      Number.isFinite(clbPercent) &&
+      clbPercent >= 100
+    ) {
       clb++;
     }
 
-    /* Độ phủ đạt từ 500.000 */
+    /* Độ phủ đạt từ 500 */
+
     const coverage = parseNumber(
       getValue(row, "DO PHU")
     );
 
-    if (Number.isFinite(coverage) && coverage >= 500) {
+    if (
+      Number.isFinite(coverage) &&
+      coverage >= 500
+    ) {
       doPhu++;
     }
 
     /* Check in bằng 1 */
-    if (isCheckedIn(getValue(row, "CHECK IN"))) {
+
+    if (
+      isCheckedIn(
+        getValue(row, "CHECK IN")
+      )
+    ) {
       checkIn++;
     }
+
   });
 
-  document.getElementById("statCLB").textContent = clb;
-  document.getElementById("statDoPhu").textContent = doPhu;
-  document.getElementById("statCheckIn").textContent = checkIn;
+  document.getElementById(
+    "statCLB"
+  ).textContent = clb;
+
+  document.getElementById(
+    "statDoPhu"
+  ).textContent = doPhu;
+
+  document.getElementById(
+    "statCheckIn"
+  ).textContent = checkIn;
 }
 
-/* TẠO NÚT LỌC NVBH */
+/* =========================================
+   TẠO NÚT LỌC NVBH
+========================================= */
+
 function createFilters() {
-  const filterBar = document.getElementById("filterBar");
+
+  const filterBar =
+    document.getElementById("filterBar");
+
   filterBar.innerHTML = "";
 
-  const allButton = document.createElement("button");
-  allButton.className = "filter-btn active";
-  allButton.textContent = "Tất cả";
+  const allButton =
+    document.createElement("button");
+
+  allButton.className =
+    "filter-btn active";
+
+  allButton.textContent =
+    "Tất cả";
 
   allButton.onclick = function() {
+
     filterNVBH("all", this);
+
   };
 
   filterBar.appendChild(allButton);
@@ -770,189 +1139,106 @@ function createFilters() {
   const names = new Set();
 
   list.forEach(row => {
-    const name = String(getValue(row, "NVBH")).trim();
-    if (name !== "") names.add(name);
+
+    const name = String(
+      getValue(row, "NVBH")
+    ).trim();
+
+    if (name !== "") {
+      names.add(name);
+    }
+
   });
 
   Array.from(names)
-    .sort((a, b) => a.localeCompare(b, "vi"))
+    .sort((a, b) =>
+      a.localeCompare(b, "vi")
+    )
     .forEach(name => {
-      const button = document.createElement("button");
+
+      const button =
+        document.createElement("button");
 
       button.className = "filter-btn";
+
       button.textContent = name;
 
       button.onclick = function() {
+
         filterNVBH(name, this);
+
       };
 
       filterBar.appendChild(button);
+
     });
 }
 
-/* LỌC NVBH */
+/* =========================================
+   LỌC NVBH
+========================================= */
+
 function filterNVBH(name, button) {
+
   currentFilter = name;
 
-  document.querySelectorAll(".filter-btn").forEach(btn => {
+  document.querySelectorAll(
+    ".filter-btn"
+  ).forEach(btn => {
+
     btn.classList.remove("active");
+
   });
 
-  if (button) button.classList.add("active");
+  if (button) {
+
+    button.classList.add("active");
+
+  }
 
   applyFilters();
 }
 
-/* TÌM KIẾM */
-document.getElementById("search")
-  .addEventListener("input", applyFilters);
+/* =========================================
+   TÌM KIẾM
+========================================= */
 
-/* ÁP DỤNG ĐỒNG THỜI BỘ LỌC VÀ TÌM KIẾM */
+document.getElementById("search")
+  .addEventListener(
+    "input",
+    applyFilters
+  );
+
+/* =========================================
+   ÁP DỤNG BỘ LỌC
+========================================= */
+
 function applyFilters() {
+
   const keyword = normalize(
     document.getElementById("search").value
   );
 
   const filtered = list.filter(row => {
-    /* Lọc theo NVBH */
-    if (currentFilter !== "all") {
-      const name = String(getValue(row, "NVBH")).trim();
 
-      if (name !== currentFilter) return false;
+    /* Lọc NVBH */
+
+    if (currentFilter !== "all") {
+
+      const name = String(
+        getValue(row, "NVBH")
+      ).trim();
+
+      if (name !== currentFilter) {
+        return false;
+      }
+
     }
 
     /* Tìm kiếm trên cả 8 cột */
+
     if (keyword !== "") {
+
       const searchable = [
-        getValue(row, "ID"),
-        getValue(row, "KHACH HANG"),
-        getValue(row, "NVBH"),
-        getValue(row, "MUC KY HDTL"),
-        getValue(row, "THUC HIEN"),
-        getValue(row, "% CLB THANG"),
-        getValue(row, "DO PHU"),
-        getValue(row, "CHECK IN")
-      ].map(value => normalize(value)).join(" ");
 
-      if (!searchable.includes(keyword)) return false;
-    }
-
-    return true;
-  });
-
-  /* QUAN TRỌNG: cập nhật KPI theo đúng kết quả lọc */
-  updateStats(filtered);
-
-  /* Hiển thị bảng theo kết quả lọc */
-  render(filtered);
-}
-
-
-/* HIỂN THỊ BẢNG */
-function render(data) {
-  const tbody = document.getElementById("tableBody");
-
-  if (!data.length) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="8" class="empty">
-          Không có dữ liệu phù hợp.
-        </td>
-      </tr>
-    `;
-    return;
-  }
-
-  tbody.innerHTML = data.map(row => {
-    const id = getValue(row, "ID");
-    const customer = getValue(row, "KHACH HANG");
-    const nvbh = getValue(row, "NVBH");
-    const contract = getValue(row, "MUC KY HDTL");
-    const actual = getValue(row, "THUC HIEN");
-    const clb = getValue(row, "% CLB THANG");
-    const coverage = getValue(row, "DO PHU");
-    const checkIn = getValue(row, "CHECK IN");
-
-    const clbPercent = parsePercent(clb);
-    const isCLBQualified =
-      Number.isFinite(clbPercent) && clbPercent >= 100;
-
-    const isCLBLow =
-      Number.isFinite(clbPercent) && clbPercent < 100;
-
-    const coverageNumber = parseNumber(coverage);
-    const isCoverageLow =
-      Number.isFinite(coverageNumber) &&
-      coverageNumber > 0 &&
-      coverageNumber < 500;
-
-    const hasCheckIn =
-      String(checkIn ?? "").trim() !== "";
-
-    const checkInDone = isCheckedIn(checkIn);
-
-    return `
-      <tr>
-        <td class="id-cell">
-          ${escapeHTML(id)}
-        </td>
-
-        <td class="customer-cell">
-          ${escapeHTML(customer)}
-        </td>
-
-        <td class="nvbh-cell">
-          ${escapeHTML(nvbh)}
-        </td>
-
-        <td class="number-cell contract-cell">
-          ${formatNumericCell(contract)}
-        </td>
-
-        <td class="number-cell actual-cell">
-          ${formatNumericCell(actual)}
-        </td>
-
-        <td class="clb-cell">
-          <span class="kpi-value ${
-            isCLBQualified ? "qualified" : ""
-          }" style="${
-            isCLBLow
-              ? "color:#d32f2f;"
-              : (!isCLBQualified ? "background:transparent;color:inherit;" : "")
-          }">
-            ${formatPercent(clb)}
-          </span>
-        </td>
-
-        <td class="dophu-cell">
-          <span class="coverage-value ${
-            isCoverageLow ? "low" : ""
-          }" style="${
-            !isCoverageLow
-              ? "background:transparent;color:inherit;"
-              : ""
-          }">
-            ${formatNumericCell(coverage)}
-          </span>
-        </td>
-
-        <td class="checkin-cell">
-          ${
-            hasCheckIn
-              ? `<span class="checkin-badge ${
-                  checkInDone ? "" : "not-done"
-                }">${escapeHTML(checkIn)}</span>`
-              : ""
-          }
-        </td>
-      </tr>
-    `;
-  }).join("");
-}
-/* KHỞI CHẠY */
-loadData();
-</script>
-
-</body>
-</html>
+       
