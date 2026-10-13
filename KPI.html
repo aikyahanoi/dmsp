@@ -518,6 +518,77 @@ td.contract-number-cell {
     font-size: 9px;
   }
 }
+
+
+/* THỐNG NHẤT CỠ CHỮ TRONG 8 CỘT DỮ LIỆU */
+tbody td,
+tbody td.id-cell,
+tbody td.customer-cell,
+tbody td.nvbh-cell,
+tbody td.number-cell,
+tbody td.clb-cell,
+tbody td.dophu-cell,
+tbody td.checkin-cell,
+tbody td .kpi-value,
+tbody td .coverage-value,
+tbody td .checkin-badge {
+  font-size: 14px !important;
+}
+
+/* Giữ chữ các cột cùng độ đậm */
+tbody td,
+tbody td .kpi-value,
+tbody td .coverage-value,
+tbody td .checkin-badge {
+  font-weight: 400;
+}
+
+/* Riêng tên khách hàng vẫn dễ nhận biết nhưng cùng cỡ chữ */
+tbody td.customer-cell {
+  font-size: 14px !important;
+  font-weight: 600;
+}
+
+/* Điện thoại: đồng đều và dễ đọc hơn */
+@media (max-width: 768px) {
+  tbody td,
+  tbody td.id-cell,
+  tbody td.customer-cell,
+  tbody td.nvbh-cell,
+  tbody td.number-cell,
+  tbody td.clb-cell,
+  tbody td.dophu-cell,
+  tbody td.checkin-cell,
+  tbody td .kpi-value,
+  tbody td .coverage-value,
+  tbody td .checkin-badge {
+    font-size: 12px !important;
+  }
+
+  .kpi-value,
+  .checkin-badge {
+    padding: 3px 2px;
+  }
+}
+
+/* Điện thoại rất nhỏ vẫn giữ cỡ chữ đồng đều */
+@media (max-width: 380px) {
+  tbody td,
+  tbody td.id-cell,
+  tbody td.customer-cell,
+  tbody td.nvbh-cell,
+  tbody td.number-cell,
+  tbody td.clb-cell,
+  tbody td.dophu-cell,
+  tbody td.checkin-cell,
+  tbody td .kpi-value,
+  tbody td .coverage-value,
+  tbody td .checkin-badge {
+    font-size: 12px !important;
+  }
+}
+
+  
 </style>
 </head>
 
