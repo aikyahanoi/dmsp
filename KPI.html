@@ -255,18 +255,16 @@ td.contract-number-cell {
   font-weight: 400 !important;
 }
 
-/* CHECK IN BẰNG 1: TÔ XANH CẢ Ô */
-td.checkin-one {
-  background-color: #d9ead3 !important;
+
+/* CHECK IN bằng 1: chỉ tô vùng nhỏ quanh giá trị */
+.checkin-badge.checkin-done {
+  background: #d9ead3 !important;
   color: #274e13 !important;
   font-weight: 600;
+  border-radius: 7px;
+  padding: 4px 9px;
 }
 
-td.checkin-one .checkin-badge {
-  background-color: transparent !important;
-  color: #274e13 !important;
-  font-weight: 600;
-}
 
 /* KPI BADGES */
 .kpi-value {
@@ -980,17 +978,17 @@ function render(data) {
           </span>
         </td>
 
-        <td class="checkin-cell ${
-          checkInDone ? "checkin-one" : ""
-        }">
-          ${
-            String(checkIn ?? "").trim() !== ""
-              ? `<span class="checkin-badge ${
-                  checkInDone ? "" : "not-done"
-                }">${escapeHTML(checkIn)}</span>`
-              : ""
-          }
-        </td>
+       
+<td class="checkin-cell">
+  ${
+    String(checkIn ?? "").trim() !== ""
+      ? `<span class="checkin-badge ${
+          checkInDone ? "checkin-done" : "not-done"
+        }">${escapeHTML(checkIn)}</span>`
+      : ""
+  }
+</td>
+
       </tr>
     `;
   }).join("");
