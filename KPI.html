@@ -242,6 +242,32 @@ td.checkin-cell {
   text-align: center;
 }
 
+/* MỨC KÝ HĐTL: Ô CÓ GIÁ TRỊ SỐ */
+td.contract-number-cell {
+  background-color: #e9d5ff !important;
+  color: #5b21b6 !important;
+}
+
+/* % CLB THÁNG: KHÔNG IN ĐẬM */
+.clb-month-cell,
+.clb-month-cell .kpi-value,
+.clb-month-cell .kpi-value.qualified {
+  font-weight: 400 !important;
+}
+
+/* CHECK IN BẰNG 1: TÔ XANH CẢ Ô */
+td.checkin-one {
+  background-color: #d9ead3 !important;
+  color: #274e13 !important;
+  font-weight: 600;
+}
+
+td.checkin-one .checkin-badge {
+  background-color: transparent !important;
+  color: #274e13 !important;
+  font-weight: 600;
+}
+
 /* KPI BADGES */
 .kpi-value {
   display: inline-block;
@@ -256,7 +282,7 @@ td.checkin-cell {
 .kpi-value.qualified {
   background: #e8f5e9;
   color: #2e7d32;
-  font-weight: 800;
+  font-weight: 400 !important;
 }
 
 .coverage-value {
@@ -286,8 +312,18 @@ td.checkin-cell {
   color: #000;
 }
 
+.loading,
+.empty {
+  padding: 28px 12px !important;
+  text-align: center;
+  color: #607d8b;
+}
 
-/* MOBILE: HIỂN THỊ ĐỦ 8 CỘT, KHÔNG CUỘN NGANG */
+.error {
+  color: #c62828;
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
   body {
     padding: 5px;
@@ -367,7 +403,7 @@ td.checkin-cell {
     font-size: 10px;
   }
 
-  /* Phân bổ độ rộng cho đủ 8 cột */
+  /* PHÂN BỔ ĐỘ RỘNG 8 CỘT */
   thead th:nth-child(1),
   tbody td:nth-child(1) { width: 6%; }
 
@@ -420,12 +456,6 @@ td.checkin-cell {
     font-weight: 600;
   }
 
-  td.number-cell,
-  td.nvbh-cell,
-  td.dophu-cell {
-  
-  }
-
   .kpi-value {
     display: inline-block;
     min-width: 0;
@@ -434,6 +464,7 @@ td.checkin-cell {
     border-radius: 4px;
     font-size: 8px;
     white-space: normal;
+    font-weight: 400 !important;
   }
 
   .coverage-value {
@@ -489,8 +520,6 @@ td.checkin-cell {
     font-size: 9px;
   }
 }
-
-  
 </style>
 </head>
 
@@ -531,8 +560,7 @@ td.checkin-cell {
   </div>
 
   <div class="filter-bar" id="filterBar">
-    <button class="filter-btn active"
-      onclick="filterNVBH('all', this)">
+    <button class="filter-btn active" onclick="filterNVBH('all', this)">
       Tất cả
     </button>
   </div>
@@ -590,7 +618,25 @@ function findKey(obj, keyword) {
   ) || null;
 }
 
+/* ĐỌC GIÁ TRỊ, HỖ TRỢ TÊN CỘT THU HIEN / THUC HIEN */
 function getValue(row, keyword) {
+  if (!row) return "";
+
+  const normalizedKeyword = normalize(keyword);
+
+  if (
+    normalizedKeyword === "thuchien" ||
+    normalizedKeyword === "thuhien"
+  ) {
+    const actualKey = Object.keys(row).find(key => {
+      const normalizedKey = normalize(key);
+      return normalizedKey === "thuhien" ||
+             normalizedKey === "thuchien";
+    });
+
+    return actualKey ? (row[actualKey] ?? "") : "";
+  }
+
   const key = findKey(row, keyword);
   return key ? (row[key] ?? "") : "";
 }
@@ -616,6 +662,8 @@ function parseNumber(value) {
 
   let text = String(value).trim();
   text = text.replace(/\s/g, "").replace(/₫/g, "");
+
+  if (text === "") return NaN;
 
   if (/^-?\d{1,3}([.,]\d{3})+$/.test(text)) {
     text = text.replace(/[.,]/g, "");
@@ -674,7 +722,7 @@ function formatNumericCell(value) {
 }
 
 function isCheckedIn(value) {
-  return String(value ?? "").trim() === "1";
+  return parseNumber(value) === 1;
 }
 
 /* TẢI DỮ LIỆU */
@@ -723,7 +771,6 @@ function updateStats(filteredData) {
   let checkIn = 0;
 
   filteredData.forEach(row => {
-    /* CLB đạt từ 100% */
     const clbPercent = parsePercent(
       getValue(row, "% CLB THANG")
     );
@@ -732,16 +779,15 @@ function updateStats(filteredData) {
       clb++;
     }
 
-    /* Độ phủ đạt từ 500.000 */
     const coverage = parseNumber(
       getValue(row, "DO PHU")
     );
 
+    /* Giữ nguyên ngưỡng thống kê của code gốc */
     if (Number.isFinite(coverage) && coverage >= 500) {
       doPhu++;
     }
 
-    /* Check in bằng 1 */
     if (isCheckedIn(getValue(row, "CHECK IN"))) {
       checkIn++;
     }
@@ -814,21 +860,18 @@ function applyFilters() {
   );
 
   const filtered = list.filter(row => {
-    /* Lọc theo NVBH */
     if (currentFilter !== "all") {
       const name = String(getValue(row, "NVBH")).trim();
-
       if (name !== currentFilter) return false;
     }
 
-    /* Tìm kiếm trên cả 8 cột */
     if (keyword !== "") {
       const searchable = [
         getValue(row, "ID"),
         getValue(row, "KHACH HANG"),
         getValue(row, "NVBH"),
         getValue(row, "MUC KY HDTL"),
-        getValue(row, "THUC HIEN"),
+        getValue(row, "THU HIEN"),
         getValue(row, "% CLB THANG"),
         getValue(row, "DO PHU"),
         getValue(row, "CHECK IN")
@@ -840,13 +883,9 @@ function applyFilters() {
     return true;
   });
 
-  /* QUAN TRỌNG: cập nhật KPI theo đúng kết quả lọc */
   updateStats(filtered);
-
-  /* Hiển thị bảng theo kết quả lọc */
   render(filtered);
 }
-
 
 /* HIỂN THỊ BẢNG */
 function render(data) {
@@ -868,7 +907,7 @@ function render(data) {
     const customer = getValue(row, "KHACH HANG");
     const nvbh = getValue(row, "NVBH");
     const contract = getValue(row, "MUC KY HDTL");
-    const actual = getValue(row, "THUC HIEN");
+    const actual = getValue(row, "THU HIEN");
     const clb = getValue(row, "% CLB THANG");
     const coverage = getValue(row, "DO PHU");
     const checkIn = getValue(row, "CHECK IN");
@@ -886,8 +925,10 @@ function render(data) {
       coverageNumber > 0 &&
       coverageNumber < 500;
 
-    const hasCheckIn =
-      String(checkIn ?? "").trim() !== "";
+    const contractNumber = parseNumber(contract);
+    const hasNumericContract =
+      String(contract ?? "").trim() !== "" &&
+      Number.isFinite(contractNumber);
 
     const checkInDone = isCheckedIn(checkIn);
 
@@ -905,7 +946,9 @@ function render(data) {
           ${escapeHTML(nvbh)}
         </td>
 
-        <td class="number-cell contract-cell">
+        <td class="number-cell contract-cell ${
+          hasNumericContract ? "contract-number-cell" : ""
+        }">
           ${formatNumericCell(contract)}
         </td>
 
@@ -913,7 +956,7 @@ function render(data) {
           ${formatNumericCell(actual)}
         </td>
 
-        <td class="clb-cell">
+        <td class="clb-cell clb-month-cell">
           <span class="kpi-value ${
             isCLBQualified ? "qualified" : ""
           }" style="${
@@ -937,9 +980,11 @@ function render(data) {
           </span>
         </td>
 
-        <td class="checkin-cell">
+        <td class="checkin-cell ${
+          checkInDone ? "checkin-one" : ""
+        }">
           ${
-            hasCheckIn
+            String(checkIn ?? "").trim() !== ""
               ? `<span class="checkin-badge ${
                   checkInDone ? "" : "not-done"
                 }">${escapeHTML(checkIn)}</span>`
@@ -950,6 +995,7 @@ function render(data) {
     `;
   }).join("");
 }
+
 /* KHỞI CHẠY */
 loadData();
 </script>
