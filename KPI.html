@@ -242,11 +242,24 @@ td.checkin-cell {
   text-align: center;
 }
 
-/* MỨC KÝ HĐTL: Ô CÓ GIÁ TRỊ SỐ */
+
+/* MỨC KÝ HĐTL: NHÃN CAM ĐÀO*/
 td.contract-number-cell {
-  background-color: #e9d5ff !important;
-  color: #5b21b6 !important;
+  background-color: transparent !important;
+  color: #245A85 !important;
 }
+
+
+.contract-value-badge {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: #FCE1C5;
+  color: #9A3412;
+  font-weight: 500;
+}
+
+
 
 /* % CLB THÁNG: KHÔNG IN ĐẬM */
 .clb-month-cell,
@@ -266,22 +279,24 @@ td.contract-number-cell {
 }
 
 
-/* KPI BADGES */
+
+/* % CLB THÁNG: NHÃN NHỎ GIỐNG CHECK IN */
 .kpi-value {
   display: inline-block;
-  min-width: 48px;
-  padding: 4px 8px;
+  min-width: 0;
+  padding: 4px 9px;
   border-radius: 7px;
   background: transparent;
   color: #d32f2f;
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 
 .kpi-value.qualified {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: #D9EAD3 !important;
+  color: #274E13 !important;
   font-weight: 400 !important;
 }
+
 
 .coverage-value {
   color: #000;
@@ -406,7 +421,7 @@ td.contract-number-cell {
   tbody td:nth-child(1) { width: 6%; }
 
   thead th:nth-child(2),
-  tbody td:nth-child(2) { width: 18%; }
+  tbody td:nth-child(2) { width: 19%; }
 
   thead th:nth-child(3),
   tbody td:nth-child(3) { width: 13%; }
@@ -424,7 +439,7 @@ td.contract-number-cell {
   tbody td:nth-child(7) { width: 14%; }
 
   thead th:nth-child(8),
-  tbody td:nth-child(8) { width: 10%; }
+  tbody td:nth-child(8) { width: 9%; }
 
   thead th {
     position: static;
