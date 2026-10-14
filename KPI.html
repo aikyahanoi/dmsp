@@ -922,18 +922,21 @@ function filterNVBH(name, button) {
 document.getElementById("search")
   .addEventListener("input", applyFilters);
 
-/* ÁP DỤNG ĐỒNG THỜI BỘ LỌC VÀ TÌM KIẾM */
+
+/* ÁP DỤNG ĐỒNG THỜI BỘ LỌC, TÌM KIẾM VÀ SẮP XẾP ĐỘ PHỦ GIẢM DẦN */
 function applyFilters() {
   const keyword = normalize(
     document.getElementById("search").value
   );
 
   const filtered = list.filter(row => {
+    // Lọc theo NVBH
     if (currentFilter !== "all") {
       const name = String(getValue(row, "NVBH")).trim();
       if (name !== currentFilter) return false;
     }
 
+    // Tìm kiếm
     if (keyword !== "") {
       const searchable = [
         getValue(row, "ID"),
@@ -952,10 +955,28 @@ function applyFilters() {
     return true;
   });
 
+  // Sắp xếp ĐỘ PHỦ từ cao xuống thấp
+  filtered.sort((a, b) => {
+    const doPhuA = parseNumber(getValue(a, "DO PHU"));
+    const doPhuB = parseNumber(getValue(b, "DO PHU"));
+
+    // Giá trị hợp lệ luôn đứng trước ô trống hoặc không phải số
+    const validA = Number.isFinite(doPhuA);
+    const validB = Number.isFinite(doPhuB);
+
+    if (validA && !validB) return -1;
+    if (!validA && validB) return 1;
+
+    // Nếu cả hai đều không phải số, giữ nguyên thứ tự tương đối
+    if (!validA && !validB) return 0;
+
+    // Giảm dần: giá trị ĐỘ PHỦ lớn nhất đứng đầu
+    return doPhuB - doPhuA;
+  });
+
   updateStats(filtered);
   render(filtered);
 }
-
 /* HIỂN THỊ BẢNG */
 function render(data) {
   const tbody = document.getElementById("tableBody");
