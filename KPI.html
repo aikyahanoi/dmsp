@@ -242,14 +242,11 @@ td.checkin-cell {
   text-align: center;
 }
 
-
-/* MỨC KÝ HĐTL: NHÃN CAM ĐÀO*/
+/* MỨC KÝ HĐTL: NHÃN CAM ĐÀO */
 td.contract-number-cell {
-    background-color: #FCE1C5 !important;
-    color: #9A3412 !important;
+  background-color: #FCE1C5 !important;
+  color: #9A3412 !important;
 }
-
-
 
 /* % CLB THÁNG: KHÔNG IN ĐẬM */
 .clb-month-cell,
@@ -258,8 +255,7 @@ td.contract-number-cell {
   font-weight: 400 !important;
 }
 
-
-/* CHECK IN bằng 1: chỉ tô vùng nhỏ quanh giá trị */
+/* CHECK IN BẰNG 1 */
 .checkin-badge.checkin-done {
   background: #d9ead3 !important;
   color: #274e13 !important;
@@ -268,9 +264,7 @@ td.contract-number-cell {
   padding: 4px 9px;
 }
 
-
-
-/* % CLB THÁNG: NHÃN NHỎ GIỐNG CHECK IN */
+/* % CLB THÁNG */
 .kpi-value {
   display: inline-block;
   min-width: 0;
@@ -286,7 +280,6 @@ td.contract-number-cell {
   color: #274E13 !important;
   font-weight: 400 !important;
 }
-
 
 .coverage-value {
   color: #000;
@@ -524,8 +517,7 @@ td.contract-number-cell {
   }
 }
 
-
-/* THỐNG NHẤT CỠ CHỮ TRONG 8 CỘT DỮ LIỆU */
+/* THỐNG NHẤT CỠ CHỮ TRONG CÁC CỘT DỮ LIỆU */
 tbody td,
 tbody td.id-cell,
 tbody td.customer-cell,
@@ -540,7 +532,7 @@ tbody td .checkin-badge {
   font-size: 14px !important;
 }
 
-/* Giữ chữ các cột cùng độ đậm */
+/* GIỮ CHỮ CÁC CỘT CÙNG ĐỘ ĐẬM */
 tbody td,
 tbody td .kpi-value,
 tbody td .coverage-value,
@@ -548,13 +540,13 @@ tbody td .checkin-badge {
   font-weight: 400;
 }
 
-/* Riêng tên khách hàng vẫn dễ nhận biết nhưng cùng cỡ chữ */
+/* RIÊNG TÊN KHÁCH HÀNG */
 tbody td.customer-cell {
   font-size: 14px !important;
   font-weight: 600;
 }
 
-/* Điện thoại: đồng đều và dễ đọc hơn */
+/* ĐIỆN THOẠI */
 @media (max-width: 768px) {
   tbody td,
   tbody td.id-cell,
@@ -576,7 +568,7 @@ tbody td.customer-cell {
   }
 }
 
-/* Điện thoại rất nhỏ vẫn giữ cỡ chữ đồng đều */
+/* ĐIỆN THOẠI RẤT NHỎ */
 @media (max-width: 380px) {
   tbody td,
   tbody td.id-cell,
@@ -593,12 +585,11 @@ tbody td.customer-cell {
   }
 }
 
-/* Ẩn cột ID */
+/* ẨN CỘT ID */
 thead th:first-child,
 tbody td:first-child {
-    display: none !important;
-}  
-  
+  display: none !important;
+}
 </style>
 </head>
 
@@ -639,7 +630,7 @@ tbody td:first-child {
   </div>
 
   <div class="filter-bar" id="filterBar">
-    <button class="filter-btn active" onclick="filterNVBH('all', this)">
+    <button class="filter-btn active" onclick="filterTEN('all', this)">
       Tất cả
     </button>
   </div>
@@ -720,6 +711,7 @@ function getValue(row, keyword) {
   return key ? (row[key] ?? "") : "";
 }
 
+/* CHUYỂN KÝ TỰ ĐẶC BIỆT THÀNH HTML AN TOÀN */
 function escapeHTML(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -826,6 +818,14 @@ async function loadData() {
     console.log("DỮ LIỆU KPI:", list);
     console.log("CÁC CỘT:", list.length ? Object.keys(list[0]) : []);
 
+    /* KIỂM TRA CỘT TEN */
+    if (list.length && findKey(list[0], "TEN") === null) {
+      throw new Error(
+        'Không tìm thấy cột "TEN" trong dữ liệu API. ' +
+        'Hãy kiểm tra tên cột trong Google Sheets và dữ liệu API.'
+      );
+    }
+
     createFilters();
     applyFilters();
 
@@ -836,7 +836,7 @@ async function loadData() {
       <tr>
         <td colspan="8" class="empty error">
           Không tải được dữ liệu KPI.
-          Vui lòng kiểm tra URL API và tên các cột trong Google Sheet.
+          Vui lòng kiểm tra URL API, kết nối và tên cột TEN trong Google Sheet.
         </td>
       </tr>
     `;
@@ -862,7 +862,7 @@ function updateStats(filteredData) {
       getValue(row, "DO PHU")
     );
 
-    /* Giữ nguyên ngưỡng thống kê của code gốc */
+    /* GIỮ NGUYÊN NGƯỠNG THỐNG KÊ */
     if (Number.isFinite(coverage) && coverage >= 500) {
       doPhu++;
     }
@@ -877,7 +877,7 @@ function updateStats(filteredData) {
   document.getElementById("statCheckIn").textContent = checkIn;
 }
 
-/* TẠO NÚT LỌC NVBH */
+/* TẠO NÚT LỌC THEO CỘT TEN */
 function createFilters() {
   const filterBar = document.getElementById("filterBar");
   filterBar.innerHTML = "";
@@ -887,7 +887,7 @@ function createFilters() {
   allButton.textContent = "Tất cả";
 
   allButton.onclick = function() {
-    filterNVBH("all", this);
+    filterTEN("all", this);
   };
 
   filterBar.appendChild(allButton);
@@ -895,8 +895,11 @@ function createFilters() {
   const names = new Set();
 
   list.forEach(row => {
-    const name = String(getValue(row, "NVBH")).trim();
-    if (name !== "") names.add(name);
+    const name = String(getValue(row, "TEN")).trim();
+
+    if (name !== "") {
+      names.add(name);
+    }
   });
 
   Array.from(names)
@@ -908,22 +911,24 @@ function createFilters() {
       button.textContent = name;
 
       button.onclick = function() {
-        filterNVBH(name, this);
+        filterTEN(name, this);
       };
 
       filterBar.appendChild(button);
     });
 }
 
-/* LỌC NVBH */
-function filterNVBH(name, button) {
+/* LỌC THEO CỘT TEN */
+function filterTEN(name, button) {
   currentFilter = name;
 
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.classList.remove("active");
   });
 
-  if (button) button.classList.add("active");
+  if (button) {
+    button.classList.add("active");
+  }
 
   applyFilters();
 }
@@ -932,25 +937,29 @@ function filterNVBH(name, button) {
 document.getElementById("search")
   .addEventListener("input", applyFilters);
 
-
-/* ÁP DỤNG ĐỒNG THỜI BỘ LỌC, TÌM KIẾM VÀ SẮP XẾP ĐỘ PHỦ GIẢM DẦN */
+/* LỌC, TÌM KIẾM VÀ SẮP XẾP ĐỘ PHỦ GIẢM DẦN */
 function applyFilters() {
   const keyword = normalize(
     document.getElementById("search").value
   );
 
   const filtered = list.filter(row => {
-    // Lọc theo NVBH
+
+    /* LỌC THEO GIÁ TRỊ CỘT TEN */
     if (currentFilter !== "all") {
-      const name = String(getValue(row, "NVBH")).trim();
-      if (name !== currentFilter) return false;
+      const name = String(getValue(row, "TEN")).trim();
+
+      if (name !== currentFilter) {
+        return false;
+      }
     }
 
-    // Tìm kiếm
+    /* TÌM KIẾM TRÊN CÁC TRƯỜNG DỮ LIỆU */
     if (keyword !== "") {
       const searchable = [
         getValue(row, "ID"),
         getValue(row, "KHACH HANG"),
+        getValue(row, "TEN"),
         getValue(row, "NVBH"),
         getValue(row, "MUC KY HDTL"),
         getValue(row, "THU HIEN"),
@@ -959,34 +968,34 @@ function applyFilters() {
         getValue(row, "CHECK IN")
       ].map(value => normalize(value)).join(" ");
 
-      if (!searchable.includes(keyword)) return false;
+      if (!searchable.includes(keyword)) {
+        return false;
+      }
     }
 
     return true;
   });
 
-  // Sắp xếp ĐỘ PHỦ từ cao xuống thấp
+  /* SẮP XẾP ĐỘ PHỦ TỪ CAO XUỐNG THẤP */
   filtered.sort((a, b) => {
     const doPhuA = parseNumber(getValue(a, "DO PHU"));
     const doPhuB = parseNumber(getValue(b, "DO PHU"));
 
-    // Giá trị hợp lệ luôn đứng trước ô trống hoặc không phải số
     const validA = Number.isFinite(doPhuA);
     const validB = Number.isFinite(doPhuB);
 
     if (validA && !validB) return -1;
     if (!validA && validB) return 1;
 
-    // Nếu cả hai đều không phải số, giữ nguyên thứ tự tương đối
     if (!validA && !validB) return 0;
 
-    // Giảm dần: giá trị ĐỘ PHỦ lớn nhất đứng đầu
     return doPhuB - doPhuA;
   });
 
   updateStats(filtered);
   render(filtered);
 }
+
 /* HIỂN THỊ BẢNG */
 function render(data) {
   const tbody = document.getElementById("tableBody");
@@ -1005,7 +1014,13 @@ function render(data) {
   tbody.innerHTML = data.map(row => {
     const id = getValue(row, "ID");
     const customer = getValue(row, "KHACH HANG");
-    const nvbh = getValue(row, "NVBH");
+
+    /*
+      GIỮ NGUYÊN TIÊU ĐỀ NVBH TRÊN GIAO DIỆN,
+      NHƯNG LẤY NỘI DUNG HIỂN THỊ TỪ CỘT TEN.
+    */
+    const nvbh = getValue(row, "TEN");
+
     const contract = getValue(row, "MUC KY HDTL");
     const actual = getValue(row, "THU HIEN");
     const clb = getValue(row, "% CLB THANG");
@@ -1062,7 +1077,9 @@ function render(data) {
           }" style="${
             isCLBLow
               ? "color:#d32f2f;"
-              : (!isCLBQualified ? "background:transparent;color:inherit;" : "")
+              : (!isCLBQualified
+                  ? "background:transparent;color:inherit;"
+                  : "")
           }">
             ${formatPercent(clb)}
           </span>
@@ -1080,17 +1097,15 @@ function render(data) {
           </span>
         </td>
 
-       
-<td class="checkin-cell">
-  ${
-    String(checkIn ?? "").trim() !== ""
-      ? `<span class="checkin-badge ${
-          checkInDone ? "checkin-done" : "not-done"
-        }">${escapeHTML(checkIn)}</span>`
-      : ""
-  }
-</td>
-
+        <td class="checkin-cell">
+          ${
+            String(checkIn ?? "").trim() !== ""
+              ? `<span class="checkin-badge ${
+                  checkInDone ? "checkin-done" : "not-done"
+                }">${escapeHTML(checkIn)}</span>`
+              : ""
+          }
+        </td>
       </tr>
     `;
   }).join("");
