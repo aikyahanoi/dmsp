@@ -599,6 +599,12 @@ tbody td:first-child {
   <div class="header">
     <div class="title">KPI THÁNG 10 - CHI NHÁNH HÀ NỘI</div>
 
+    <div class="stat-item">
+  <span class="stat-dot dot-phu"></span>
+  <span>Doanh số:</span>
+  <b id="statDoanhSo">0</b>
+</div>
+    
     <div class="stats-inline">
       <div class="stat-item">
         <span class="stat-dot dot-clb"></span>
@@ -848,6 +854,7 @@ function updateStats(filteredData) {
   let clb = 0;
   let doPhu = 0;
   let checkIn = 0;
+  let doanhSo = 0;
 
   filteredData.forEach(row => {
     const clbPercent = parsePercent(
@@ -862,9 +869,14 @@ function updateStats(filteredData) {
       getValue(row, "DO PHU")
     );
 
-    /* GIỮ NGUYÊN NGƯỠNG THỐNG KÊ */
-    if (Number.isFinite(coverage) && coverage >= 500) {
-      doPhu++;
+    if (Number.isFinite(coverage)) {
+      // Đếm số dòng có độ phủ từ 500 trở lên
+      if (coverage >= 500) {
+        doPhu++;
+      }
+
+      // Doanh số = tổng cột ĐỘ PHỦ
+      doanhSo += coverage;
     }
 
     if (isCheckedIn(getValue(row, "CHECK IN"))) {
@@ -875,8 +887,13 @@ function updateStats(filteredData) {
   document.getElementById("statCLB").textContent = clb;
   document.getElementById("statDoPhu").textContent = doPhu;
   document.getElementById("statCheckIn").textContent = checkIn;
-}
 
+  document.getElementById("statDoanhSo").textContent =
+    doanhSo.toLocaleString("vi-VN", {
+      maximumFractionDigits: 2
+    });
+}
+  
 /* TẠO NÚT LỌC THEO CỘT TEN */
 function createFilters() {
   const filterBar = document.getElementById("filterBar");
