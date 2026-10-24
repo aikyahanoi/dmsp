@@ -43,24 +43,29 @@ body {
   line-height: 1.35;
   font-weight: 800;
   color: #d32f2f;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-/* KPI SUMMARY */
+/* KPI SUMMARY - CĂN GIỮA CẢ NHÓM */
 .stats-inline {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 22px;
+  gap: 12px 24px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .stat-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 6px;
   font-size: 13px;
   color: #546e7a;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .stat-item b {
@@ -77,9 +82,21 @@ body {
   flex-shrink: 0;
 }
 
-.dot-clb { background: #7b1fa2; }
-.dot-phu { background: #1976d2; }
-.dot-checkin { background: #2e7d32; }
+.dot-clb {
+  background: #7b1fa2;
+}
+
+.dot-phu {
+  background: #1976d2;
+}
+
+.dot-checkin {
+  background: #2e7d32;
+}
+
+.dot-doanhso {
+  background: #1976d2;
+}
 
 /* SEARCH */
 .search-box {
@@ -242,29 +259,19 @@ td.checkin-cell {
   text-align: center;
 }
 
-/* MỨC KÝ HĐTL: NHÃN CAM ĐÀO */
+/* MỨC KÝ HĐTL */
 td.contract-number-cell {
   background-color: #FCE1C5 !important;
   color: #9A3412 !important;
 }
 
-/* % CLB THÁNG: KHÔNG IN ĐẬM */
+/* % CLB THÁNG */
 .clb-month-cell,
 .clb-month-cell .kpi-value,
 .clb-month-cell .kpi-value.qualified {
   font-weight: 400 !important;
 }
 
-/* CHECK IN BẰNG 1 */
-.checkin-badge.checkin-done {
-  background: #d9ead3 !important;
-  color: #274e13 !important;
-  font-weight: 600;
-  border-radius: 7px;
-  padding: 4px 9px;
-}
-
-/* % CLB THÁNG */
 .kpi-value {
   display: inline-block;
   min-width: 0;
@@ -281,6 +288,7 @@ td.contract-number-cell {
   font-weight: 400 !important;
 }
 
+/* ĐỘ PHỦ */
 .coverage-value {
   color: #000;
   font-weight: 400;
@@ -291,6 +299,7 @@ td.contract-number-cell {
   font-weight: 400;
 }
 
+/* CHECK IN */
 .checkin-badge {
   display: inline-flex;
   align-items: center;
@@ -301,6 +310,12 @@ td.contract-number-cell {
   background: transparent;
   color: #000;
   font-weight: 400;
+}
+
+.checkin-badge.checkin-done {
+  background: #d9ead3 !important;
+  color: #274e13 !important;
+  font-weight: 600;
 }
 
 .checkin-badge.not-done {
@@ -331,7 +346,7 @@ td.contract-number-cell {
   }
 
   .header {
-    padding: 12px 5px;
+    padding: 12px 8px;
     border-radius: 10px;
     margin-bottom: 8px;
   }
@@ -339,16 +354,21 @@ td.contract-number-cell {
   .title {
     font-size: 17px;
     line-height: 1.3;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
+  /* 2 CỘT, CĂN GIỮA TRÊN ĐIỆN THOẠI */
   .stats-inline {
-    gap: 8px 12px;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    align-items: center;
+    gap: 10px 18px;
+    width: 100%;
   }
 
   .stat-item {
     gap: 4px;
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .stat-item b {
@@ -437,7 +457,7 @@ td.contract-number-cell {
   tbody td {
     min-width: 0 !important;
     padding: 3px 2px;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.3;
     white-space: normal !important;
     overflow-wrap: anywhere;
@@ -445,7 +465,7 @@ td.contract-number-cell {
   }
 
   td.id-cell {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   td.customer-cell {
@@ -458,13 +478,13 @@ td.contract-number-cell {
     max-width: 100%;
     padding: 3px 2px;
     border-radius: 4px;
-    font-size: 8px;
+    font-size: 12px;
     white-space: normal;
     font-weight: 400 !important;
   }
 
   .coverage-value {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .checkin-badge {
@@ -472,7 +492,7 @@ td.contract-number-cell {
     max-width: 100%;
     padding: 3px 4px;
     border-radius: 4px;
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .loading,
@@ -492,8 +512,13 @@ td.contract-number-cell {
     font-size: 15px;
   }
 
+  .stats-inline {
+    gap: 9px 10px;
+  }
+
   .stat-item {
-    font-size: 9px;
+    font-size: 10px;
+    gap: 3px;
   }
 
   .stat-item b {
@@ -506,14 +531,14 @@ td.contract-number-cell {
   }
 
   tbody td {
-    font-size: 9px;
+    font-size: 12px;
     padding: 5px 1px;
   }
 
   .kpi-value,
   .coverage-value,
   .checkin-badge {
-    font-size: 9px;
+    font-size: 12px;
   }
 }
 
@@ -597,39 +622,42 @@ tbody td:first-child {
 <div class="container">
 
   <div class="header">
-<div class="title">KPI THÁNG 10 - CHI NHÁNH HÀ NỘI</div>
 
-<div class="stats-inline">
+    <div class="title">
+      KPI THÁNG 10 - CHI NHÁNH HÀ NỘI
+    </div>
 
-  <!-- DOANH SỐ -->
-  <div class="stat-item">
-    <span class="stat-dot dot-phu"></span>
-    <span>Doanh số:</span>
-    <b id="statDoanhSo">0</b>
-  </div>
+    <div class="stats-inline">
 
-  <!-- CLB -->
-  <div class="stat-item">
-    <span class="stat-dot dot-clb"></span>
-    <span>CLB:</span>
-    <b id="statCLB">0</b>
-  </div>
+      <!-- DOANH SỐ -->
+      <div class="stat-item">
+        <span class="stat-dot dot-doanhso"></span>
+        <span>Doanh số:</span>
+        <b id="statDoanhSo">0</b>
+      </div>
 
-  <!-- ĐỘ PHỦ -->
-  <div class="stat-item">
-    <span class="stat-dot dot-phu"></span>
-    <span>Độ phủ:</span>
-    <b id="statDoPhu">0</b>
-  </div>
+      <!-- CLB -->
+      <div class="stat-item">
+        <span class="stat-dot dot-clb"></span>
+        <span>CLB:</span>
+        <b id="statCLB">0</b>
+      </div>
 
-  <!-- CHECK IN -->
-  <div class="stat-item">
-    <span class="stat-dot dot-checkin"></span>
-    <span>Check in:</span>
-    <b id="statCheckIn">0</b>
-  </div>
+      <!-- ĐỘ PHỦ -->
+      <div class="stat-item">
+        <span class="stat-dot dot-phu"></span>
+        <span>Độ phủ:</span>
+        <b id="statDoPhu">0</b>
+      </div>
 
-</div>
+      <!-- CHECK IN -->
+      <div class="stat-item">
+        <span class="stat-dot dot-checkin"></span>
+        <span>Check in:</span>
+        <b id="statCheckIn">0</b>
+      </div>
+
+    </div>
   </div>
 
   <div class="search-box">
@@ -700,7 +728,7 @@ function findKey(obj, keyword) {
   ) || null;
 }
 
-/* ĐỌC GIÁ TRỊ, HỖ TRỢ TÊN CỘT THU HIEN / THUC HIEN */
+/* ĐỌC GIÁ TRỊ, HỖ TRỢ THU HIEN / THUC HIEN */
 function getValue(row, keyword) {
   if (!row) return "";
 
@@ -712,6 +740,7 @@ function getValue(row, keyword) {
   ) {
     const actualKey = Object.keys(row).find(key => {
       const normalizedKey = normalize(key);
+
       return normalizedKey === "thuhien" ||
              normalizedKey === "thuchien";
     });
@@ -720,6 +749,7 @@ function getValue(row, keyword) {
   }
 
   const key = findKey(row, keyword);
+
   return key ? (row[key] ?? "") : "";
 }
 
@@ -744,6 +774,7 @@ function parseNumber(value) {
   }
 
   let text = String(value).trim();
+
   text = text.replace(/\s/g, "").replace(/₫/g, "");
 
   if (text === "") return NaN;
@@ -764,9 +795,13 @@ function parsePercent(value) {
   }
 
   const hasPercent = String(value).includes("%");
-  const num = parseNumber(String(value).replace(/%/g, ""));
+
+  const num = parseNumber(
+    String(value).replace(/%/g, "")
+  );
 
   if (!Number.isFinite(num)) return NaN;
+
   if (hasPercent) return num;
 
   if (num >= 0 && num <= 1) return num * 100;
@@ -828,7 +863,10 @@ async function loadData() {
     list = data;
 
     console.log("DỮ LIỆU KPI:", list);
-    console.log("CÁC CỘT:", list.length ? Object.keys(list[0]) : []);
+    console.log(
+      "CÁC CỘT:",
+      list.length ? Object.keys(list[0]) : []
+    );
 
     /* KIỂM TRA CỘT TEN */
     if (list.length && findKey(list[0], "TEN") === null) {
@@ -863,6 +901,7 @@ function updateStats(filteredData) {
   let doanhSo = 0;
 
   filteredData.forEach(row => {
+    /* ĐẾM CLB ĐẠT TỪ 100% */
     const clbPercent = parsePercent(
       getValue(row, "% CLB THANG")
     );
@@ -871,20 +910,21 @@ function updateStats(filteredData) {
       clb++;
     }
 
+    /* ĐỘ PHỦ VÀ DOANH SỐ */
     const coverage = parseNumber(
       getValue(row, "DO PHU")
     );
 
     if (Number.isFinite(coverage)) {
-      // Đếm số dòng có độ phủ từ 500 trở lên
       if (coverage >= 500) {
         doPhu++;
       }
 
-      // Doanh số = tổng cột ĐỘ PHỦ
+      /* DOANH SỐ = TỔNG CỘT ĐỘ PHỦ */
       doanhSo += coverage;
     }
 
+    /* ĐẾM CHECK IN = 1 */
     if (isCheckedIn(getValue(row, "CHECK IN"))) {
       checkIn++;
     }
@@ -899,13 +939,15 @@ function updateStats(filteredData) {
       maximumFractionDigits: 2
     });
 }
-  
+
 /* TẠO NÚT LỌC THEO CỘT TEN */
 function createFilters() {
   const filterBar = document.getElementById("filterBar");
+
   filterBar.innerHTML = "";
 
   const allButton = document.createElement("button");
+
   allButton.className = "filter-btn active";
   allButton.textContent = "Tất cả";
 
@@ -1038,10 +1080,7 @@ function render(data) {
     const id = getValue(row, "ID");
     const customer = getValue(row, "KHACH HANG");
 
-    /*
-      GIỮ NGUYÊN TIÊU ĐỀ NVBH TRÊN GIAO DIỆN,
-      NHƯNG LẤY NỘI DUNG HIỂN THỊ TỪ CỘT TEN.
-    */
+    /* TIÊU ĐỀ NVBH NHƯNG HIỂN THỊ DỮ LIỆU CỘT TEN */
     const nvbh = getValue(row, "TEN");
 
     const contract = getValue(row, "MUC KY HDTL");
@@ -1051,6 +1090,7 @@ function render(data) {
     const checkIn = getValue(row, "CHECK IN");
 
     const clbPercent = parsePercent(clb);
+
     const isCLBQualified =
       Number.isFinite(clbPercent) && clbPercent >= 100;
 
@@ -1058,12 +1098,14 @@ function render(data) {
       Number.isFinite(clbPercent) && clbPercent < 100;
 
     const coverageNumber = parseNumber(coverage);
+
     const isCoverageLow =
       Number.isFinite(coverageNumber) &&
       coverageNumber > 0 &&
       coverageNumber < 500;
 
     const contractNumber = parseNumber(contract);
+
     const hasNumericContract =
       String(contract ?? "").trim() !== "" &&
       Number.isFinite(contractNumber);
