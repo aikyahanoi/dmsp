@@ -418,6 +418,88 @@ input:focus {
   }
 }
 
+
+/* ===== BẢNG DỮ LIỆU LIQUID GLASS ===== */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+
+.data-table th {
+  padding: 13px 12px;
+  text-align: left;
+  white-space: nowrap;
+  color: #486581;
+  background: rgba(228,239,250,.72);
+  border-bottom: 1px solid rgba(255,255,255,.9);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.data-table th:first-child { border-radius: 12px 0 0 0; }
+.data-table th:last-child { border-radius: 0 12px 0 0; }
+
+.data-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid rgba(110,140,170,.12);
+  background: rgba(255,255,255,.32);
+  vertical-align: middle;
+}
+
+.data-table tbody tr {
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.data-table tbody tr:hover td {
+  background: rgba(220,237,252,.7);
+}
+
+.data-table .name-cell {
+  font-weight: 800;
+  color: #203c59;
+}
+
+.data-table .money-cell {
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 850;
+  color: #245e96;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table .number-cell {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.data-table .rep-cell {
+  color: #647991;
+  min-width: 100px;
+}
+
+.row-open {
+  color: #2c669c;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media(max-width:640px) {
+  .data-table { font-size: 11px; }
+  .data-table th, .data-table td { padding: 11px 8px; }
+  .data-table th { font-size: 9px; }
+  .data-table .rep-cell { min-width: 80px; }
+}
+
   
 </style>
 </head>
@@ -720,6 +802,7 @@ function filteredCustomers() {
   }).filter(Boolean);
 }
 
+
 function render() {
   if (selectedCustomer) {
     renderDetail(selectedCustomer);
@@ -733,15 +816,24 @@ function render() {
   const productQuery = norm($("productSearch").value);
   const customerQuery = norm($("customerSearch").value);
 
+  // Doanh số giảm dần; nếu bằng nhau, sắp xếp theo tên khách hàng.
+  list.sort((a, b) =>
+    b.visibleTotal - a.visibleTotal ||
+    a.customer.localeCompare(b.customer, "vi")
+  );
+
   $("resultsTitle").textContent = productQuery
     ? "Khách hàng có sản phẩm phù hợp"
-    : customerQuery ? "Kết quả tìm khách hàng" : "Danh sách khách hàng";
+    : customerQuery
+      ? "Kết quả tìm khách hàng"
+      : "Danh sách khách hàng";
 
   $("resultsHint").textContent = productQuery
-    ? "Doanh số hiển thị là tổng cột TONG của các sản phẩm khớp."
-    : "Chọn khách hàng để xem doanh số theo từng sản phẩm.";
+    ? "Doanh số tính theo các sản phẩm khớp từ khóa."
+    : "Nhấn vào một dòng để xem chi tiết.";
 
-  $("resultsCount").textContent = list.length.toLocaleString("vi-VN") + " khách hàng";
+  $("resultsCount").textContent =
+    list.length.toLocaleString("vi-VN") + " khách hàng";
 
   if (!list.length) {
     $("resultsWrap").innerHTML =
@@ -749,26 +841,38 @@ function render() {
     return;
   }
 
-  $("resultsWrap").innerHTML = '<div class="customer-list">' +
-    list.map(customer => `
-      <article class="customer-card">
-        <div>
-          <div class="customer-name">${esc(customer.customer)}</div>
-          <div class="rep-name">${esc(customer.rep || "Chưa có TDV")}</div>
-          <span class="tag">${customer.visibleProducts.length} sản phẩm${productQuery ? " khớp" : ""}</span>
-        </div>
-        <div>
-          <div class="customer-total">${money(customer.visibleTotal)}</div>
-          <button type="button" class="open-btn" data-open="${esc(customer.key)}">
-            Chi tiết ↗
-          </button>
-        </div>
-      </article>`).join("") + '</div>';
+  $("resultsWrap").innerHTML = `
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>TÊN KHÁCH HÀNG</th>
+            <th>TDV</th>
+            <th style="text-align:center">SỐ SP</th>
+            <th style="text-align:right">DSO TỔNG</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(customer => `
+            <tr data-open="${esc(customer.key)}">
+              <td class="name-cell">${esc(customer.customer)}</td>
+              <td class="rep-cell">${esc(customer.rep || "—")}</td>
+              <td class="number-cell">${customer.visibleProducts.length}</td>
+              <td class="money-cell">${money(customer.visibleTotal)}</td>
+              <td><span class="row-open">Chi tiết ↗</span></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
 
-  $("resultsWrap").querySelectorAll("[data-open]").forEach(button => {
-    button.addEventListener("click", () => openDetail(button.dataset.open));
+  $("resultsWrap").querySelectorAll("[data-open]").forEach(row => {
+    row.addEventListener("click", () => openDetail(row.dataset.open));
   });
 }
+
 
 function openDetail(key) {
   selectedCustomer = customers.find(customer => customer.key === key) || null;
@@ -782,64 +886,67 @@ function openDetail(key) {
 }
 
 
+
 function renderDetail(customer) {
   $("resultsPanel").classList.add("hidden");
   $("detailPanel").classList.remove("hidden");
 
   const productQuery = norm($("productSearch").value);
 
-  // Nếu đang tìm sản phẩm, chỉ hiển thị sản phẩm khớp từ khóa.
-  // Nếu không có từ khóa, hiển thị toàn bộ sản phẩm.
-  const visibleProducts = productQuery
-    ? customer.products.filter(product =>
-        norm(product.name).includes(productQuery)
-      )
-    : customer.products;
+  const visibleProducts = (
+    productQuery
+      ? customer.products.filter(product =>
+          norm(product.name).includes(productQuery)
+        )
+      : customer.products
+  ).sort((a, b) =>
+    b.total - a.total ||
+    a.name.localeCompare(b.name, "vi")
+  );
 
   const visibleTotal = visibleProducts.reduce(
     (sum, product) => sum + product.total, 0
   );
 
   $("detailTitle").textContent = customer.customer;
-
   $("detailMeta").textContent =
     "TDV: " + (customer.rep || "Chưa có") +
-    " · " + visibleProducts.length + " sản phẩm" +
-    (productQuery ? " khớp từ khóa tìm kiếm" : "");
+    " · " + visibleProducts.length + " sản phẩm";
 
   $("detailTotal").textContent =
-    (productQuery ? "Doanh số sản phẩm tìm kiếm: " : "Doanh số tổng: ") +
+    (productQuery
+      ? "Doanh số các sản phẩm khớp: "
+      : "Doanh số tổng khách hàng: ") +
     money(productQuery ? visibleTotal : customer.total);
 
-  $("productList").innerHTML = visibleProducts.length
-    ? visibleProducts.map(product => `
-      <article class="product">
-        <div class="product-name">${esc(product.name)}</div>
-        <div class="product-total">${money(product.total)}</div>
-        <div class="product-total-label">DOANH SỐ TỔNG</div>
-
-        <div class="product-meta">
-          <div>
-            <div class="mini-label">SỐ THÁNG LẤY</div>
-            <div class="mini-value">${product.monthCount} tháng</div>
-          </div>
-
-          <div>
-            <div class="mini-label">THÁNG LẤY GẦN NHẤT</div>
-            <div class="mini-value">${esc(product.latest || "—")}</div>
-          </div>
-
-          <div class="latest">
-            <div>
-              <div class="mini-label">DOANH SỐ THÁNG GẦN NHẤT</div>
-              <div class="mini-value">${money(product.latestSales)}</div>
-            </div>
-            <span>↗</span>
-          </div>
-        </div>
-      </article>
-    `).join("")
-    : '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
+  $("productList").innerHTML = visibleProducts.length ? `
+    <div class="table-wrap" style="grid-column:1/-1">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>TÊN KHÁCH HÀNG</th>
+            <th>TDV</th>
+            <th>DSO TỔNG</th>
+            <th>SỐ THÁNG LẤY</th>
+            <th>THÁNG GẦN NHẤT</th>
+            <th>DOANH SỐ THÁNG GẦN NHẤT</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${visibleProducts.map(product => `
+            <tr>
+              <td class="name-cell">${esc(product.name)}</td>
+              <td class="rep-cell">${esc(customer.rep || "—")}</td>
+              <td class="money-cell">${money(product.total)}</td>
+              <td class="number-cell">${product.monthCount}</td>
+              <td class="number-cell">${esc(product.latest || "—")}</td>
+              <td class="money-cell">${money(product.latestSales)}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  ` : '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
 }
 
 
