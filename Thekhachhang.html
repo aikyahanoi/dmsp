@@ -404,34 +404,24 @@ function setStatus(message, state = "") {
 
 /* Apps Script API được gọi bằng JSONP để tránh lỗi CORS trên GitHub Pages.
    API cần hỗ trợ tham số ?callback=tenHam như Code.gs hiện tại. */
-function loadJSONP() {
-  return new Promise((resolve, reject) => {
-    const callback = "aikyaCallback_" + Date.now() + "_" +
-      Math.random().toString(36).slice(2);
-    const script = document.createElement("script");
-    let finished = false;
 
-    const timer = setTimeout(() => finish(new Error("API phản hồi quá thời gian chờ.")), 30000);
-
-    function finish(error, data) {
-      if (finished) return;
-      finished = true;
-      clearTimeout(timer);
-      delete window[callback];
-      script.remove();
-      if (error) reject(error);
-      else resolve(data);
-    }
-
-    window[callback] = data => finish(null, data);
-    script.onerror = () => finish(new Error(
-      "Không tải được API. Hãy kiểm tra quyền triển khai và hỗ trợ JSONP."
-    ));
-
-    script.src = API_URL + (API_URL.includes("?") ? "&" : "?") +
-      "callback=" + encodeURIComponent(callback);
-    document.head.appendChild(script);
+async function loadJSONP() {
+  const response = await fetch(API_URL, {
+    method: "GET",
+    cache: "no-store"
   });
+
+  if (!response.ok) {
+    throw new Error("API trả về mã lỗi HTTP " + response.status);
+  }
+
+  const result = await response.json();
+
+  if (!result || result.success !== true || !Array.isArray(result.data)) {
+    throw new Error("Cấu trúc dữ liệu API không đúng yêu cầu.");
+  }
+
+  return result;
 }
 
 async function init() {
