@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f1f3f9">
+<title>Lịch sử lấy hàng | AIKYA</title>
+
+<style>
+:root {
+  --red: #b51f38;
+  --red-dark: #8f152b;
+  --ink: #202536;
+  --muted: #737c90;
+  --glass: rgba(255,255,255,.68);
+  --border: rgba(255,255,255,.95);
+  --shadow: 0 12px 35px rgba(48,57,85,.10);
+  --radius: 22px;
+}
+* { box-sizing: border-box; }
+html { min-height: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 0 0, #fff 0, transparent 36rem),
+    radial-gradient(ellipse at 100% 8%, #dce5ff 0, transparent 30rem),
+    radial-gradient(ellipse at 70% 100%, #ffe4e9 0, transparent 32rem),
+    linear-gradient(145deg,#f5f6fb,#e9edf6);
+  background-attachment: fixed;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.top, main, footer { max-width: 1240px; margin: auto; }
+.top { padding: 16px 14px 12px; }
+.top-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.logo {
+  width: 46px; height: 46px; object-fit: contain;
+  padding: 4px; flex-shrink: 0;
+  border-radius: 15px; background: var(--glass);
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+h1 {
+  margin: 0; font-size: clamp(18px,2.5vw,27px);
+  line-height: 1.15; font-weight: 850; letter-spacing: -.5px;
+}
+.subtitle { margin-top: 5px; font-size: 11px; color: var(--muted); }
+.connection {
+  flex-shrink: 0; display: flex; align-items: center; gap: 6px;
+  padding: 8px 10px; border-radius: 99px;
+  background: var(--glass); border: 1px solid var(--border);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  color: #586174; font-size: 10px;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #d5a13b; }
+.dot.ok { background: #1ca56a; }
+.dot.error { background: #d64050; }
+
+main { padding: 7px 14px 30px; }
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(24px) saturate(1.35);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+}
+.stats {
+  display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 10px; margin-bottom: 12px;
+}
+.stat { padding: 15px; min-width: 0; }
+.stat-label {
+  color: var(--muted); font-size: 10px; font-weight: 800;
+  letter-spacing: .3px;
+}
+.stat-value {
+  margin-top: 7px; color: var(--red);
+  font-size: clamp(19px,2.5vw,27px); font-weight: 850;
+  overflow-wrap: anywhere;
+}
+.filters { padding: 15px; margin-bottom: 12px; }
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; margin-bottom: 12px;
+}
+.section-head h2, .results-head h2, .detail-head h2 {
+  margin: 0; font-size: 15px; font-weight: 850;
+}
+.hint { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.btn {
+  padding: 9px 12px; border-radius: 12px;
+  border: 1px solid var(--border); color: var(--red);
+  background: rgba(255,255,255,.8); font-size: 11px; font-weight: 800;
+  box-shadow: 0 4px 12px rgba(60,70,90,.05);
+}
+.rep-label { margin-bottom: 7px; color: #626b7c; font-size: 10px; font-weight: 800; }
+.rep-scroll {
+  display: flex; gap: 7px; overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 1px 1px 9px; margin-bottom: 8px;
+  scrollbar-width: thin;
+}
+.rep-chip {
+  flex: 0 0 auto; white-space: nowrap;
+  padding: 8px 12px; border-radius: 99px;
+  border: 1px solid white; background: rgba(255,255,255,.7);
+  color: #515a6c; font-size: 11px; font-weight: 750;
+}
+.rep-chip.active {
+  background: linear-gradient(135deg,#d13b50,var(--red-dark));
+  color: white; border-color: transparent;
+  box-shadow: 0 5px 14px rgba(169,27,48,.2);
+}
+.search-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.field { min-width: 0; }
+.field label {
+  display: block; margin: 0 0 6px 2px;
+  color: #656d7d; font-size: 10px; font-weight: 800;
+}
+.input-wrap { position: relative; }
+.input-wrap .search-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%); opacity: .55;
+}
+input {
+  width: 100%; min-width: 0; height: 43px;
+  padding: 0 10px 0 33px; border-radius: 13px;
+  border: 1px solid white; outline: none;
+  background: rgba(255,255,255,.75);
+  color: var(--ink); font-size: 12px;
+}
+input:focus {
+  border-color: #d99aa5;
+  box-shadow: 0 0 0 3px rgba(181,31,56,.08);
+}
+input::placeholder { color: #9aa1ae; }
+
+.results { overflow: hidden; }
+.results-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 15px 16px 12px;
+}
+.count {
+  flex-shrink: 0; padding: 7px 9px; border-radius: 99px;
+  color: #8b2437; background: rgba(251,233,237,.8);
+  border: 1px solid white; font-size: 10px;
+}
+.customer-list {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 8px; padding: 0 9px 10px;
+}
+.customer-card {
+  min-width: 0; display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: center; gap: 7px; padding: 12px;
+  border-radius: 16px; border: 1px solid white;
+  background: rgba(255,255,255,.72);
+}
+.customer-name {
+  font-size: 12px; font-weight: 850;
+  line-height: 1.4; overflow-wrap: anywhere;
+}
+.rep-name { margin-top: 4px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+.tag {
+  display: inline-block; margin-top: 7px; padding: 4px 6px;
+  border-radius: 99px; border: 1px solid white;
+  background: rgba(238,240,246,.8); color: #667084; font-size: 9px;
+}
+.customer-total {
+  color: var(--red); font-size: 12px; font-weight: 850;
+  text-align: right; overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.open-btn {
+  margin-top: 7px; padding: 7px 9px; border: 0;
+  border-radius: 10px; color: white;
+  background: linear-gradient(135deg,#d13b50,var(--red-dark));
+  font-size: 10px; font-weight: 800; white-space: nowrap;
+}
+.empty {
+  padding: 28px 16px; text-align: center;
+  color: var(--muted); font-size: 12px; line-height: 1.7;
+}
+.detail { padding: 14px; margin-top: 12px; }
+.detail-head {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 9px; margin-bottom: 12px;
+}
+.detail-head h2 { font-size: 16px; overflow-wrap: anywhere; }
+.detail-meta { margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.detail-total { margin-top: 6px; color: var(--red); font-size: 12px; font-weight: 850; }
+.product-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
+.product {
+  min-width: 0; padding: 12px; border-radius: 16px;
+  border: 1px solid white; background: rgba(255,255,255,.78);
+}
+.product-name {
+  margin-bottom: 9px; font-size: 12px; font-weight: 850;
+  line-height: 1.4; overflow-wrap: anywhere;
+}
+.product-total {
+  color: var(--red); font-size: 15px; font-weight: 850;
+  overflow-wrap: anywhere; font-variant-numeric: tabular-nums;
+}
+.product-total-label { margin-top: 2px; color: var(--muted); font-size: 9px; }
+.product-meta {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+  border-top: 1px solid #dfe3ec; margin-top: 10px; padding-top: 9px;
+}
+.mini-label { color: var(--muted); font-size: 9px; line-height: 1.4; }
+.mini-value { margin-top: 4px; font-size: 10px; font-weight: 850; overflow-wrap: anywhere; }
+.latest {
+  grid-column: 1 / -1; display: flex; align-items: center;
+  justify-content: space-between; gap: 7px; padding: 8px 9px;
+  border-radius: 10px; background: rgba(249,232,236,.8);
+}
+.latest .mini-value { color: var(--red); font-size: 11px; }
+.hidden { display: none !important; }
+.notice { padding: 15px 8px 0; color: #858c9a; text-align: center; font-size: 9px; line-height: 1.6; }
+footer { padding: 0 16px 22px; color: #7d8492; font-size: 10px; line-height: 1.6; }
+
+@media(max-width:640px) {
+  .top { padding: 13px 10px 10px; }
+  .top-inner { gap: 7px; }
+  .brand { gap: 8px; }
+  .logo { width: 39px; height: 39px; }
+  h1 { font-size: 17px; letter-spacing: -.3px; }
+  .subtitle { font-size: 9px; }
+  .connection { padding: 7px 8px; font-size: 9px; max-width: 96px; }
+  main { padding: 4px 8px 24px; }
+  .stats { gap: 6px; margin-bottom: 9px; }
+  .stat { padding: 10px 9px; border-radius: 17px; }
+  .stat-label { font-size: 8px; letter-spacing: 0; line-height: 1.4; }
+  .stat-value { margin-top: 6px; font-size: 18px; }
+  .filters { padding: 12px; border-radius: 20px; margin-bottom: 9px; }
+  .section-head h2 { font-size: 14px; }
+  .hint { font-size: 9px; }
+  .search-grid { grid-template-columns: minmax(0,1fr); gap: 8px; }
+  .field label { font-size: 9px; margin-bottom: 5px; }
+  input { height: 41px; font-size: 12px; }
+  .rep-chip { padding: 8px 11px; font-size: 10px; }
+  .results-head { padding: 12px 11px 10px; align-items: flex-start; }
+  .results-head h2 { font-size: 13px; }
+  .count { padding: 6px 7px; font-size: 9px; }
+  .customer-list { grid-template-columns: minmax(0,1fr); padding: 0 7px 8px; gap: 7px; }
+  .customer-card { padding: 10px; border-radius: 14px; }
+  .customer-name { font-size: 12px; }
+  .customer-total { font-size: 12px; }
+  .detail { padding: 11px; border-radius: 20px; }
+  .detail-head h2 { font-size: 14px; }
+  .product-list { grid-template-columns: minmax(0,1fr); gap: 7px; }
+  .product { padding: 11px; border-radius: 14px; }
+  .product-name { font-size: 12px; margin-bottom: 7px; }
+  .product-total { font-size: 15px; }
+  .product-meta { margin-top: 8px; padding-top: 8px; }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .glass,.connection,.logo { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
+}
+</style>
+</head>
+
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <img class="logo"
+        src="https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/LOGO%20AIKYA%20-%20NEWEST.png"
+        alt="AIKYA" onerror="this.style.display='none'">
+      <div>
+        <h1>Lịch sử lấy hàng</h1>
+        <div class="subtitle">Tra cứu khách hàng · sản phẩm · doanh số</div>
+      </div>
+    </div>
+    <div class="connection"><i class="dot" id="dot"></i><span id="status">Đang kết nối</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="stats">
+    <div class="glass stat">
+      <div class="stat-label">KHÁCH HÀNG</div>
+      <div class="stat-value" id="statCustomers">—</div>
+    </div>
+    <div class="glass stat">
+      <div class="stat-label">SẢN PHẨM</div>
+      <div class="stat-value" id="statProducts">—</div>
+    </div>
+    <div class="glass stat">
+      <div class="stat-label">DÒNG DỮ LIỆU</div>
+      <div class="stat-value" id="statRows">—</div>
+    </div>
+  </section>
+
+  <section class="glass filters">
+    <div class="section-head">
+      <div>
+        <h2>Tìm kiếm & bộ lọc</h2>
+        <div class="hint">Chọn TDV hoặc nhập tên khách hàng, sản phẩm.</div>
+      </div>
+      <button class="btn" id="reset">Đặt lại</button>
+    </div>
+
+    <div class="rep-label">CHỌN TÊN TDV · CUỘN NGANG ĐỂ XEM THÊM</div>
+    <div class="rep-scroll" id="repChips">
+      <button class="rep-chip active" data-rep="">Tất cả TDV</button>
+    </div>
+
+    <div class="search-grid">
+      <div class="field">
+        <label for="customerSearch">TÌM KHÁCH HÀNG</label>
+        <div class="input-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="customerSearch" type="search" placeholder="Tên khách hàng…" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="productSearch">TÌM SẢN PHẨM</label>
+        <div class="input-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="productSearch" type="search" placeholder="Tên sản phẩm…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="glass results" id="resultsPanel">
+    <div class="results-head">
+      <div>
+        <h2 id="resultsTitle">Danh sách khách hàng</h2>
+        <div class="hint" id="resultsHint">Chọn khách hàng để xem lịch sử từng sản phẩm.</div>
+      </div>
+      <span class="count" id="resultsCount">Đang tải…</span>
+    </div>
+    <div id="resultsWrap"><div class="empty">Đang tải dữ liệu từ Google Sheets…</div></div>
+  </section>
+
+  <section class="glass detail hidden" id="detailPanel">
+    <div class="detail-head">
+      <div>
+        <h2 id="detailTitle">Chi tiết khách hàng</h2>
+        <div class="detail-meta" id="detailMeta"></div>
+        <div class="detail-total" id="detailTotal"></div>
+      </div>
+      <button class="btn" id="back">← Quay lại</button>
+    </div>
+    <div class="product-list" id="productList"></div>
+  </section>
+
+  <div class="notice" id="notice">Dữ liệu được đọc từ Google Sheets; trang không chỉnh sửa dữ liệu nguồn.</div>
+</main>
+
+<footer>
+  Trang công khai: người có đường dẫn có thể xem dữ liệu mà API trả về.
+  Không đưa dữ liệu nhạy cảm hoặc cần bảo mật vào API công khai.
+</footer>
+
+<script>
+/* API Google Apps Script của bạn */
+const API_URL = "https://script.google.com/macros/s/AKfycbwWP7JLxEdO3qfZG850HZsoKB70fh4pUVrm3wsX4fPzAPCm1W2pcFrdVzZRrRvi8ycnNw/exec";
+
+let rows = [];
+let months = [];
+let customers = [];
+let selectedRep = "";
+let selectedCustomer = null;
+
+const $ = id => document.getElementById(id);
+
+function norm(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[đĐ]/g, "d")
+    .toLowerCase().trim();
+}
+function str(value) { return String(value ?? "").trim(); }
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+function num(value) {
+  if (typeof value === "number") return value;
+  const s = String(value ?? "").trim();
+  if (!s) return 0;
+  const result = Number(s.replace(/[,\s₫đ]/gi, ""));
+  return Number.isFinite(result) ? result : 0;
+}
+function money(value) {
+  return Math.round(value || 0).toLocaleString("vi-VN");
+}
+function setStatus(message, state = "") {
+  $("status").textContent = message;
+  $("dot").className = "dot" + (state ? " " + state : "");
+}
+
+/* Apps Script API được gọi bằng JSONP để tránh lỗi CORS trên GitHub Pages.
+   API cần hỗ trợ tham số ?callback=tenHam như Code.gs hiện tại. */
+function loadJSONP() {
+  return new Promise((resolve, reject) => {
+    const callback = "aikyaCallback_" + Date.now() + "_" +
+      Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
+    let finished = false;
+
+    const timer = setTimeout(() => finish(new Error("API phản hồi quá thời gian chờ.")), 30000);
+
+    function finish(error, data) {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      delete window[callback];
+      script.remove();
+      if (error) reject(error);
+      else resolve(data);
+    }
+
+    window[callback] = data => finish(null, data);
+    script.onerror = () => finish(new Error(
+      "Không tải được API. Hãy kiểm tra quyền triển khai và hỗ trợ JSONP."
+    ));
+
+    script.src = API_URL + (API_URL.includes("?") ? "&" : "?") +
+      "callback=" + encodeURIComponent(callback);
+    document.head.appendChild(script);
+  });
+}
+
+async function init() {
+  setStatus("Đang tải");
+  try {
+    const result = await loadJSONP();
+    if (!result || result.success !== true) {
+      throw new Error(result?.error || "API không trả dữ liệu hợp lệ.");
+    }
+
+    rows = Array.isArray(result.data) ? result.data : [];
+    const columns = result.columns || Object.keys(rows[0] || {});
+    months = columns
+      .filter(column => /^\d{4}-T\d{2}$/i.test(column))
+      .sort();
+
+    aggregate();
+    setStatus("Đã kết nối", "ok");
+    $("notice").textContent =
+      "Đã tải " + rows.length.toLocaleString("vi-VN") +
+      " dòng dữ liệu. Trang không chỉnh sửa Google Sheets.";
+    render();
+  } catch (error) {
+    setStatus("Lỗi kết nối", "error");
+    $("resultsWrap").innerHTML =
+      '<div class="empty">Không tải được dữ liệu.<br>' +
+      esc(error.message || error) +
+      '<br>Kiểm tra API /exec, quyền triển khai và callback JSONP.' +
+      '<br><button class="btn" onclick="init()">Thử tải lại</button></div>';
+    $("resultsCount").textContent = "Lỗi";
+  }
+}
+
+/* Gộp nhiều dòng cùng khách hàng/sản phẩm, cộng doanh số và tính tháng lấy. */
+function aggregate() {
+  const map = new Map();
+
+  rows.forEach(row => {
+    const customerName = str(row["KHACH HANG"]);
+    const rep = str(row["NVBH"]);
+    const productName = str(row["SAN PHAM"]);
+    if (!customerName || !productName) return;
+
+    const customerKey = norm(customerName) + "||" + norm(rep);
+    if (!map.has(customerKey)) {
+      map.set(customerKey, {
+        key: customerKey, customer: customerName, rep,
+        total: 0, products: new Map()
+      });
+    }
+
+    const customer = map.get(customerKey);
+    const productKey = norm(productName);
+
+    if (!customer.products.has(productKey)) {
+      customer.products.set(productKey, {
+        name: productName, total: 0, months: {}
+      });
+    }
+
+    const product = customer.products.get(productKey);
+    const total = num(row["TONG"]);
+    product.total += total;
+    customer.total += total;
+
+    months.forEach(month => {
+      const amount = num(row[month]);
+      if (amount > 0) {
+        product.months[month] = (product.months[month] || 0) + amount;
+      }
+    });
+  });
+
+  customers = [...map.values()].map(customer => {
+    customer.products = [...customer.products.values()].map(product => {
+      const boughtMonths = months.filter(month => (product.months[month] || 0) > 0);
+      const latest = boughtMonths.length ? boughtMonths[boughtMonths.length - 1] : "";
+      return {
+        ...product,
+        monthCount: boughtMonths.length,
+        latest,
+        latestSales: latest ? product.months[latest] : 0
+      };
+    }).sort((a,b) => a.name.localeCompare(b.name, "vi"));
+    return customer;
+  }).sort((a,b) => a.customer.localeCompare(b.customer, "vi"));
+
+  $("statCustomers").textContent =
+    new Set(customers.map(c => norm(c.customer))).size.toLocaleString("vi-VN");
+  $("statProducts").textContent =
+    new Set(customers.flatMap(c => c.products.map(p => norm(p.name)))).size.toLocaleString("vi-VN");
+  $("statRows").textContent = rows.length.toLocaleString("vi-VN");
+
+  const reps = [...new Set(customers.map(c => c.rep).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b, "vi"));
+  const repOptions = [{name:"Tất cả TDV", value:""},
+    ...reps.map(rep => ({name:rep, value:rep}))];
+
+  $("repChips").innerHTML = repOptions.map(rep =>
+    `<button type="button" class="rep-chip ${selectedRep === rep.value ? "active" : ""}"
+      data-rep="${esc(rep.value)}">${esc(rep.name)}</button>`
+  ).join("");
+
+  $("repChips").querySelectorAll("[data-rep]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedRep = button.dataset.rep;
+      selectedCustomer = null;
+      syncReps();
+      render();
+    });
+  });
+}
+
+function syncReps() {
+  $("repChips").querySelectorAll("[data-rep]").forEach(button => {
+    button.classList.toggle("active", button.dataset.rep === selectedRep);
+  });
+}
+
+function filteredCustomers() {
+  const customerQuery = norm($("customerSearch").value);
+  const productQuery = norm($("productSearch").value);
+
+  return customers.map(customer => {
+    if (selectedRep && customer.rep !== selectedRep) return null;
+    if (customerQuery && !norm(customer.customer).includes(customerQuery)) return null;
+
+    const matchingProducts = productQuery
+      ? customer.products.filter(product => norm(product.name).includes(productQuery))
+      : customer.products;
+
+    if (productQuery && !matchingProducts.length) return null;
+
+    return {
+      ...customer,
+      visibleProducts: matchingProducts,
+      visibleTotal: productQuery
+        ? matchingProducts.reduce((sum, product) => sum + product.total, 0)
+        : customer.total
+    };
+  }).filter(Boolean);
+}
+
+function render() {
+  if (selectedCustomer) {
+    renderDetail(selectedCustomer);
+    return;
+  }
+
+  $("resultsPanel").classList.remove("hidden");
+  $("detailPanel").classList.add("hidden");
+
+  const list = filteredCustomers();
+  const productQuery = norm($("productSearch").value);
+  const customerQuery = norm($("customerSearch").value);
+
+  $("resultsTitle").textContent = productQuery
+    ? "Khách hàng có sản phẩm phù hợp"
+    : customerQuery ? "Kết quả tìm khách hàng" : "Danh sách khách hàng";
+
+  $("resultsHint").textContent = productQuery
+    ? "Doanh số hiển thị là tổng cột TONG của các sản phẩm khớp."
+    : "Chọn khách hàng để xem doanh số theo từng sản phẩm.";
+
+  $("resultsCount").textContent = list.length.toLocaleString("vi-VN") + " khách hàng";
+
+  if (!list.length) {
+    $("resultsWrap").innerHTML =
+      '<div class="empty">Không tìm thấy kết quả phù hợp.</div>';
+    return;
+  }
+
+  $("resultsWrap").innerHTML = '<div class="customer-list">' +
+    list.map(customer => `
+      <article class="customer-card">
+        <div>
+          <div class="customer-name">${esc(customer.customer)}</div>
+          <div class="rep-name">${esc(customer.rep || "Chưa có TDV")}</div>
+          <span class="tag">${customer.visibleProducts.length} sản phẩm${productQuery ? " khớp" : ""}</span>
+        </div>
+        <div>
+          <div class="customer-total">${money(customer.visibleTotal)}</div>
+          <button type="button" class="open-btn" data-open="${esc(customer.key)}">
+            Chi tiết ↗
+          </button>
+        </div>
+      </article>`).join("") + '</div>';
+
+  $("resultsWrap").querySelectorAll("[data-open]").forEach(button => {
+    button.addEventListener("click", () => openDetail(button.dataset.open));
+  });
+}
+
+function openDetail(key) {
+  selectedCustomer = customers.find(customer => customer.key === key) || null;
+  if (!selectedCustomer) return;
+
+  renderDetail(selectedCustomer);
+  window.scrollTo({
+    top: $("detailPanel").getBoundingClientRect().top + window.scrollY - 8,
+    behavior: "smooth"
+  });
+}
+
+function renderDetail(customer) {
+  $("resultsPanel").classList.add("hidden");
+  $("detailPanel").classList.remove("hidden");
+
+  $("detailTitle").textContent = customer.customer;
+  $("detailMeta").textContent =
+    "TDV: " + (customer.rep || "Chưa có") + " · " +
+    customer.products.length + " sản phẩm";
+  $("detailTotal").textContent = "Doanh số tổng: " + money(customer.total);
+
+  $("productList").innerHTML = customer.products.length
+    ? customer.products.map(product => `
+      <article class="product">
+        <div class="product-name">${esc(product.name)}</div>
+        <div class="product-total">${money(product.total)}</div>
+        <div class="product-total-label">DOANH SỐ TỔNG</div>
+
+        <div class="product-meta">
+          <div>
+            <div class="mini-label">SỐ THÁNG LẤY</div>
+            <div class="mini-value">${product.monthCount} tháng</div>
+          </div>
+          <div>
+            <div class="mini-label">THÁNG LẤY GẦN NHẤT</div>
+            <div class="mini-value">${esc(product.latest || "—")}</div>
+          </div>
+          <div class="latest">
+            <div>
+              <div class="mini-label">DOANH SỐ THÁNG GẦN NHẤT</div>
+              <div class="mini-value">${money(product.latestSales)}</div>
+            </div>
+            <span>↗</span>
+          </div>
+        </div>
+      </article>`).join("")
+    : '<div class="empty">Không có sản phẩm trong dữ liệu.</div>';
+}
+
+function resetFilters() {
+  selectedRep = "";
+  selectedCustomer = null;
+  $("customerSearch").value = "";
+  $("productSearch").value = "";
+  syncReps();
+  render();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+$("customerSearch").addEventListener("input", () => {
+  selectedCustomer = null;
+  render();
+});
+$("productSearch").addEventListener("input", () => {
+  selectedCustomer = null;
+  render();
+});
+$("reset").addEventListener("click", resetFilters);
+$("back").addEventListener("click", () => {
+  selectedCustomer = null;
+  render();
+  window.scrollTo({
+    top: $("resultsPanel").getBoundingClientRect().top + window.scrollY - 8,
+    behavior: "smooth"
+  });
+});
+
+init();
+</script>
+</body>
+</html>
