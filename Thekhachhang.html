@@ -264,6 +264,161 @@ footer { padding: 0 16px 22px; color: #7d8492; font-size: 10px; line-height: 1.6
 @media(prefers-reduced-transparency:reduce) {
   .glass,.connection,.logo { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
 }
+
+
+/* ===== AIKYA · PREMIUM BLUE LIQUID GLASS ===== */
+:root {
+  --red: #2563a6;
+  --red-dark: #174675;
+  --ink: #172b42;
+  --muted: #718096;
+  --glass: rgba(255, 255, 255, .57);
+  --border: rgba(255, 255, 255, .82);
+  --shadow: 0 12px 36px rgba(34, 65, 105, .09);
+  --radius: 23px;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(255,255,255,.98), transparent 36%),
+    radial-gradient(ellipse at 92% 12%, rgba(180,211,245,.48), transparent 35%),
+    radial-gradient(ellipse at 5% 85%, rgba(204,225,246,.42), transparent 32%),
+    linear-gradient(145deg, #f3f7fc 0%, #e8eff8 50%, #f5f8fc 100%);
+  background-attachment: fixed;
+}
+
+.glass {
+  background: rgba(255, 255, 255, .48);
+  border: 1px solid rgba(255,255,255,.82);
+  box-shadow:
+    0 12px 36px rgba(39,67,103,.075),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  backdrop-filter: blur(28px) saturate(155%);
+  -webkit-backdrop-filter: blur(28px) saturate(155%);
+}
+
+.logo {
+  background: rgba(255,255,255,.58);
+  border: 1px solid rgba(255,255,255,.9);
+  box-shadow: 0 8px 24px rgba(39,67,103,.10);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.connection {
+  background: rgba(255,255,255,.48);
+  border-color: rgba(255,255,255,.88);
+  color: #49627e;
+}
+
+.stat-value,
+.customer-total,
+.product-total,
+.detail-total {
+  color: #245e96;
+}
+
+.btn {
+  color: #285d91;
+  background: rgba(255,255,255,.58);
+  border-color: rgba(255,255,255,.92);
+  transition: background .2s ease, transform .2s ease;
+}
+
+.btn:hover {
+  background: rgba(255,255,255,.9);
+  transform: translateY(-1px);
+}
+
+.rep-chip {
+  background: rgba(255,255,255,.52);
+  border-color: rgba(255,255,255,.9);
+  color: #50657d;
+  transition: all .2s ease;
+}
+
+.rep-chip.active {
+  background: linear-gradient(135deg, #477fb5, #245789);
+  color: #fff;
+  box-shadow: 0 5px 16px rgba(37,88,137,.2);
+}
+
+input {
+  background: rgba(255,255,255,.58);
+  border-color: rgba(255,255,255,.9);
+  color: #172b42;
+  box-shadow: inset 0 1px 2px rgba(44,68,99,.025);
+  transition: background .2s ease, box-shadow .2s ease;
+}
+
+input:focus {
+  background: rgba(255,255,255,.88);
+  border-color: rgba(83,142,199,.6);
+  box-shadow: 0 0 0 3px rgba(64,125,184,.11);
+}
+
+.customer-card,
+.product {
+  background: rgba(255,255,255,.48);
+  border-color: rgba(255,255,255,.88);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+  transition: transform .2s ease, background .2s ease,
+              box-shadow .2s ease;
+}
+
+.customer-card:hover,
+.product:hover {
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 7px 20px rgba(42,72,110,.07);
+  transform: translateY(-1px);
+}
+
+.open-btn {
+  background: linear-gradient(135deg, #477fb5, #245789);
+  box-shadow: 0 4px 12px rgba(37,88,137,.16);
+}
+
+.count {
+  color: #285d91;
+  background: rgba(222,237,251,.65);
+  border-color: rgba(255,255,255,.9);
+}
+
+.latest {
+  background: rgba(220,235,249,.55);
+  border: 1px solid rgba(255,255,255,.72);
+}
+
+.latest .mini-value {
+  color: #245e96;
+}
+
+.product-meta {
+  border-top-color: rgba(112,139,170,.17);
+}
+
+.tag {
+  background: rgba(232,240,249,.65);
+  color: #526d8b;
+}
+
+@media (max-width: 640px) {
+  .glass {
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .connection, .logo {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #fff;
+  }
+}
+
+  
 </style>
 </head>
 
@@ -626,18 +781,38 @@ function openDetail(key) {
   });
 }
 
+
 function renderDetail(customer) {
   $("resultsPanel").classList.add("hidden");
   $("detailPanel").classList.remove("hidden");
 
-  $("detailTitle").textContent = customer.customer;
-  $("detailMeta").textContent =
-    "TDV: " + (customer.rep || "Chưa có") + " · " +
-    customer.products.length + " sản phẩm";
-  $("detailTotal").textContent = "Doanh số tổng: " + money(customer.total);
+  const productQuery = norm($("productSearch").value);
 
-  $("productList").innerHTML = customer.products.length
-    ? customer.products.map(product => `
+  // Nếu đang tìm sản phẩm, chỉ hiển thị sản phẩm khớp từ khóa.
+  // Nếu không có từ khóa, hiển thị toàn bộ sản phẩm.
+  const visibleProducts = productQuery
+    ? customer.products.filter(product =>
+        norm(product.name).includes(productQuery)
+      )
+    : customer.products;
+
+  const visibleTotal = visibleProducts.reduce(
+    (sum, product) => sum + product.total, 0
+  );
+
+  $("detailTitle").textContent = customer.customer;
+
+  $("detailMeta").textContent =
+    "TDV: " + (customer.rep || "Chưa có") +
+    " · " + visibleProducts.length + " sản phẩm" +
+    (productQuery ? " khớp từ khóa tìm kiếm" : "");
+
+  $("detailTotal").textContent =
+    (productQuery ? "Doanh số sản phẩm tìm kiếm: " : "Doanh số tổng: ") +
+    money(productQuery ? visibleTotal : customer.total);
+
+  $("productList").innerHTML = visibleProducts.length
+    ? visibleProducts.map(product => `
       <article class="product">
         <div class="product-name">${esc(product.name)}</div>
         <div class="product-total">${money(product.total)}</div>
@@ -648,10 +823,12 @@ function renderDetail(customer) {
             <div class="mini-label">SỐ THÁNG LẤY</div>
             <div class="mini-value">${product.monthCount} tháng</div>
           </div>
+
           <div>
             <div class="mini-label">THÁNG LẤY GẦN NHẤT</div>
             <div class="mini-value">${esc(product.latest || "—")}</div>
           </div>
+
           <div class="latest">
             <div>
               <div class="mini-label">DOANH SỐ THÁNG GẦN NHẤT</div>
@@ -660,9 +837,11 @@ function renderDetail(customer) {
             <span>↗</span>
           </div>
         </div>
-      </article>`).join("")
-    : '<div class="empty">Không có sản phẩm trong dữ liệu.</div>';
+      </article>
+    `).join("")
+    : '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
 }
+
 
 function resetFilters() {
   selectedRep = "";
