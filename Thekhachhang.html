@@ -1062,6 +1062,149 @@ input:focus {
   }
 }
    
+
+/* =====================================================
+   BẢNG CHI TIẾT THEO THÁNG — CỐ ĐỊNH 2 CỘT ĐẦU
+   Cột TỔNG chỉ xuất hiện ở vị trí thứ 2, không lặp lại ở cuối.
+===================================================== */
+#productList .detail-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+#productList .dynamic-month-table {
+  width: max-content;
+  min-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 11px;
+}
+
+#productList .dynamic-month-table th,
+#productList .dynamic-month-table td {
+  padding: 5px 7px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+#productList .dynamic-month-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--navy);
+  color: #FFFFFF;
+}
+
+#productList .dynamic-month-table .sticky-name,
+#productList .dynamic-month-table .sticky-total {
+  position: sticky;
+  z-index: 3;
+}
+
+#productList .dynamic-month-table .sticky-name {
+  left: 0;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+  background: #FFFFFF;
+  box-shadow: 2px 0 3px rgba(20,43,69,.06);
+}
+
+#productList .dynamic-month-table .sticky-total {
+  left: 150px;
+  width: 95px;
+  min-width: 95px;
+  max-width: 95px;
+  text-align: right;
+  white-space: nowrap;
+  background: var(--gold-pale);
+  box-shadow: 2px 0 4px rgba(20,43,69,.08);
+  font-weight: 850;
+}
+
+#productList .dynamic-month-table thead .sticky-name,
+#productList .dynamic-month-table thead .sticky-total {
+  z-index: 7;
+  background: var(--navy);
+  color: #FFFFFF;
+}
+
+#productList .dynamic-month-table .month-col {
+  width: 90px;
+  min-width: 90px;
+  max-width: 90px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+#productList .dynamic-month-table tbody tr:nth-child(even) td {
+  background: var(--row-alt);
+}
+
+#productList .dynamic-month-table tbody tr:nth-child(even) .sticky-total {
+  background: #F3EBD9;
+}
+
+#productList .dynamic-month-table tbody tr:hover td {
+  background: #F3EBD9;
+}
+
+#productList .dynamic-month-table tbody tr:hover .sticky-name,
+#productList .dynamic-month-table tbody tr:hover .sticky-total {
+  background: #F3EBD9;
+}
+
+@media (max-width: 640px) {
+  #productList .detail-scroll {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  #productList .dynamic-month-table {
+    width: max-content;
+    min-width: 100%;
+    font-size: 10px;
+  }
+
+  #productList .dynamic-month-table th,
+  #productList .dynamic-month-table td {
+    padding: 4px 5px !important;
+    line-height: 1.15 !important;
+    font-size: 10px;
+  }
+
+  #productList .dynamic-month-table .sticky-name {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+
+  #productList .dynamic-month-table .sticky-total {
+    left: 120px;
+    width: 82px;
+    min-width: 82px;
+    max-width: 82px;
+  }
+
+  #productList .dynamic-month-table .month-col {
+    width: 78px;
+    min-width: 78px;
+    max-width: 78px;
+  }
+}
+
 </style>
 </head>
 
@@ -1390,10 +1533,13 @@ async function init() {
       : Object.keys(rows[0] || {});
 
     months = columns
-      .filter(column =>
-        /^\d{4}-T\d{2}$/i.test(String(column))
-      )
-      .sort();
+      .map(column => String(column).trim())
+      .filter(column => /^\d{4}-T\d{2}$/i.test(column))
+      .sort((a, b) => {
+        const [yearA, monthA] = a.split("-T").map(Number);
+        const [yearB, monthB] = b.split("-T").map(Number);
+        return yearA - yearB || monthA - monthB;
+      });
 
     aggregate();
 
@@ -1750,12 +1896,9 @@ function renderDetail(customer) {
   );
 
   $("detailTitle").textContent = customer.customer;
-
   $("detailMeta").textContent =
     "TDV: " + (customer.rep || "Chưa có") +
-    " · " +
-    visibleProducts.length +
-    " sản phẩm";
+    " · " + visibleProducts.length + " sản phẩm";
 
   $("detailTotal").textContent =
     (productQuery
@@ -1766,47 +1909,41 @@ function renderDetail(customer) {
   if (!visibleProducts.length) {
     $("productList").innerHTML =
       '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
-
     return;
   }
 
-  const body = visibleProducts.map(product => `
-    <tr>
-      <td class="name-cell">
-        ${esc(product.name)}
-      </td>
-
-      <td class="money-cell">
-        ${money(product.total)}
-      </td>
-
-      <td class="number-cell">
-        ${product.monthCount}
-      </td>
-
-      <td class="number-cell">
-        ${esc(product.latest || "—")}
-      </td>
-
-      <td class="money-cell">
-        ${money(product.latestSales)}
-      </td>
-    </tr>
+  // Cột 1: Tên sản phẩm; cột 2: Tổng; các cột sau: doanh số theo tháng.
+  // Không tạo thêm cột Tổng ở cuối bảng.
+  const monthHeaders = months.map(month => `
+    <th class="month-col">${esc(month)}</th>
   `).join("");
 
+  const body = visibleProducts.map(product => {
+    const monthCells = months.map(month => `
+      <td class="money-cell month-col">
+        ${money(product.months[month] || 0)}
+      </td>
+    `).join("");
+
+    return `
+      <tr>
+        <td class="sticky-name">${esc(product.name)}</td>
+        <td class="money-cell sticky-total">${money(product.total)}</td>
+        ${monthCells}
+      </tr>
+    `;
+  }).join("");
+
   $("productList").innerHTML = `
-    <div class="table-wrap">
-      <table class="data-table detail-table">
+    <div class="table-wrap detail-scroll">
+      <table class="data-table detail-table dynamic-month-table">
         <thead>
           <tr>
-            <th>SẢN PHẨM</th>
-            <th>DSO TỔNG</th>
-            <th>SỐ THÁNG LẤY</th>
-            <th>THÁNG GẦN NHẤT</th>
-            <th>DOANH SỐ THÁNG GẦN NHẤT</th>
+            <th class="sticky-name">TÊN SẢN PHẨM</th>
+            <th class="sticky-total">TỔNG</th>
+            ${monthHeaders}
           </tr>
         </thead>
-
         <tbody>${body}</tbody>
       </table>
     </div>
