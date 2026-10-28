@@ -3,24 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#10334f">
+<meta name="theme-color" content="#142B45">
+
 <title>Lịch sử lấy hàng | AIKYA</title>
 
 <style>
+/* =====================================================
+   1. HỆ THỐNG MÀU SẮC: NAVY - CHAMPAGNE GOLD - IVORY
+===================================================== */
 :root {
-  --navy: #0b2942;
-  --blue: #006b8f;
-  --teal: #007f86;
-  --ink: #172f45;
-  --muted: #526a7e;
-  --line: #cbd9e5;
-  --surface: #ffffff;
-  --pale: #e7f2f8;
-  --shadow: 0 8px 24px rgba(16,51,79,.12);
+  --navy: #142B45;
+  --navy-light: #203D5C;
+  --navy-deep: #0E2035;
+
+  --gold: #C6A15B;
+  --gold-light: #E5D2A6;
+  --gold-pale: #F5EDDA;
+
+  --ivory: #F7F5F0;
+  --white: #FFFFFF;
+  --ink: #263746;
+  --muted: #7B7B75;
+  --line: #E5DED1;
+  --row-alt: #FAF8F3;
+
+  --success: #198568;
+  --danger: #C74747;
+
+  --shadow: 0 8px 28px rgba(20,43,69,.08);
+  --shadow-hover: 0 12px 30px rgba(20,43,69,.12);
   --radius: 16px;
 }
 
-* { box-sizing: border-box; }
+/* =====================================================
+   2. RESET VÀ NỀN TRANG
+===================================================== */
+* {
+  box-sizing: border-box;
+}
 
 html {
   min-height: 100%;
@@ -31,120 +51,164 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background:
-    radial-gradient(ellipse at 0 0, #d6eaf6 0, transparent 38rem),
-    radial-gradient(ellipse at 100% 0, #dce7ff 0, transparent 32rem),
-    linear-gradient(145deg, #edf4fa, #e4edf6);
-  background-attachment: fixed;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Arial, sans-serif;
+  background: var(--ivory);
 }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
+button,
+input {
+  font: inherit;
+}
 
-button:focus-visible, input:focus-visible {
-  outline: 3px solid rgba(0,139,145,.3);
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(198,161,91,.4);
   outline-offset: 2px;
 }
 
-.top, main, footer {
-  width: min(1240px, 100%);
+.hidden {
+  display: none !important;
+}
+
+.top,
+main {
+  width: min(1280px, 100%);
   margin-inline: auto;
 }
 
-.top { padding: 16px 14px 12px; }
+/* =====================================================
+   3. ĐẦU TRANG
+===================================================== */
+.top {
+  padding: 20px 18px 18px;
+}
 
 .top-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
+  padding: 18px 22px;
+  background: linear-gradient(
+    120deg,
+    var(--navy-deep),
+    var(--navy),
+    var(--navy-light)
+  );
+  border: 1px solid rgba(198,161,91,.55);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.top-inner::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -100px;
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgba(198,161,91,.18);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 14px;
   min-width: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   flex: 0 0 auto;
   object-fit: contain;
-  padding: 4px;
-  border-radius: 14px;
-  background: #fff;
-  border: 1px solid #d2e0eb;
-  box-shadow: var(--shadow);
+  padding: 5px;
+  background: #FFFFFF;
+  border: 1px solid var(--gold);
+  border-radius: 13px;
 }
 
 h1 {
   margin: 0;
-  color: var(--navy);
-  font-size: clamp(19px, 2.5vw, 28px);
-  line-height: 1.2;
-  font-weight: 900;
+  color: #FFFFFF;
+  font-size: clamp(21px, 2.5vw, 30px);
+  line-height: 1.25;
+  font-weight: 850;
   letter-spacing: -.45px;
-}
-
-.subtitle {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 11px;
 }
 
 .connection {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   flex: 0 0 auto;
-  padding: 8px 11px;
-  border: 1px solid #cadbe8;
+  padding: 9px 13px;
+  border: 1px solid rgba(229,210,166,.4);
   border-radius: 99px;
-  background: rgba(255,255,255,.86);
-  color: #36566f;
-  font-size: 10px;
+  background: rgba(255,255,255,.08);
+  color: #F5EDDA;
+  font-size: 11px;
   font-weight: 750;
+  position: relative;
+  z-index: 1;
 }
 
 .dot {
   width: 8px;
   height: 8px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  background: #d49a28;
+  background: var(--gold);
 }
 
-.dot.ok { background: #119765; }
-.dot.error { background: #d52f45; }
+.dot.ok {
+  background: #55D6A6;
+}
 
+.dot.error {
+  background: #FF7777;
+}
+
+/* =====================================================
+   4. KHU VỰC NỘI DUNG
+===================================================== */
 main {
-  padding: 6px 14px calc(36px + env(safe-area-inset-bottom));
+  padding: 0 18px 36px;
 }
 
 .glass {
-  background: rgba(255,255,255,.94);
-  border: 1px solid #c7d9e6;
+  background: var(--white);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
 }
 
-/* BỘ LỌC */
+/* =====================================================
+   5. BỘ LỌC
+===================================================== */
 .filters {
-  border-top: 4px solid var(--teal);
-  padding: 15px;
-  margin-bottom: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+  border-top: 4px solid var(--gold);
 }
 
 .section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .section-head h2,
@@ -152,99 +216,97 @@ main {
 .detail-head h2 {
   margin: 0;
   color: var(--navy);
-  font-size: 15px;
-  font-weight: 900;
-}
-
-.hint {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 850;
 }
 
 .btn {
-  padding: 9px 12px;
-  border: 1px solid #b8cedd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 15px;
+  border: 1px solid var(--gold);
   border-radius: 10px;
-  background: #fff;
-  color: var(--blue);
-  font-size: 11px;
-  font-weight: 850;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 800;
   white-space: nowrap;
-  transition: .18s ease;
+  transition: background .18s ease, box-shadow .18s ease;
 }
 
 .btn:hover {
-  background: #e7f3f8;
-  border-color: #82b5cc;
-}
-
-.rep-label {
-  margin-bottom: 7px;
-  color: #34536b;
-  font-size: 10px;
-  font-weight: 850;
+  background: var(--gold-pale);
+  box-shadow: 0 3px 10px rgba(198,161,91,.15);
 }
 
 .rep-scroll {
   display: flex;
-  gap: 7px;
+  gap: 8px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 1px 1px 9px;
-  margin-bottom: 7px;
+  padding: 2px 1px 12px;
+  margin-bottom: 8px;
   scrollbar-width: thin;
-  scrollbar-color: #9ab7c9 transparent;
+  scrollbar-color: var(--gold-light) transparent;
 }
 
 .rep-chip {
   flex: 0 0 auto;
-  padding: 8px 12px;
-  border: 1px solid #c7d8e5;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
   border-radius: 99px;
-  background: #fff;
-  color: #34536b;
-  font-size: 11px;
-  font-weight: 800;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 750;
   white-space: nowrap;
   transition: .18s ease;
 }
 
-.rep-chip:hover { border-color: var(--teal); }
+.rep-chip:hover {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+}
 
 .rep-chip.active {
-  color: #fff;
-  background: linear-gradient(120deg, #087e98, #07527d);
-  border-color: transparent;
-  box-shadow: 0 4px 11px rgba(7,93,136,.2);
+  color: #FFFFFF;
+  background: var(--navy);
+  border-color: var(--gold);
+  box-shadow: 0 4px 12px rgba(20,43,69,.15);
 }
 
 .search-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.field { min-width: 0; }
+.field {
+  min-width: 0;
+}
 
 .field label {
   display: block;
-  margin: 0 0 6px 2px;
-  color: #34536b;
-  font-size: 10px;
+  margin: 0 0 7px 2px;
+  color: var(--navy);
+  font-size: 11px;
   font-weight: 850;
+  letter-spacing: .3px;
 }
 
-.input-wrap { position: relative; }
+.input-wrap {
+  position: relative;
+}
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 13px;
   top: 50%;
   transform: translateY(-50%);
-  color: #456a83;
-  font-size: 18px;
+  color: var(--gold);
+  font-size: 21px;
   pointer-events: none;
 }
 
@@ -252,45 +314,56 @@ input {
   display: block;
   width: 100%;
   min-width: 0;
-  height: 42px;
-  padding: 0 11px 0 35px;
-  border: 1px solid #c0d2e0;
-  border-radius: 10px;
+  height: 45px;
+  padding: 0 12px 0 40px;
+  border: 1px solid #D9D2C5;
+  border-radius: 11px;
   outline: none;
-  background: #fff;
+  background: #FFFFFF;
   color: var(--ink);
-  font-size: 16px;
+  font-size: 14px;
+  transition: border-color .18s ease, box-shadow .18s ease;
 }
 
-input::placeholder { color: #75899b; }
+input::placeholder {
+  color: #96948D;
+}
 
 input:focus {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(0,139,145,.13);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(198,161,91,.14);
 }
 
-/* BẢNG KẾT QUẢ */
+/* =====================================================
+   6. BẢNG DANH SÁCH KHÁCH HÀNG
+===================================================== */
 .results {
   overflow: hidden;
-  border-top: 4px solid var(--blue);
+  border-top: 4px solid var(--gold);
 }
 
 .results-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 14px 15px 12px;
-  border-bottom: 1px solid #d2e0ea;
+  gap: 12px;
+  padding: 17px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #FFFFFF;
+}
+
+.results-head h2 {
+  font-size: 17px;
 }
 
 .count {
   flex: 0 0 auto;
-  padding: 7px 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--gold-light);
   border-radius: 99px;
-  background: #075d88;
-  color: #fff;
-  font-size: 10px;
+  background: var(--gold-pale);
+  color: var(--navy);
+  font-size: 11px;
   font-weight: 850;
 }
 
@@ -308,52 +381,54 @@ input:focus {
 }
 
 .data-table th {
-  padding: 10px 11px;
-  color: #fff;
-  background: linear-gradient(120deg, #153e5c, #075d88);
-  border: 1px solid #456a84;
+  padding: 13px 12px;
+  color: #FFFFFF;
+  background: var(--navy);
+  border: 1px solid #314B64;
   text-align: left;
   font-size: 10px;
   font-weight: 850;
-  line-height: 1.4;
-  letter-spacing: .15px;
+  line-height: 1.45;
+  letter-spacing: .35px;
 }
 
 .data-table td {
-  padding: 8px 11px;
-  color: #203a50;
-  background: rgba(255,255,255,.96);
-  border: 1px solid #d0dce6;
+  padding: 12px;
+  color: var(--ink);
+  background: #FFFFFF;
+  border: 1px solid var(--line);
   vertical-align: middle;
-  line-height: 1.4;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .data-table tbody tr:nth-child(even) td {
-  background: #edf4f9;
+  background: var(--row-alt);
 }
 
 .data-table tbody tr:hover td {
-  background: #dceef7;
+  background: #F3EBD9;
 }
 
 .data-table .name-cell {
-  color: #123e5c;
-  font-weight: 850;
+  color: var(--navy);
+  font-weight: 800;
 }
 
-.data-table .rep-cell { color: #425e74; }
+.data-table .rep-cell {
+  color: #596875;
+}
 
 .data-table .money-cell {
+  color: var(--navy);
   text-align: right;
-  color: #075d88;
-  font-weight: 900;
+  font-weight: 850;
   font-variant-numeric: tabular-nums;
 }
 
 .data-table .number-cell {
   text-align: center;
-  font-weight: 800;
+  font-weight: 750;
   font-variant-numeric: tabular-nums;
 }
 
@@ -361,7 +436,7 @@ input:focus {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #075d88;
+  color: var(--navy);
   font: inherit;
   font-weight: 850;
   text-align: left;
@@ -370,171 +445,222 @@ input:focus {
 }
 
 .row-open:hover {
-  color: #008b91;
+  color: #9B7738;
   text-decoration: underline;
 }
 
-/* CÂN ĐỐI CỘT BẢNG */
+/* TỶ LỆ CỘT BẢNG KHÁCH HÀNG */
 #resultsWrap .data-table th:nth-child(1),
-#resultsWrap .data-table td:nth-child(1) { width: 44%; }
+#resultsWrap .data-table td:nth-child(1) {
+  width: 44%;
+}
 
 #resultsWrap .data-table th:nth-child(2),
-#resultsWrap .data-table td:nth-child(2) { width: 22%; }
+#resultsWrap .data-table td:nth-child(2) {
+  width: 22%;
+}
 
 #resultsWrap .data-table th:nth-child(3),
-#resultsWrap .data-table td:nth-child(3) { width: 12%; }
+#resultsWrap .data-table td:nth-child(3) {
+  width: 12%;
+}
 
 #resultsWrap .data-table th:nth-child(4),
-#resultsWrap .data-table td:nth-child(4) { width: 22%; }
+#resultsWrap .data-table td:nth-child(4) {
+  width: 22%;
+}
 
-.detail-table th:nth-child(1),
-.detail-table td:nth-child(1) { width: 38%; }
-
-.detail-table th:nth-child(2),
-.detail-table td:nth-child(2) { width: 15%; }
-
-.detail-table th:nth-child(3),
-.detail-table td:nth-child(3) { width: 12%; }
-
-.detail-table th:nth-child(4),
-.detail-table td:nth-child(4) { width: 16%; }
-
-.detail-table th:nth-child(5),
-.detail-table td:nth-child(5) { width: 19%; }
-
-/* CHI TIẾT KHÁCH HÀNG */
+/* =====================================================
+   7. CHI TIẾT KHÁCH HÀNG
+===================================================== */
 .detail {
-  border-top: 4px solid var(--teal);
-  margin-top: 12px;
-  padding: 14px;
+  border-top: 4px solid var(--gold);
+  margin-top: 16px;
+  padding: 18px;
 }
 
 .detail-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .detail-head h2 {
-  font-size: 17px;
+  font-size: 20px;
   overflow-wrap: anywhere;
 }
 
 .detail-meta {
-  margin-top: 5px;
-  color: #435e73;
-  font-size: 11px;
-  line-height: 1.5;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .detail-total {
-  margin-top: 7px;
-  color: #075d88;
-  font-size: 13px;
+  margin-top: 10px;
+  color: #9B7738;
+  font-size: 15px;
   font-weight: 900;
 }
 
-.detail-table th,
-.detail-table td { padding: 8px 9px; }
+.detail-table th:nth-child(1),
+.detail-table td:nth-child(1) {
+  width: 38%;
+}
 
-.hidden { display: none !important; }
+.detail-table th:nth-child(2),
+.detail-table td:nth-child(2) {
+  width: 15%;
+}
 
+.detail-table th:nth-child(3),
+.detail-table td:nth-child(3) {
+  width: 12%;
+}
+
+.detail-table th:nth-child(4),
+.detail-table td:nth-child(4) {
+  width: 16%;
+}
+
+.detail-table th:nth-child(5),
+.detail-table td:nth-child(5) {
+  width: 19%;
+}
+
+/* =====================================================
+   8. TRẠNG THÁI TRỐNG VÀ LỖI
+===================================================== */
 .empty {
-  padding: 28px 15px;
-  color: #526a7e;
+  padding: 34px 18px;
+  color: var(--muted);
   text-align: center;
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
-.empty .btn { margin-top: 12px; }
-
-.notice {
-  padding: 13px 8px 0;
-  color: #536b7f;
-  text-align: center;
-  font-size: 10px;
-  line-height: 1.6;
+.empty strong {
+  color: var(--navy);
 }
 
-footer {
-  padding: 0 16px 22px;
-  color: #526a7e;
-  font-size: 10px;
-  line-height: 1.6;
+.empty .btn {
+  margin-top: 12px;
 }
 
-/* TỐI ƯU ĐIỆN THOẠI */
+.empty a {
+  color: var(--navy);
+}
+
+/* =====================================================
+   9. TỐI ƯU CHO MÁY TÍNH BẢNG VÀ ĐIỆN THOẠI
+===================================================== */
 @media (max-width: 640px) {
-  .top { padding: 12px 9px 10px; }
-  .top-inner { gap: 6px; }
-  .brand { gap: 8px; }
+  .top {
+    padding: 10px 8px 12px;
+  }
+
+  .top-inner {
+    padding: 13px 11px;
+    gap: 7px;
+    border-radius: 14px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
 
   .logo {
-    width: 39px;
-    height: 39px;
-    border-radius: 11px;
+    width: 40px;
+    height: 40px;
+    padding: 3px;
+    border-radius: 10px;
   }
 
   h1 {
     font-size: 17px;
-    letter-spacing: -.25px;
+    letter-spacing: -.2px;
   }
-
-  .subtitle { font-size: 9px; }
 
   .connection {
     gap: 5px;
     padding: 7px 8px;
-    max-width: 102px;
     font-size: 9px;
   }
 
+  .dot {
+    width: 7px;
+    height: 7px;
+  }
+
   main {
-    padding: 4px 7px calc(30px + env(safe-area-inset-bottom));
+    padding: 0 7px 28px;
   }
 
   .filters {
-    padding: 11px;
-    margin-bottom: 9px;
-    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 13px;
   }
 
-  .section-head { margin-bottom: 10px; }
-
-  .section-head h2,
-  .results-head h2 { font-size: 13px; }
-
-  .hint { font-size: 9px; }
-
-  .search-grid {
-    grid-template-columns: minmax(0,1fr);
-    gap: 9px;
+  .section-head {
+    margin-bottom: 11px;
   }
 
-  input {
-    height: 40px;
-    font-size: 13px;
+  .section-head h2 {
+    font-size: 14px;
   }
 
-  .rep-chip {
+  .btn {
     padding: 8px 10px;
     font-size: 10px;
   }
 
-  .results-head { padding: 11px 10px; }
+  .rep-scroll {
+    gap: 6px;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+  }
+
+  .rep-chip {
+    padding: 8px 11px;
+    font-size: 10px;
+  }
+
+  .search-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .field label {
+    margin-bottom: 6px;
+    font-size: 10px;
+  }
+
+  input {
+    height: 41px;
+    font-size: 13px;
+  }
+
+  .results-head {
+    padding: 12px 10px;
+    gap: 7px;
+  }
+
+  .results-head h2 {
+    font-size: 14px;
+  }
 
   .count {
-    padding: 6px 8px;
+    padding: 7px 8px;
     font-size: 9px;
   }
 
   .table-wrap {
-    padding: 5px;
+    padding: 4px;
     overflow-x: hidden;
-    width: 100%;
   }
 
   .data-table {
@@ -545,8 +671,13 @@ footer {
     font-size: 10px;
   }
 
-  .data-table thead { display: table-header-group; }
-  .data-table tbody { display: table-row-group; }
+  .data-table thead {
+    display: table-header-group;
+  }
+
+  .data-table tbody {
+    display: table-row-group;
+  }
 
   .data-table thead tr,
   .data-table tbody tr {
@@ -560,24 +691,22 @@ footer {
 
   .data-table th {
     display: table-cell;
-    padding: 7px 3px;
+    padding: 8px 3px;
     font-size: 9px;
-    line-height: 1.25;
+    line-height: 1.3;
     overflow-wrap: anywhere;
     word-break: normal;
-    text-align: left;
+    letter-spacing: 0;
   }
 
   .data-table td,
   .data-table tbody td {
     display: table-cell;
-    width: auto;
     min-width: 0;
-    padding: 7px 4px;
-    border: 1px solid #d0dce6;
+    padding: 8px 4px;
+    border: 1px solid var(--line);
     font-size: 10px;
-    line-height: 1.3;
-    text-align: left;
+    line-height: 1.35;
     overflow-wrap: anywhere;
     word-break: normal;
     vertical-align: top;
@@ -588,39 +717,30 @@ footer {
     display: none;
   }
 
+  /* BẢNG KHÁCH HÀNG TRÊN ĐIỆN THOẠI */
   #resultsWrap .data-table th:nth-child(1),
-  #resultsWrap .data-table td:nth-child(1) { width: 43%; }
+  #resultsWrap .data-table td:nth-child(1) {
+    width: 43%;
+  }
 
   #resultsWrap .data-table th:nth-child(2),
-  #resultsWrap .data-table td:nth-child(2) { width: 15%; }
+  #resultsWrap .data-table td:nth-child(2) {
+    width: 15%;
+  }
 
   #resultsWrap .data-table th:nth-child(3),
-  #resultsWrap .data-table td:nth-child(3) { width: 12%; }
+  #resultsWrap .data-table td:nth-child(3) {
+    width: 12%;
+  }
 
   #resultsWrap .data-table th:nth-child(4),
-  #resultsWrap .data-table td:nth-child(4) { width: 30%; }
-
-  .detail-table th:nth-child(1),
-  .detail-table td:nth-child(1) { width: 36%; }
-
-  .detail-table th:nth-child(2),
-  .detail-table td:nth-child(2) { width: 17%; }
-
-  .detail-table th:nth-child(3),
-  .detail-table td:nth-child(3) { width: 12%; }
-
-  .detail-table th:nth-child(4),
-  .detail-table td:nth-child(4) { width: 16%; }
-
-  .detail-table th:nth-child(5),
-  .detail-table td:nth-child(5) { width: 19%; }
+  #resultsWrap .data-table td:nth-child(4) {
+    width: 30%;
+  }
 
   .data-table .name-cell {
-    display: table-cell;
-    padding: 7px 4px;
-    background: #e0f0f7 !important;
-    color: #123e5c;
-    font-size: 10px;
+    background: #F3EBD9 !important;
+    color: var(--navy);
     font-weight: 800;
   }
 
@@ -633,40 +753,103 @@ footer {
 
   .row-open {
     font-size: inherit;
-    line-height: 1.3;
+    line-height: 1.35;
   }
 
+  /* BẢNG CHI TIẾT SẢN PHẨM */
   .detail {
-    padding: 10px;
-    border-radius: 14px;
+    padding: 11px;
+    margin-top: 10px;
+    border-radius: 13px;
   }
 
-  .detail-head { gap: 7px; }
-  .detail-head h2 { font-size: 14px; }
-  .detail-meta { font-size: 10px; }
-  .detail-total { font-size: 12px; }
+  .detail-head {
+    gap: 7px;
+    margin-bottom: 12px;
+  }
 
-  .btn {
-    padding: 8px 9px;
+  .detail-head h2 {
+    font-size: 15px;
+  }
+
+  .detail-meta {
     font-size: 10px;
   }
 
-  .notice { font-size: 9px; }
+  .detail-total {
+    font-size: 12px;
+  }
+
+  .detail-table th:nth-child(1),
+  .detail-table td:nth-child(1) {
+    width: 36%;
+  }
+
+  .detail-table th:nth-child(2),
+  .detail-table td:nth-child(2) {
+    width: 17%;
+  }
+
+  .detail-table th:nth-child(3),
+  .detail-table td:nth-child(3) {
+    width: 12%;
+  }
+
+  .detail-table th:nth-child(4),
+  .detail-table td:nth-child(4) {
+    width: 16%;
+  }
+
+  .detail-table th:nth-child(5),
+  .detail-table td:nth-child(5) {
+    width: 19%;
+  }
+
+  .empty {
+    padding: 25px 10px;
+    font-size: 11px;
+  }
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .glass, .connection, .logo {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: #fff;
+/* MÀN HÌNH RẤT NHỎ */
+@media (max-width: 360px) {
+  .top-inner {
+    padding: 11px 8px;
+  }
+
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  h1 {
+    font-size: 15px;
+  }
+
+  .connection {
+    padding: 6px;
+    font-size: 8px;
+  }
+
+  .results-head h2 {
+    font-size: 12px;
+  }
+
+  .count {
+    font-size: 8px;
   }
 }
 </style>
 </head>
 
 <body>
+
+<!-- ===================================================
+     ĐẦU TRANG
+=================================================== -->
 <header class="top">
   <div class="top-inner">
+
     <div class="brand">
       <img
         class="logo"
@@ -674,9 +857,9 @@ footer {
         alt="AIKYA"
         onerror="this.style.display='none'"
       >
+
       <div>
         <h1>Lịch sử lấy hàng</h1>
-        <div class="subtitle">Tra cứu khách hàng · sản phẩm · doanh số</div>
       </div>
     </div>
 
@@ -684,29 +867,41 @@ footer {
       <i class="dot" id="dot"></i>
       <span id="status">Đang kết nối</span>
     </div>
+
   </div>
 </header>
 
 <main>
+
+  <!-- =================================================
+       BỘ LỌC VÀ TÌM KIẾM
+  ================================================== -->
   <section class="glass filters">
+
     <div class="section-head">
-      <div>
-        <h2>Tìm kiếm và bộ lọc</h2>
-        <div class="hint">Chọn TDV hoặc nhập tên khách hàng, sản phẩm.</div>
-      </div>
-      <button type="button" class="btn" id="reset">Đặt lại</button>
+      <h2>Tìm kiếm và bộ lọc</h2>
+
+      <button type="button" class="btn" id="reset">
+        Đặt lại
+      </button>
     </div>
 
-    <div class="rep-label">CHỌN TÊN TDV · CUỘN ĐỂ XEM THÊM</div>
     <div class="rep-scroll" id="repChips">
-      <button type="button" class="rep-chip active" data-rep="">Tất cả TDV</button>
+      <button
+        type="button"
+        class="rep-chip active"
+        data-rep=""
+      >Tất cả TDV</button>
     </div>
 
     <div class="search-grid">
+
       <div class="field">
         <label for="customerSearch">TÌM KHÁCH HÀNG</label>
+
         <div class="input-wrap">
           <span class="search-icon" aria-hidden="true">⌕</span>
+
           <input
             id="customerSearch"
             type="search"
@@ -718,8 +913,10 @@ footer {
 
       <div class="field">
         <label for="productSearch">TÌM SẢN PHẨM</label>
+
         <div class="input-wrap">
           <span class="search-icon" aria-hidden="true">⌕</span>
+
           <input
             id="productSearch"
             type="search"
@@ -728,52 +925,58 @@ footer {
           >
         </div>
       </div>
+
     </div>
   </section>
 
+  <!-- =================================================
+       DANH SÁCH KHÁCH HÀNG
+  ================================================== -->
   <section class="glass results" id="resultsPanel">
+
     <div class="results-head">
-      <div>
-        <h2 id="resultsTitle">Danh sách khách hàng</h2>
-        <div class="hint" id="resultsHint">
-          Nhấn vào tên khách hàng để xem chi tiết.
-        </div>
-      </div>
+      <h2 id="resultsTitle">Danh sách khách hàng</h2>
+
       <span class="count" id="resultsCount">Đang tải...</span>
     </div>
 
     <div id="resultsWrap" aria-live="polite">
-      <div class="empty">Đang tải dữ liệu từ Google Sheets...</div>
+      <div class="empty">Đang tải dữ liệu...</div>
     </div>
+
   </section>
 
+  <!-- =================================================
+       CHI TIẾT KHÁCH HÀNG
+  ================================================== -->
   <section class="glass detail hidden" id="detailPanel">
+
     <div class="detail-head">
+
       <div>
         <h2 id="detailTitle">Chi tiết khách hàng</h2>
         <div class="detail-meta" id="detailMeta"></div>
         <div class="detail-total" id="detailTotal"></div>
       </div>
-      <button type="button" class="btn" id="back">← Quay lại</button>
+
+      <button type="button" class="btn" id="back">
+        ← Quay lại
+      </button>
+
     </div>
 
     <div id="productList"></div>
+
   </section>
 
-  <div class="notice" id="notice">
-    Đang kết nối Google Sheets...
-  </div>
 </main>
-
-<footer>
-  Trang công khai: người có đường dẫn có thể xem dữ liệu mà API trả về.
-  Không đưa dữ liệu nhạy cảm hoặc cần bảo mật vào API công khai.
-</footer>
 
 <script>
 "use strict";
 
-/* API GOOGLE APPS SCRIPT */
+/* =====================================================
+   1. KẾT NỐI GOOGLE APPS SCRIPT
+===================================================== */
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwWP7JLxEdO3qfZG850HZsoKB70fh4pUVrm3wsX4fPzAPCm1W2pcFrdVzZRrRvi8ycnNw/exec";
 
@@ -785,6 +988,9 @@ let selectedCustomer = null;
 
 const $ = id => document.getElementById(id);
 
+/* =====================================================
+   2. HÀM XỬ LÝ DỮ LIỆU
+===================================================== */
 function norm(value) {
   return String(value ?? "")
     .normalize("NFD")
@@ -814,6 +1020,7 @@ function num(value) {
   }
 
   let s = String(value ?? "").trim();
+
   if (!s) return 0;
 
   s = s.replace(/[₫đ\s]/gi, "");
@@ -829,33 +1036,38 @@ function num(value) {
   }
 
   const result = Number(s);
+
   return Number.isFinite(result) ? result : 0;
 }
 
 function money(value) {
-  return Math.round(Number(value) || 0).toLocaleString("vi-VN");
+  return Math.round(Number(value) || 0)
+    .toLocaleString("vi-VN");
 }
 
+/* =====================================================
+   3. TRẠNG THÁI KẾT NỐI
+===================================================== */
 function setStatus(message, state = "") {
   $("status").textContent = message;
-  $("dot").className = "dot" + (state ? " " + state : "");
+
+  $("dot").className =
+    "dot" + (state ? " " + state : "");
 }
 
-/*
-  Tải JSONP để tránh lỗi CORS khi gọi Google Apps Script
-  từ website GitHub Pages.
-
-  API cần hỗ trợ ?callback=tenHam và trả về:
-  tenHam({"success":true,"columns":[...],"data":[...]});
-*/
+/* =====================================================
+   4. TẢI DỮ LIỆU BẰNG JSONP
+===================================================== */
 function loadJSONP() {
   return new Promise((resolve, reject) => {
+
     const callbackName =
       "__aikyaCallback_" +
       Date.now() + "_" +
       Math.random().toString(36).slice(2);
 
     const script = document.createElement("script");
+
     const separator = API_URL.includes("?") ? "&" : "?";
 
     let finished = false;
@@ -863,6 +1075,7 @@ function loadJSONP() {
 
     function cleanup() {
       clearTimeout(timer);
+
       script.onerror = null;
       script.remove();
 
@@ -875,6 +1088,7 @@ function loadJSONP() {
 
     function finish(error, result) {
       if (finished) return;
+
       finished = true;
       cleanup();
 
@@ -889,44 +1103,54 @@ function loadJSONP() {
         !Array.isArray(result.data)
       ) {
         reject(new Error(
-          result?.error || "API không trả về dữ liệu hợp lệ."
+          result?.error ||
+          "API không trả về dữ liệu hợp lệ."
         ));
+
         return;
       }
 
       resolve(result);
     }
 
-    window[callbackName] = result => finish(null, result);
+    window[callbackName] = result => {
+      finish(null, result);
+    };
 
-    script.onerror = () => finish(
-      new Error(
-        "Không tải được API. Kiểm tra URL /exec và quyền triển khai."
-      )
-    );
+    script.onerror = () => {
+      finish(new Error(
+        "Không tải được dữ liệu từ API."
+      ));
+    };
 
-    timer = setTimeout(() => finish(
-      new Error(
-        "API phản hồi quá 20 giây. Vui lòng thử tải lại."
-      )
-    ), 20000);
+    timer = setTimeout(() => {
+      finish(new Error(
+        "API phản hồi quá 20 giây. Vui lòng thử lại."
+      ));
+    }, 20000);
 
     script.src =
-      API_URL + separator +
-      "callback=" + encodeURIComponent(callbackName) +
-      "&_=" + Date.now();
+      API_URL +
+      separator +
+      "callback=" +
+      encodeURIComponent(callbackName) +
+      "&_=" +
+      Date.now();
 
     document.head.appendChild(script);
   });
 }
 
-/* TẢI DỮ LIỆU */
+/* =====================================================
+   5. KHỞI TẠO TRANG
+===================================================== */
 async function init() {
   setStatus("Đang tải");
 
   $("resultsCount").textContent = "Đang tải...";
+
   $("resultsWrap").innerHTML =
-    '<div class="empty">Đang tải dữ liệu từ Google Sheets...</div>';
+    '<div class="empty">Đang tải dữ liệu...</div>';
 
   try {
     const result = await loadJSONP();
@@ -938,29 +1162,30 @@ async function init() {
       : Object.keys(rows[0] || {});
 
     months = columns
-      .filter(column => /^\d{4}-T\d{2}$/i.test(String(column)))
+      .filter(column =>
+        /^\d{4}-T\d{2}$/i.test(String(column))
+      )
       .sort();
 
     aggregate();
 
     setStatus("Đã kết nối", "ok");
 
-    $("notice").textContent =
-      "Đã tải " + rows.length.toLocaleString("vi-VN") +
-      " dòng dữ liệu từ Google Sheets.";
-
     render();
+
   } catch (error) {
     console.error("AIKYA API error:", error);
 
     setStatus("Lỗi kết nối", "error");
+
     $("resultsCount").textContent = "Lỗi";
 
     $("resultsWrap").innerHTML = `
       <div class="empty">
-        <strong>Không tải được dữ liệu.</strong><br>
-        ${esc(error.message || error)}<br>
-        Hãy kiểm tra URL API và triển khai Apps Script.<br>
+        <strong>Không tải được dữ liệu.</strong>
+        <br>
+        ${esc(error.message || error)}
+        <br>
         <button type="button" class="btn" id="retryLoad">
           Thử tải lại
         </button>
@@ -968,17 +1193,17 @@ async function init() {
     `;
 
     $("retryLoad").addEventListener("click", init);
-
-    $("notice").textContent =
-      "Chưa kết nối được dữ liệu. Vui lòng thử tải lại.";
   }
 }
 
-/* GỘP DỮ LIỆU THEO KHÁCH HÀNG, TDV VÀ SẢN PHẨM */
+/* =====================================================
+   6. GỘP DỮ LIỆU KHÁCH HÀNG VÀ SẢN PHẨM
+===================================================== */
 function aggregate() {
   const customerMap = new Map();
 
   rows.forEach(row => {
+
     const customerName = str(row["KHACH HANG"]);
     const rep = str(row["NVBH"]);
     const productName = str(row["SAN PHAM"]);
@@ -999,6 +1224,7 @@ function aggregate() {
     }
 
     const customer = customerMap.get(customerKey);
+
     const productKey = norm(productName);
 
     if (!customer.products.has(productKey)) {
@@ -1010,6 +1236,7 @@ function aggregate() {
     }
 
     const product = customer.products.get(productKey);
+
     const total = num(row["TONG"]);
 
     product.total += total;
@@ -1023,11 +1250,14 @@ function aggregate() {
           (product.months[month] || 0) + amount;
       }
     });
+
   });
 
   customers = [...customerMap.values()].map(customer => {
+
     customer.products = [...customer.products.values()]
       .map(product => {
+
         const boughtMonths = months.filter(
           month => (product.months[month] || 0) > 0
         );
@@ -1045,7 +1275,9 @@ function aggregate() {
             : 0
         };
       })
-      .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+      .sort((a, b) =>
+        a.name.localeCompare(b.name, "vi")
+      );
 
     return customer;
   });
@@ -1053,15 +1285,20 @@ function aggregate() {
   renderRepChips();
 }
 
-/* BỘ LỌC TDV */
+/* =====================================================
+   7. HIỂN THỊ DANH SÁCH TDV
+===================================================== */
 function renderRepChips() {
   const reps = [...new Set(
-    customers.map(c => c.rep).filter(Boolean)
+    customers.map(customer => customer.rep).filter(Boolean)
   )].sort((a, b) => a.localeCompare(b, "vi"));
 
   const options = [
     { name: "Tất cả TDV", value: "" },
-    ...reps.map(rep => ({ name: rep, value: rep }))
+    ...reps.map(rep => ({
+      name: rep,
+      value: rep
+    }))
   ];
 
   $("repChips").innerHTML = options.map(rep => `
@@ -1073,31 +1310,44 @@ function renderRepChips() {
   `).join("");
 
   $("repChips").querySelectorAll("[data-rep]").forEach(button => {
+
     button.addEventListener("click", () => {
       selectedRep = button.dataset.rep;
       selectedCustomer = null;
+
       syncReps();
       render();
     });
+
   });
 }
 
 function syncReps() {
-  $("repChips").querySelectorAll("[data-rep]").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.rep === selectedRep
-    );
-  });
+  $("repChips")
+    .querySelectorAll("[data-rep]")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.rep === selectedRep
+      );
+
+    });
 }
 
-/* LỌC KHÁCH HÀNG */
+/* =====================================================
+   8. LỌC DỮ LIỆU
+===================================================== */
 function filteredCustomers() {
   const customerQuery = norm($("customerSearch").value);
   const productQuery = norm($("productSearch").value);
 
   return customers.map(customer => {
-    if (selectedRep && customer.rep !== selectedRep) {
+
+    if (
+      selectedRep &&
+      customer.rep !== selectedRep
+    ) {
       return null;
     }
 
@@ -1114,7 +1364,10 @@ function filteredCustomers() {
         )
       : customer.products;
 
-    if (productQuery && matchingProducts.length === 0) {
+    if (
+      productQuery &&
+      matchingProducts.length === 0
+    ) {
       return null;
     }
 
@@ -1122,13 +1375,19 @@ function filteredCustomers() {
       ...customer,
       visibleProducts: matchingProducts,
       visibleTotal: productQuery
-        ? matchingProducts.reduce((sum, p) => sum + p.total, 0)
+        ? matchingProducts.reduce(
+            (sum, product) => sum + product.total,
+            0
+          )
         : customer.total
     };
+
   }).filter(Boolean);
 }
 
-/* HIỂN THỊ DANH SÁCH KHÁCH HÀNG */
+/* =====================================================
+   9. HIỂN THỊ DANH SÁCH KHÁCH HÀNG
+===================================================== */
 function render() {
   if (selectedCustomer) {
     renderDetail(selectedCustomer);
@@ -1139,10 +1398,13 @@ function render() {
   $("detailPanel").classList.add("hidden");
 
   const list = filteredCustomers();
+
   const productQuery = norm($("productSearch").value);
   const customerQuery = norm($("customerSearch").value);
 
-  list.sort((a, b) => b.visibleTotal - a.visibleTotal);
+  list.sort((a, b) =>
+    b.visibleTotal - a.visibleTotal
+  );
 
   $("resultsTitle").textContent = productQuery
     ? "Khách hàng có sản phẩm phù hợp"
@@ -1150,22 +1412,20 @@ function render() {
       ? "Kết quả tìm khách hàng"
       : "Danh sách khách hàng";
 
-  $("resultsHint").textContent = productQuery
-    ? "Doanh số được tính theo sản phẩm khớp từ khóa."
-    : "Nhấn tên khách hàng để xem chi tiết. Doanh số giảm dần.";
-
   $("resultsCount").textContent =
-    list.length.toLocaleString("vi-VN") + " khách hàng";
+    list.length.toLocaleString("vi-VN") +
+    " khách hàng";
 
   if (!list.length) {
     $("resultsWrap").innerHTML =
       '<div class="empty">Không tìm thấy kết quả phù hợp.</div>';
+
     return;
   }
 
   const body = list.map(customer => `
     <tr>
-      <td class="name-cell" data-label="Tên khách hàng">
+      <td class="name-cell">
         <button
           type="button"
           class="row-open"
@@ -1173,17 +1433,17 @@ function render() {
         >${esc(customer.customer)}</button>
       </td>
 
-      <td class="rep-cell" data-label="TDV">
+      <td class="rep-cell">
         ${esc(customer.rep || "—")}
       </td>
 
-      <td class="number-cell" data-label="Số sản phẩm">
+      <td class="number-cell">
         ${productQuery
           ? customer.visibleProducts.length
           : customer.products.length}
       </td>
 
-      <td class="money-cell" data-label="Doanh số tổng">
+      <td class="money-cell">
         ${money(customer.visibleTotal)}
       </td>
     </tr>
@@ -1200,19 +1460,26 @@ function render() {
             <th style="text-align:right">DSO TỔNG</th>
           </tr>
         </thead>
+
         <tbody>${body}</tbody>
       </table>
     </div>
   `;
 
-  $("resultsWrap").querySelectorAll("[data-key]").forEach(button => {
-    button.addEventListener("click", () => {
-      openDetail(button.dataset.key);
+  $("resultsWrap")
+    .querySelectorAll("[data-key]")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+        openDetail(button.dataset.key);
+      });
+
     });
-  });
 }
 
-/* MỞ CHI TIẾT KHÁCH HÀNG */
+/* =====================================================
+   10. MỞ CHI TIẾT KHÁCH HÀNG
+===================================================== */
 function openDetail(key) {
   selectedCustomer =
     customers.find(customer => customer.key === key) || null;
@@ -1222,13 +1489,16 @@ function openDetail(key) {
   renderDetail(selectedCustomer);
 
   window.scrollTo({
-    top: $("detailPanel").getBoundingClientRect().top +
-         window.scrollY - 8,
+    top:
+      $("detailPanel").getBoundingClientRect().top +
+      window.scrollY - 8,
     behavior: "smooth"
   });
 }
 
-/* HIỂN THỊ SẢN PHẨM CỦA KHÁCH HÀNG */
+/* =====================================================
+   11. HIỂN THỊ CHI TIẾT SẢN PHẨM
+===================================================== */
 function renderDetail(customer) {
   $("resultsPanel").classList.add("hidden");
   $("detailPanel").classList.remove("hidden");
@@ -1247,14 +1517,17 @@ function renderDetail(customer) {
   );
 
   const visibleTotal = visibleProducts.reduce(
-    (sum, product) => sum + product.total, 0
+    (sum, product) => sum + product.total,
+    0
   );
 
   $("detailTitle").textContent = customer.customer;
 
   $("detailMeta").textContent =
     "TDV: " + (customer.rep || "Chưa có") +
-    " · " + visibleProducts.length + " sản phẩm";
+    " · " +
+    visibleProducts.length +
+    " sản phẩm";
 
   $("detailTotal").textContent =
     (productQuery
@@ -1265,28 +1538,29 @@ function renderDetail(customer) {
   if (!visibleProducts.length) {
     $("productList").innerHTML =
       '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
+
     return;
   }
 
   const body = visibleProducts.map(product => `
     <tr>
-      <td class="name-cell" data-label="Sản phẩm">
+      <td class="name-cell">
         ${esc(product.name)}
       </td>
 
-      <td class="money-cell" data-label="Doanh số tổng">
+      <td class="money-cell">
         ${money(product.total)}
       </td>
 
-      <td class="number-cell" data-label="Số tháng lấy">
+      <td class="number-cell">
         ${product.monthCount}
       </td>
 
-      <td class="number-cell" data-label="Tháng gần nhất">
+      <td class="number-cell">
         ${esc(product.latest || "—")}
       </td>
 
-      <td class="money-cell" data-label="Doanh số tháng gần nhất">
+      <td class="money-cell">
         ${money(product.latestSales)}
       </td>
     </tr>
@@ -1304,13 +1578,16 @@ function renderDetail(customer) {
             <th>DOANH SỐ THÁNG GẦN NHẤT</th>
           </tr>
         </thead>
+
         <tbody>${body}</tbody>
       </table>
     </div>
   `;
 }
 
-/* ĐẶT LẠI BỘ LỌC */
+/* =====================================================
+   12. ĐẶT LẠI BỘ LỌC
+===================================================== */
 function resetFilters() {
   selectedRep = "";
   selectedCustomer = null;
@@ -1321,10 +1598,15 @@ function resetFilters() {
   syncReps();
   render();
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
-/* SỰ KIỆN GIAO DIỆN */
+/* =====================================================
+   13. SỰ KIỆN GIAO DIỆN
+===================================================== */
 $("customerSearch").addEventListener("input", () => {
   selectedCustomer = null;
   render();
@@ -1341,14 +1623,19 @@ $("back").addEventListener("click", () => {
   render();
 
   window.scrollTo({
-    top: $("resultsPanel").getBoundingClientRect().top +
-         window.scrollY - 8,
+    top:
+      $("resultsPanel").getBoundingClientRect().top +
+      window.scrollY - 8,
     behavior: "smooth"
   });
 });
 
-/* KHỞI CHẠY */
+/* =====================================================
+   14. CHẠY ỨNG DỤNG
+===================================================== */
 init();
+
 </script>
+
 </body>
 </html>
