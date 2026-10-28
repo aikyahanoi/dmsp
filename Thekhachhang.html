@@ -1,413 +1,645 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f1f3f9">
+<meta name="theme-color" content="#10334f">
 <title>Lịch sử lấy hàng | AIKYA</title>
 
 <style>
 :root {
-  --red: #b51f38;
-  --red-dark: #8f152b;
-  --ink: #202536;
-  --muted: #737c90;
-  --glass: rgba(255,255,255,.68);
-  --border: rgba(255,255,255,.95);
-  --shadow: 0 12px 35px rgba(48,57,85,.10);
-  --radius: 22px;
+  --navy: #10334f;
+  --blue: #075d88;
+  --teal: #008b91;
+  --ink: #172f45;
+  --muted: #526a7e;
+  --line: #cbd9e5;
+  --surface: rgba(255,255,255,.91);
+  --pale: #eaf3f9;
+  --shadow: 0 7px 24px rgba(16,51,79,.10);
+  --radius: 16px;
 }
+
 * { box-sizing: border-box; }
-html { min-height: 100%; }
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   background:
-    radial-gradient(ellipse at 0 0, #fff 0, transparent 36rem),
-    radial-gradient(ellipse at 100% 8%, #dce5ff 0, transparent 30rem),
-    radial-gradient(ellipse at 70% 100%, #ffe4e9 0, transparent 32rem),
-    linear-gradient(145deg,#f5f6fb,#e9edf6);
+    radial-gradient(ellipse at 0 0, #d6eaf6 0, transparent 38rem),
+    radial-gradient(ellipse at 100% 0, #dce7ff 0, transparent 32rem),
+    linear-gradient(145deg, #edf4fa, #e4edf6);
   background-attachment: fixed;
 }
+
 button, input { font: inherit; }
 button { cursor: pointer; }
-.top, main, footer { max-width: 1240px; margin: auto; }
-.top { padding: 16px 14px 12px; }
-.top-inner {
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 10px;
-}
-.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.logo {
-  width: 46px; height: 46px; object-fit: contain;
-  padding: 4px; flex-shrink: 0;
-  border-radius: 15px; background: var(--glass);
-  border: 1px solid var(--border); box-shadow: var(--shadow);
-}
-h1 {
-  margin: 0; font-size: clamp(18px,2.5vw,27px);
-  line-height: 1.15; font-weight: 850; letter-spacing: -.5px;
-}
-.subtitle { margin-top: 5px; font-size: 11px; color: var(--muted); }
-.connection {
-  flex-shrink: 0; display: flex; align-items: center; gap: 6px;
-  padding: 8px 10px; border-radius: 99px;
-  background: var(--glass); border: 1px solid var(--border);
-  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  color: #586174; font-size: 10px;
-}
-.dot { width: 7px; height: 7px; border-radius: 50%; background: #d5a13b; }
-.dot.ok { background: #1ca56a; }
-.dot.error { background: #d64050; }
 
-main { padding: 7px 14px 30px; }
+button:focus-visible, input:focus-visible {
+  outline: 3px solid rgba(0,139,145,.3);
+  outline-offset: 2px;
+}
+
+.top, main, footer {
+  width: min(1240px, 100%);
+  margin-inline: auto;
+}
+
+.top { padding: 16px 14px 12px; }
+
+.top-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  padding: 4px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #d2e0eb;
+  box-shadow: var(--shadow);
+}
+
+h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(19px, 2.5vw, 28px);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: -.45px;
+}
+
+.subtitle {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.connection {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border: 1px solid #cadbe8;
+  border-radius: 99px;
+  background: rgba(255,255,255,.86);
+  color: #36566f;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d49a28;
+}
+
+.dot.ok { background: #119765; }
+.dot.error { background: #d52f45; }
+
+main { padding: 6px 14px 30px; }
+
+/* LIQUID GLASS */
 .glass {
-  background: var(--glass);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,.79);
+  border: 1px solid rgba(255,255,255,.96);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(24px) saturate(1.35);
-  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
 }
-.stats {
-  display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
-  gap: 10px; margin-bottom: 12px;
-}
-.stat { padding: 15px; min-width: 0; }
-.stat-label {
-  color: var(--muted); font-size: 10px; font-weight: 800;
-  letter-spacing: .3px;
-}
-.stat-value {
-  margin-top: 7px; color: var(--red);
-  font-size: clamp(19px,2.5vw,27px); font-weight: 850;
-  overflow-wrap: anywhere;
-}
-.filters { padding: 15px; margin-bottom: 12px; }
-.section-head {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 8px; margin-bottom: 12px;
-}
-.section-head h2, .results-head h2, .detail-head h2 {
-  margin: 0; font-size: 15px; font-weight: 850;
-}
-.hint { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
-.btn {
-  padding: 9px 12px; border-radius: 12px;
-  border: 1px solid var(--border); color: var(--red);
-  background: rgba(255,255,255,.8); font-size: 11px; font-weight: 800;
-  box-shadow: 0 4px 12px rgba(60,70,90,.05);
-}
-.rep-label { margin-bottom: 7px; color: #626b7c; font-size: 10px; font-weight: 800; }
-.rep-scroll {
-  display: flex; gap: 7px; overflow-x: auto;
-  overscroll-behavior-x: contain;
-  padding: 1px 1px 9px; margin-bottom: 8px;
-  scrollbar-width: thin;
-}
-.rep-chip {
-  flex: 0 0 auto; white-space: nowrap;
-  padding: 8px 12px; border-radius: 99px;
-  border: 1px solid white; background: rgba(255,255,255,.7);
-  color: #515a6c; font-size: 11px; font-weight: 750;
-}
-.rep-chip.active {
-  background: linear-gradient(135deg,#d13b50,var(--red-dark));
-  color: white; border-color: transparent;
-  box-shadow: 0 5px 14px rgba(169,27,48,.2);
-}
-.search-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-.field { min-width: 0; }
-.field label {
-  display: block; margin: 0 0 6px 2px;
-  color: #656d7d; font-size: 10px; font-weight: 800;
-}
-.input-wrap { position: relative; }
-.input-wrap .search-icon {
-  position: absolute; left: 12px; top: 50%;
-  transform: translateY(-50%); opacity: .55;
-}
-input {
-  width: 100%; min-width: 0; height: 43px;
-  padding: 0 10px 0 33px; border-radius: 13px;
-  border: 1px solid white; outline: none;
-  background: rgba(255,255,255,.75);
-  color: var(--ink); font-size: 12px;
-}
-input:focus {
-  border-color: #d99aa5;
-  box-shadow: 0 0 0 3px rgba(181,31,56,.08);
-}
-input::placeholder { color: #9aa1ae; }
 
-.results { overflow: hidden; }
-.results-head {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px; padding: 15px 16px 12px;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+  margin-bottom: 12px;
 }
-.count {
-  flex-shrink: 0; padding: 7px 9px; border-radius: 99px;
-  color: #8b2437; background: rgba(251,233,237,.8);
-  border: 1px solid white; font-size: 10px;
+
+.stat {
+  min-width: 0;
+  padding: 13px 15px;
+  border: 1px solid #c7d9e7;
+  border-top: 3px solid var(--teal);
 }
-.customer-list {
-  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 8px; padding: 0 9px 10px;
+
+.stat-label {
+  color: #405b71;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .35px;
 }
-.customer-card {
-  min-width: 0; display: grid;
-  grid-template-columns: minmax(0,1fr) auto;
-  align-items: center; gap: 7px; padding: 12px;
-  border-radius: 16px; border: 1px solid white;
-  background: rgba(255,255,255,.72);
-}
-.customer-name {
-  font-size: 12px; font-weight: 850;
-  line-height: 1.4; overflow-wrap: anywhere;
-}
-.rep-name { margin-top: 4px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
-.tag {
-  display: inline-block; margin-top: 7px; padding: 4px 6px;
-  border-radius: 99px; border: 1px solid white;
-  background: rgba(238,240,246,.8); color: #667084; font-size: 9px;
-}
-.customer-total {
-  color: var(--red); font-size: 12px; font-weight: 850;
-  text-align: right; overflow-wrap: anywhere;
+
+.stat-value {
+  margin-top: 6px;
+  color: var(--blue);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
   font-variant-numeric: tabular-nums;
 }
-.open-btn {
-  margin-top: 7px; padding: 7px 9px; border: 0;
-  border-radius: 10px; color: white;
-  background: linear-gradient(135deg,#d13b50,var(--red-dark));
-  font-size: 10px; font-weight: 800; white-space: nowrap;
-}
-.empty {
-  padding: 28px 16px; text-align: center;
-  color: var(--muted); font-size: 12px; line-height: 1.7;
-}
-.detail { padding: 14px; margin-top: 12px; }
-.detail-head {
-  display: flex; align-items: flex-start;
-  justify-content: space-between; gap: 9px; margin-bottom: 12px;
-}
-.detail-head h2 { font-size: 16px; overflow-wrap: anywhere; }
-.detail-meta { margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.5; }
-.detail-total { margin-top: 6px; color: var(--red); font-size: 12px; font-weight: 850; }
-.product-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
-.product {
-  min-width: 0; padding: 12px; border-radius: 16px;
-  border: 1px solid white; background: rgba(255,255,255,.78);
-}
-.product-name {
-  margin-bottom: 9px; font-size: 12px; font-weight: 850;
-  line-height: 1.4; overflow-wrap: anywhere;
-}
-.product-total {
-  color: var(--red); font-size: 15px; font-weight: 850;
-  overflow-wrap: anywhere; font-variant-numeric: tabular-nums;
-}
-.product-total-label { margin-top: 2px; color: var(--muted); font-size: 9px; }
-.product-meta {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
-  border-top: 1px solid #dfe3ec; margin-top: 10px; padding-top: 9px;
-}
-.mini-label { color: var(--muted); font-size: 9px; line-height: 1.4; }
-.mini-value { margin-top: 4px; font-size: 10px; font-weight: 850; overflow-wrap: anywhere; }
-.latest {
-  grid-column: 1 / -1; display: flex; align-items: center;
-  justify-content: space-between; gap: 7px; padding: 8px 9px;
-  border-radius: 10px; background: rgba(249,232,236,.8);
-}
-.latest .mini-value { color: var(--red); font-size: 11px; }
-.hidden { display: none !important; }
-.notice { padding: 15px 8px 0; color: #858c9a; text-align: center; font-size: 9px; line-height: 1.6; }
-footer { padding: 0 16px 22px; color: #7d8492; font-size: 10px; line-height: 1.6; }
 
-@media(max-width:640px) {
-  .top { padding: 13px 10px 10px; }
-  .top-inner { gap: 7px; }
-  .brand { gap: 8px; }
-  .logo { width: 39px; height: 39px; }
-  h1 { font-size: 17px; letter-spacing: -.3px; }
-  .subtitle { font-size: 9px; }
-  .connection { padding: 7px 8px; font-size: 9px; max-width: 96px; }
-  main { padding: 4px 8px 24px; }
-  .stats { gap: 6px; margin-bottom: 9px; }
-  .stat { padding: 10px 9px; border-radius: 17px; }
-  .stat-label { font-size: 8px; letter-spacing: 0; line-height: 1.4; }
-  .stat-value { margin-top: 6px; font-size: 18px; }
-  .filters { padding: 12px; border-radius: 20px; margin-bottom: 9px; }
-  .section-head h2 { font-size: 14px; }
-  .hint { font-size: 9px; }
-  .search-grid { grid-template-columns: minmax(0,1fr); gap: 8px; }
-  .field label { font-size: 9px; margin-bottom: 5px; }
-  input { height: 41px; font-size: 12px; }
-  .rep-chip { padding: 8px 11px; font-size: 10px; }
-  .results-head { padding: 12px 11px 10px; align-items: flex-start; }
-  .results-head h2 { font-size: 13px; }
-  .count { padding: 6px 7px; font-size: 9px; }
-  .customer-list { grid-template-columns: minmax(0,1fr); padding: 0 7px 8px; gap: 7px; }
-  .customer-card { padding: 10px; border-radius: 14px; }
-  .customer-name { font-size: 12px; }
-  .customer-total { font-size: 12px; }
-  .detail { padding: 11px; border-radius: 20px; }
-  .detail-head h2 { font-size: 14px; }
-  .product-list { grid-template-columns: minmax(0,1fr); gap: 7px; }
-  .product { padding: 11px; border-radius: 14px; }
-  .product-name { font-size: 12px; margin-bottom: 7px; }
-  .product-total { font-size: 15px; }
-  .product-meta { margin-top: 8px; padding-top: 8px; }
-}
-@media(prefers-reduced-transparency:reduce) {
-  .glass,.connection,.logo { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
+/* BỘ LỌC */
+.filters {
+  padding: 15px;
+  margin-bottom: 12px;
 }
 
-
-/* ===== AIKYA · PREMIUM BLUE LIQUID GLASS ===== */
-:root {
-  --red: #2563a6;
-  --red-dark: #174675;
-  --ink: #172b42;
-  --muted: #718096;
-  --glass: rgba(255, 255, 255, .57);
-  --border: rgba(255, 255, 255, .82);
-  --shadow: 0 12px 36px rgba(34, 65, 105, .09);
-  --radius: 23px;
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-body {
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse at 8% 0%, rgba(255,255,255,.98), transparent 36%),
-    radial-gradient(ellipse at 92% 12%, rgba(180,211,245,.48), transparent 35%),
-    radial-gradient(ellipse at 5% 85%, rgba(204,225,246,.42), transparent 32%),
-    linear-gradient(145deg, #f3f7fc 0%, #e8eff8 50%, #f5f8fc 100%);
-  background-attachment: fixed;
+.section-head h2,
+.results-head h2,
+.detail-head h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 900;
 }
 
-.glass {
-  background: rgba(255, 255, 255, .48);
-  border: 1px solid rgba(255,255,255,.82);
-  box-shadow:
-    0 12px 36px rgba(39,67,103,.075),
-    inset 0 1px 0 rgba(255,255,255,.9);
-  backdrop-filter: blur(28px) saturate(155%);
-  -webkit-backdrop-filter: blur(28px) saturate(155%);
-}
-
-.logo {
-  background: rgba(255,255,255,.58);
-  border: 1px solid rgba(255,255,255,.9);
-  box-shadow: 0 8px 24px rgba(39,67,103,.10);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.connection {
-  background: rgba(255,255,255,.48);
-  border-color: rgba(255,255,255,.88);
-  color: #49627e;
-}
-
-.stat-value,
-.customer-total,
-.product-total,
-.detail-total {
-  color: #245e96;
+.hint {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
 }
 
 .btn {
-  color: #285d91;
-  background: rgba(255,255,255,.58);
-  border-color: rgba(255,255,255,.92);
-  transition: background .2s ease, transform .2s ease;
+  padding: 9px 12px;
+  border: 1px solid #b8cedd;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 850;
+  white-space: nowrap;
+  transition: .18s ease;
 }
 
 .btn:hover {
-  background: rgba(255,255,255,.9);
-  transform: translateY(-1px);
+  background: #e7f3f8;
+  border-color: #82b5cc;
+}
+
+.rep-label {
+  margin-bottom: 7px;
+  color: #34536b;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.rep-scroll {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 1px 1px 9px;
+  margin-bottom: 7px;
+  scrollbar-width: thin;
+  scrollbar-color: #9ab7c9 transparent;
 }
 
 .rep-chip {
-  background: rgba(255,255,255,.52);
-  border-color: rgba(255,255,255,.9);
-  color: #50657d;
-  transition: all .2s ease;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid #c7d8e5;
+  border-radius: 99px;
+  background: #fff;
+  color: #34536b;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: .18s ease;
 }
 
+.rep-chip:hover { border-color: var(--teal); }
+
 .rep-chip.active {
-  background: linear-gradient(135deg, #477fb5, #245789);
   color: #fff;
-  box-shadow: 0 5px 16px rgba(37,88,137,.2);
+  background: linear-gradient(120deg, #087e98, #07527d);
+  border-color: transparent;
+  box-shadow: 0 4px 11px rgba(7,93,136,.2);
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+}
+
+.field { min-width: 0; }
+
+.field label {
+  display: block;
+  margin: 0 0 6px 2px;
+  color: #34536b;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.input-wrap { position: relative; }
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #456a83;
+  font-size: 18px;
+  pointer-events: none;
 }
 
 input {
-  background: rgba(255,255,255,.58);
-  border-color: rgba(255,255,255,.9);
-  color: #172b42;
-  box-shadow: inset 0 1px 2px rgba(44,68,99,.025);
-  transition: background .2s ease, box-shadow .2s ease;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0 11px 0 35px;
+  border: 1px solid #c0d2e0;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
 }
+
+input::placeholder { color: #75899b; }
 
 input:focus {
-  background: rgba(255,255,255,.88);
-  border-color: rgba(83,142,199,.6);
-  box-shadow: 0 0 0 3px rgba(64,125,184,.11);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,139,145,.13);
 }
 
-.customer-card,
-.product {
-  background: rgba(255,255,255,.48);
-  border-color: rgba(255,255,255,.88);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-  transition: transform .2s ease, background .2s ease,
-              box-shadow .2s ease;
-}
+/* BẢNG KHÁCH HÀNG */
+.results { overflow: hidden; }
 
-.customer-card:hover,
-.product:hover {
-  background: rgba(255,255,255,.72);
-  box-shadow: 0 7px 20px rgba(42,72,110,.07);
-  transform: translateY(-1px);
-}
-
-.open-btn {
-  background: linear-gradient(135deg, #477fb5, #245789);
-  box-shadow: 0 4px 12px rgba(37,88,137,.16);
+.results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 15px 12px;
+  border-bottom: 1px solid #d2e0ea;
 }
 
 .count {
-  color: #285d91;
-  background: rgba(222,237,251,.65);
-  border-color: rgba(255,255,255,.9);
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: 99px;
+  background: #075d88;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 850;
 }
 
-.latest {
-  background: rgba(220,235,249,.55);
-  border: 1px solid rgba(255,255,255,.72);
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.latest .mini-value {
-  color: #245e96;
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: 12px;
 }
 
-.product-meta {
-  border-top-color: rgba(112,139,170,.17);
+.data-table th {
+  padding: 10px 11px;
+  color: #fff;
+  background: linear-gradient(120deg, #153e5c, #075d88);
+  border: 1px solid #456a84;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.4;
+  letter-spacing: .15px;
 }
 
-.tag {
-  background: rgba(232,240,249,.65);
-  color: #526d8b;
+.data-table td {
+  padding: 8px 11px;
+  color: #203a50;
+  background: rgba(255,255,255,.96);
+  border: 1px solid #d0dce6;
+  vertical-align: middle;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
+.data-table tbody tr:nth-child(even) td {
+  background: #edf4f9;
+}
+
+.data-table tbody tr:hover td {
+  background: #dceef7;
+}
+
+.data-table .name-cell {
+  color: #123e5c;
+  font-weight: 850;
+}
+
+.data-table .rep-cell { color: #425e74; }
+
+.data-table .money-cell {
+  text-align: right;
+  color: #075d88;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table .number-cell {
+  text-align: center;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.row-open {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #075d88;
+  font: inherit;
+  font-weight: 850;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.row-open:hover {
+  color: #008b91;
+  text-decoration: underline;
+}
+
+/* CHI TIẾT KHÁCH HÀNG */
+.detail {
+  margin-top: 12px;
+  padding: 14px;
+}
+
+.detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.detail-head h2 {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+.detail-meta {
+  margin-top: 5px;
+  color: #435e73;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.detail-total {
+  margin-top: 7px;
+  color: #075d88;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.detail-table th,
+.detail-table td { padding: 8px 9px; }
+
+.detail-table .name-cell { min-width: 170px; }
+
+.hidden { display: none !important; }
+
+.empty {
+  padding: 28px 15px;
+  color: #526a7e;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.empty .btn { margin-top: 12px; }
+
+.notice {
+  padding: 13px 8px 0;
+  color: #536b7f;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+footer {
+  padding: 0 16px 22px;
+  color: #526a7e;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* ĐIỆN THOẠI: THẺ DỌC, KHÔNG KÉO NGANG BẢNG */
 @media (max-width: 640px) {
-  .glass {
-    backdrop-filter: blur(22px) saturate(150%);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
+  .top { padding: 12px 9px 10px; }
+
+  .top-inner { gap: 6px; }
+
+  .brand { gap: 8px; }
+
+  .logo {
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
   }
+
+  h1 {
+    font-size: 17px;
+    letter-spacing: -.25px;
+  }
+
+  .subtitle { font-size: 9px; }
+
+  .connection {
+    gap: 5px;
+    padding: 7px 8px;
+    max-width: 102px;
+    font-size: 9px;
+  }
+
+  main { padding: 4px 7px 22px; }
+
+  .stats {
+    gap: 6px;
+    margin-bottom: 9px;
+  }
+
+  .stat {
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+
+  .stat-label {
+    font-size: 8px;
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+
+  .stat-value {
+    margin-top: 6px;
+    font-size: 17px;
+  }
+
+  .filters {
+    padding: 11px;
+    margin-bottom: 9px;
+    border-radius: 14px;
+  }
+
+  .section-head { margin-bottom: 10px; }
+
+  .section-head h2,
+  .results-head h2 { font-size: 13px; }
+
+  .hint { font-size: 9px; }
+
+  .search-grid {
+    grid-template-columns: minmax(0,1fr);
+    gap: 9px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .rep-chip {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .results-head { padding: 11px 10px; }
+
+  .count {
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+
+  .table-wrap {
+    padding: 7px;
+    overflow-x: hidden;
+  }
+
+  .data-table,
+  .data-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .data-table thead { display: none; }
+
+  .data-table tbody tr {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    overflow: hidden;
+    border: 1px solid #b9cede;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(16,51,79,.07);
+  }
+
+  .data-table tbody tr:last-child { margin-bottom: 0; }
+
+  .data-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(105px, 40%) minmax(0,1fr);
+    gap: 8px;
+    width: 100%;
+    padding: 8px 9px;
+    border: 0;
+    border-bottom: 1px solid #d7e2eb;
+    text-align: left;
+    font-size: 11px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .data-table tbody td:last-child { border-bottom: 0; }
+
+  .data-table tbody td::before {
+    content: attr(data-label);
+    color: #31536d;
+    font-size: 10px;
+    font-weight: 850;
+    line-height: 1.4;
+  }
+
+  .data-table .money-cell,
+  .data-table .number-cell {
+    text-align: left;
+    white-space: normal;
+  }
+
+  .data-table .name-cell {
+    display: block;
+    padding: 10px;
+    background: #dceef7 !important;
+    color: #123e5c;
+    font-size: 12px;
+  }
+
+  .data-table .name-cell::before {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .detail {
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .detail-head { gap: 7px; }
+
+  .detail-head h2 { font-size: 14px; }
+
+  .detail-meta { font-size: 10px; }
+
+  .detail-total { font-size: 12px; }
+
+  .btn {
+    padding: 8px 9px;
+    font-size: 10px;
+  }
+
+  .notice { font-size: 9px; }
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -417,469 +649,6 @@ input:focus {
     background: #fff;
   }
 }
-
-
-/* ===== BẢNG DỮ LIỆU LIQUID GLASS ===== */
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 12px;
-}
-
-.data-table th {
-  padding: 13px 12px;
-  text-align: left;
-  white-space: nowrap;
-  color: #486581;
-  background: rgba(228,239,250,.72);
-  border-bottom: 1px solid rgba(255,255,255,.9);
-  font-size: 10px;
-  font-weight: 850;
-}
-
-.data-table th:first-child { border-radius: 12px 0 0 0; }
-.data-table th:last-child { border-radius: 0 12px 0 0; }
-
-.data-table td {
-  padding: 13px 12px;
-  border-bottom: 1px solid rgba(110,140,170,.12);
-  background: rgba(255,255,255,.32);
-  vertical-align: middle;
-}
-
-.data-table tbody tr {
-  cursor: pointer;
-  transition: background .18s ease;
-}
-
-.data-table tbody tr:hover td {
-  background: rgba(220,237,252,.7);
-}
-
-.data-table .name-cell {
-  font-weight: 800;
-  color: #203c59;
-}
-
-.data-table .money-cell {
-  text-align: right;
-  white-space: nowrap;
-  font-weight: 850;
-  color: #245e96;
-  font-variant-numeric: tabular-nums;
-}
-
-.data-table .number-cell {
-  text-align: center;
-  white-space: nowrap;
-}
-
-.data-table .rep-cell {
-  color: #647991;
-  min-width: 100px;
-}
-
-.row-open {
-  color: #2c669c;
-  font-size: 10px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-@media(max-width:640px) {
-  .data-table { font-size: 11px; }
-  .data-table th, .data-table td { padding: 11px 8px; }
-  .data-table th { font-size: 9px; }
-  .data-table .rep-cell { min-width: 80px; }
-}
-
-
-/* ===== AIKYA: GIAO DIỆN RÕ NÉT, GỌN VÀ HIỆN ĐẠI ===== */
-:root {
-  --r: #087f8c;
-  --ink: #172b3a;
-  --muted: #536779;
-  --line: #cbd8e2;
-  --bg: #edf3f8;
-  --shadow: 0 5px 18px rgba(24, 55, 78, .09);
-}
-
-body {
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse at top left, #dceff5 0, transparent 45%),
-    #edf3f8;
-}
-
-header {
-  background: linear-gradient(120deg, #10334d 0%, #086b80 60%, #0b9ba1 100%);
-  box-shadow: 0 5px 20px rgba(16, 51, 77, .22);
-}
-
-.stat, .panel {
-  background: rgba(255,255,255,.94);
-  border: 1px solid #cfdee8;
-  box-shadow: 0 5px 18px rgba(24,55,78,.08);
-  border-radius: 13px;
-}
-
-.stat {
-  padding: 11px 15px;
-}
-
-.label {
-  color: #425b6e;
-  font-weight: 700;
-}
-
-.value {
-  color: #087f8c;
-  font-size: 24px;
-}
-
-.ptitle {
-  padding: 11px 14px;
-  background: linear-gradient(90deg, #e4f3f6, #f7fbfd);
-  border-bottom: 1px solid #bfd3df;
-}
-
-.ptitle h2 {
-  color: #123e56;
-  font-weight: 800;
-}
-
-.filters {
-  gap: 9px;
-  padding: 12px;
-}
-
-.field label {
-  color: #29485d;
-}
-
-input, select {
-  border-color: #bdceda;
-  border-radius: 8px;
-  background: #fff;
-}
-
-input:focus, select:focus {
-  border-color: #078b99;
-  box-shadow: 0 0 0 3px #078b991c;
-}
-
-button {
-  background: linear-gradient(135deg, #087f8c, #08657d);
-}
-
-button:hover {
-  background: #064f65;
-}
-
-button.secondary {
-  background: #e5f3f5;
-  color: #075d70;
-  border: 1px solid #b4d8df;
-}
-
-.resultshead {
-  padding: 8px 12px;
-  color: #425b6e;
-  font-weight: 600;
-}
-
-/* KẺ DỌC VÀ NGANG RÕ RÀNG */
-.tablewrap {
-  overflow-x: auto;
-  border-top: 1px solid #bfd0dc;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  font-size: 12px;
-  white-space: normal;
-}
-
-th, td {
-  padding: 7px 10px;
-  border-right: 1px solid #d2dee7;
-  border-bottom: 1px solid #d2dee7;
-  line-height: 1.35;
-  vertical-align: middle;
-}
-
-th:last-child, td:last-child {
-  border-right: 0;
-}
-
-th {
-  background: #dcecf3;
-  color: #123e56;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .2px;
-}
-
-tbody tr:nth-child(even) td {
-  background: #f5f9fc;
-}
-
-tbody tr:hover td {
-  background: #e5f5f6;
-}
-
-.customer, .product {
-  min-width: 0;
-  max-width: none;
-  overflow-wrap: anywhere;
-}
-
-.customer {
-  font-weight: 750;
-}
-
-.sub {
-  color: #536779;
-  margin-top: 2px;
-}
-
-.pill {
-  background: #d9f0f0;
-  color: #075d70;
-  border: 1px solid #b9e0e2;
-  white-space: nowrap;
-}
-
-.linkbtn {
-  color: #076b80;
-  font-weight: 800;
-}
-
-.num {
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
-}
-
-.summary {
-  padding: 10px 14px;
-  gap: 8px 18px;
-  color: #425b6e;
-}
-
-.summary strong {
-  color: #075d70;
-}
-
-/* ĐIỆN THOẠI: KHÔNG CẦN KÉO NGANG ĐỂ ĐỌC */
-@media (max-width: 600px) {
-  header {
-    padding: 12px 10px;
-  }
-
-  .head {
-    gap: 7px;
-  }
-
-  .brand {
-    gap: 8px;
-    min-width: 0;
-  }
-
-  .logo {
-    width: 38px;
-    height: 38px;
-  }
-
-  h1 {
-    font-size: 18px;
-    line-height: 1.25;
-  }
-
-  .subtitle {
-    font-size: 10px;
-  }
-
-  .api {
-    max-width: 84px;
-    padding: 5px 7px;
-    font-size: 9px;
-  }
-
-  main {
-    margin-top: 10px;
-    padding: 0 7px 20px;
-  }
-
-  .stats {
-    gap: 6px;
-    margin-bottom: 9px;
-  }
-
-  .stat {
-    padding: 9px 7px;
-  }
-
-  .label {
-    font-size: 9px;
-    line-height: 1.3;
-  }
-
-  .value {
-    font-size: 18px;
-  }
-
-  .panel {
-    margin-bottom: 10px;
-    border-radius: 11px;
-  }
-
-  .ptitle {
-    padding: 10px;
-  }
-
-  .ptitle h2 {
-    font-size: 14px;
-  }
-
-  .ptitle p {
-    font-size: 10px;
-  }
-
-  .filters {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 9px;
-    padding: 10px;
-  }
-
-  input, select {
-    height: 39px;
-    font-size: 13px;
-  }
-
-  .help {
-    padding: 0 10px 10px;
-    font-size: 10px;
-  }
-
-  .resultshead {
-    padding: 8px 10px;
-    font-size: 11px;
-  }
-
-  /* Chuyển từng dòng thành thẻ dọc, không tràn màn hình */
-  .tablewrap {
-    overflow-x: hidden;
-    padding: 7px;
-    border-top: 1px solid #bfd0dc;
-  }
-
-  .tablewrap table,
-  .tablewrap tbody {
-    display: block;
-    width: 100%;
-  }
-
-  .tablewrap thead {
-    display: none;
-  }
-
-  .tablewrap tbody tr {
-    display: block;
-    width: 100%;
-    margin-bottom: 8px;
-    border: 1px solid #c7d8e3;
-    border-radius: 9px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(24,55,78,.05);
-  }
-
-  .tablewrap tbody tr:last-child {
-    margin-bottom: 0;
-  }
-
-  .tablewrap tbody td {
-    display: grid;
-    grid-template-columns: minmax(105px, 40%) minmax(0, 1fr);
-    gap: 8px;
-    width: 100%;
-    padding: 7px 9px;
-    border-right: 0;
-    border-bottom: 1px solid #dce6ed;
-    font-size: 11px;
-    text-align: left;
-    overflow-wrap: anywhere;
-  }
-
-  .tablewrap tbody td:last-child {
-    border-bottom: 0;
-  }
-
-  .tablewrap tbody td::before {
-    content: attr(data-label);
-    color: #36576c;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .tablewrap tbody td.customer {
-    display: block;
-    padding: 10px;
-    background: #e6f3f6;
-    font-size: 13px;
-  }
-
-  .tablewrap tbody td.customer::before {
-    display: none;
-  }
-
-  .tablewrap tbody td.customer .sub {
-    font-size: 10px;
-  }
-
-  .tablewrap tbody td .pill {
-    white-space: normal;
-    width: fit-content;
-  }
-
-  .tablewrap tbody td button {
-    justify-self: start;
-  }
-
-  .tablewrap tbody td.product {
-    display: block;
-    padding: 10px;
-    background: #e6f3f6;
-    font-size: 12px;
-  }
-
-  .tablewrap tbody td.product::before {
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .num {
-    text-align: left;
-  }
-
-  .summary {
-    padding: 10px;
-    font-size: 11px;
-  }
-}
-
-  
-  
 </style>
 </head>
 
@@ -887,15 +656,22 @@ tbody tr:hover td {
 <header class="top">
   <div class="top-inner">
     <div class="brand">
-      <img class="logo"
+      <img
+        class="logo"
         src="https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/LOGO%20AIKYA%20-%20NEWEST.png"
-        alt="AIKYA" onerror="this.style.display='none'">
+        alt="AIKYA"
+        onerror="this.style.display='none'"
+      >
       <div>
         <h1>Lịch sử lấy hàng</h1>
         <div class="subtitle">Tra cứu khách hàng · sản phẩm · doanh số</div>
       </div>
     </div>
-    <div class="connection"><i class="dot" id="dot"></i><span id="status">Đang kết nối</span></div>
+
+    <div class="connection" role="status" aria-live="polite">
+      <i class="dot" id="dot"></i>
+      <span id="status">Đang kết nối</span>
+    </div>
   </div>
 </header>
 
@@ -918,30 +694,41 @@ tbody tr:hover td {
   <section class="glass filters">
     <div class="section-head">
       <div>
-        <h2>Tìm kiếm & bộ lọc</h2>
+        <h2>Tìm kiếm và bộ lọc</h2>
         <div class="hint">Chọn TDV hoặc nhập tên khách hàng, sản phẩm.</div>
       </div>
-      <button class="btn" id="reset">Đặt lại</button>
+      <button type="button" class="btn" id="reset">Đặt lại</button>
     </div>
 
-    <div class="rep-label">CHỌN TÊN TDV · CUỘN NGANG ĐỂ XEM THÊM</div>
+    <div class="rep-label">CHỌN TÊN TDV · CUỘN ĐỂ XEM THÊM</div>
     <div class="rep-scroll" id="repChips">
-      <button class="rep-chip active" data-rep="">Tất cả TDV</button>
+      <button type="button" class="rep-chip active" data-rep="">Tất cả TDV</button>
     </div>
 
     <div class="search-grid">
       <div class="field">
         <label for="customerSearch">TÌM KHÁCH HÀNG</label>
         <div class="input-wrap">
-          <span class="search-icon">⌕</span>
-          <input id="customerSearch" type="search" placeholder="Tên khách hàng…" autocomplete="off">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input
+            id="customerSearch"
+            type="search"
+            placeholder="Nhập tên khách hàng..."
+            autocomplete="off"
+          >
         </div>
       </div>
+
       <div class="field">
         <label for="productSearch">TÌM SẢN PHẨM</label>
         <div class="input-wrap">
-          <span class="search-icon">⌕</span>
-          <input id="productSearch" type="search" placeholder="Tên sản phẩm…" autocomplete="off">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input
+            id="productSearch"
+            type="search"
+            placeholder="Nhập tên sản phẩm..."
+            autocomplete="off"
+          >
         </div>
       </div>
     </div>
@@ -951,11 +738,16 @@ tbody tr:hover td {
     <div class="results-head">
       <div>
         <h2 id="resultsTitle">Danh sách khách hàng</h2>
-        <div class="hint" id="resultsHint">Chọn khách hàng để xem lịch sử từng sản phẩm.</div>
+        <div class="hint" id="resultsHint">
+          Nhấn vào tên khách hàng để xem chi tiết.
+        </div>
       </div>
-      <span class="count" id="resultsCount">Đang tải…</span>
+      <span class="count" id="resultsCount">Đang tải...</span>
     </div>
-    <div id="resultsWrap"><div class="empty">Đang tải dữ liệu từ Google Sheets…</div></div>
+
+    <div id="resultsWrap" aria-live="polite">
+      <div class="empty">Đang tải dữ liệu từ Google Sheets...</div>
+    </div>
   </section>
 
   <section class="glass detail hidden" id="detailPanel">
@@ -965,12 +757,15 @@ tbody tr:hover td {
         <div class="detail-meta" id="detailMeta"></div>
         <div class="detail-total" id="detailTotal"></div>
       </div>
-      <button class="btn" id="back">← Quay lại</button>
+      <button type="button" class="btn" id="back">← Quay lại</button>
     </div>
-    <div class="product-list" id="productList"></div>
+
+    <div id="productList"></div>
   </section>
 
-  <div class="notice" id="notice">Dữ liệu được đọc từ Google Sheets; trang không chỉnh sửa dữ liệu nguồn.</div>
+  <div class="notice" id="notice">
+    Đang kết nối Google Sheets...
+  </div>
 </main>
 
 <footer>
@@ -979,8 +774,11 @@ tbody tr:hover td {
 </footer>
 
 <script>
-/* API Google Apps Script của bạn */
-const API_URL = "https://script.google.com/macros/s/AKfycbwWP7JLxEdO3qfZG850HZsoKB70fh4pUVrm3wsX4fPzAPCm1W2pcFrdVzZRrRvi8ycnNw/exec";
+"use strict";
+
+/* API Google Apps Script hiện tại */
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbwWP7JLxEdO3qfZG850HZsoKB70fh4pUVrm3wsX4fPzAPCm1W2pcFrdVzZRrRvi8ycnNw/exec";
 
 let rows = [];
 let months = [];
@@ -995,151 +793,299 @@ function norm(value) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[đĐ]/g, "d")
-    .toLowerCase().trim();
+    .toLowerCase()
+    .trim();
 }
-function str(value) { return String(value ?? "").trim(); }
+
+function str(value) {
+  return String(value ?? "").trim();
+}
+
 function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  })[c]);
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
 }
+
+/* Chấp nhận số hoặc chuỗi số có dấu phân cách hàng nghìn */
 function num(value) {
-  if (typeof value === "number") return value;
-  const s = String(value ?? "").trim();
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  let s = String(value ?? "").trim();
   if (!s) return 0;
-  const result = Number(s.replace(/[,\s₫đ]/gi, ""));
+
+  s = s.replace(/[₫đ\s]/gi, "");
+
+  if (/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
+    s = s.replace(/\./g, "").replace(",", ".");
+  } else if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) {
+    s = s.replace(/,/g, "");
+  } else if (s.includes(",") && !s.includes(".")) {
+    s = s.replace(",", ".");
+  } else {
+    s = s.replace(/,/g, "");
+  }
+
+  const result = Number(s);
   return Number.isFinite(result) ? result : 0;
 }
+
 function money(value) {
-  return Math.round(value || 0).toLocaleString("vi-VN");
+  return Math.round(Number(value) || 0).toLocaleString("vi-VN");
 }
+
 function setStatus(message, state = "") {
   $("status").textContent = message;
   $("dot").className = "dot" + (state ? " " + state : "");
 }
 
-/* Apps Script API được gọi bằng JSONP để tránh lỗi CORS trên GitHub Pages.
-   API cần hỗ trợ tham số ?callback=tenHam như Code.gs hiện tại. */
+/*
+  Tải JSONP để tránh CORS khi gọi Google Apps Script
+  từ website GitHub Pages.
 
-async function loadJSONP() {
-  const response = await fetch(API_URL, {
-    method: "GET",
-    cache: "no-store"
-  });
+  API cần hỗ trợ ?callback=tenHam và trả về:
+  tenHam({"success":true,"columns":[...],"data":[...]});
+*/
+function loadJSONP() {
+  return new Promise((resolve, reject) => {
+    const callbackName =
+      "__aikyaCallback_" +
+      Date.now() + "_" +
+      Math.random().toString(36).slice(2);
 
-  if (!response.ok) {
-    throw new Error("API trả về mã lỗi HTTP " + response.status);
-  }
+    const script = document.createElement("script");
+    const separator = API_URL.includes("?") ? "&" : "?";
 
-  const result = await response.json();
+    let finished = false;
+    let timer;
 
-  if (!result || result.success !== true || !Array.isArray(result.data)) {
-    throw new Error("Cấu trúc dữ liệu API không đúng yêu cầu.");
-  }
+    function cleanup() {
+      clearTimeout(timer);
+      script.onerror = null;
+      script.remove();
 
-  return result;
-}
-
-async function init() {
-  setStatus("Đang tải");
-  try {
-    const result = await loadJSONP();
-    if (!result || result.success !== true) {
-      throw new Error(result?.error || "API không trả dữ liệu hợp lệ.");
+      try {
+        delete window[callbackName];
+      } catch (_) {
+        window[callbackName] = undefined;
+      }
     }
 
-    rows = Array.isArray(result.data) ? result.data : [];
-    const columns = result.columns || Object.keys(rows[0] || {});
+    function finish(error, result) {
+      if (finished) return;
+      finished = true;
+      cleanup();
+
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      if (
+        !result ||
+        result.success !== true ||
+        !Array.isArray(result.data)
+      ) {
+        reject(new Error(
+          result?.error || "API không trả về dữ liệu hợp lệ."
+        ));
+        return;
+      }
+
+      resolve(result);
+    }
+
+    window[callbackName] = result => finish(null, result);
+
+    script.onerror = () => finish(
+      new Error(
+        "Không tải được API. Kiểm tra URL /exec và quyền triển khai."
+      )
+    );
+
+    timer = setTimeout(() => finish(
+      new Error(
+        "API phản hồi quá 20 giây. Vui lòng thử tải lại."
+      )
+    ), 20000);
+
+    script.src =
+      API_URL + separator +
+      "callback=" + encodeURIComponent(callbackName) +
+      "&_=" + Date.now();
+
+    document.head.appendChild(script);
+  });
+}
+
+/* Tải và kiểm tra dữ liệu nguồn */
+async function init() {
+  setStatus("Đang tải");
+
+  $("resultsCount").textContent = "Đang tải...";
+  $("resultsWrap").innerHTML =
+    '<div class="empty">Đang tải dữ liệu từ Google Sheets...</div>';
+
+  try {
+    const result = await loadJSONP();
+
+    rows = result.data;
+    const columns = Array.isArray(result.columns)
+      ? result.columns
+      : Object.keys(rows[0] || {});
+
     months = columns
-      .filter(column => /^\d{4}-T\d{2}$/i.test(column))
+      .filter(column => /^\d{4}-T\d{2}$/i.test(String(column)))
       .sort();
 
     aggregate();
+
     setStatus("Đã kết nối", "ok");
+
     $("notice").textContent =
       "Đã tải " + rows.length.toLocaleString("vi-VN") +
-      " dòng dữ liệu. Trang không chỉnh sửa Google Sheets.";
+      " dòng dữ liệu từ Google Sheets.";
+
     render();
   } catch (error) {
+    console.error("AIKYA API error:", error);
+
     setStatus("Lỗi kết nối", "error");
-    $("resultsWrap").innerHTML =
-      '<div class="empty">Không tải được dữ liệu.<br>' +
-      esc(error.message || error) +
-      '<br>Kiểm tra API /exec, quyền triển khai và callback JSONP.' +
-      '<br><button class="btn" onclick="init()">Thử tải lại</button></div>';
     $("resultsCount").textContent = "Lỗi";
+
+    $("resultsWrap").innerHTML = `
+      <div class="empty">
+        <strong>Không tải được dữ liệu.</strong><br>
+        ${esc(error.message || error)}<br>
+        Hãy kiểm tra URL API và triển khai Apps Script.<br>
+        <button type="button" class="btn" id="retryLoad">
+          Thử tải lại
+        </button>
+      </div>
+    `;
+
+    $("retryLoad").addEventListener("click", init);
+
+    $("notice").textContent =
+      "Chưa kết nối được dữ liệu. Vui lòng thử tải lại.";
   }
 }
 
-/* Gộp nhiều dòng cùng khách hàng/sản phẩm, cộng doanh số và tính tháng lấy. */
+/* Gộp dữ liệu theo khách hàng + TDV và sản phẩm */
 function aggregate() {
-  const map = new Map();
+  const customerMap = new Map();
 
   rows.forEach(row => {
     const customerName = str(row["KHACH HANG"]);
     const rep = str(row["NVBH"]);
     const productName = str(row["SAN PHAM"]);
+
     if (!customerName || !productName) return;
 
-    const customerKey = norm(customerName) + "||" + norm(rep);
-    if (!map.has(customerKey)) {
-      map.set(customerKey, {
-        key: customerKey, customer: customerName, rep,
-        total: 0, products: new Map()
+    const customerKey =
+      norm(customerName) + "||" + norm(rep);
+
+    if (!customerMap.has(customerKey)) {
+      customerMap.set(customerKey, {
+        key: customerKey,
+        customer: customerName,
+        rep,
+        total: 0,
+        products: new Map()
       });
     }
 
-    const customer = map.get(customerKey);
+    const customer = customerMap.get(customerKey);
     const productKey = norm(productName);
 
     if (!customer.products.has(productKey)) {
       customer.products.set(productKey, {
-        name: productName, total: 0, months: {}
+        name: productName,
+        total: 0,
+        months: {}
       });
     }
 
     const product = customer.products.get(productKey);
     const total = num(row["TONG"]);
+
     product.total += total;
     customer.total += total;
 
     months.forEach(month => {
       const amount = num(row[month]);
+
       if (amount > 0) {
-        product.months[month] = (product.months[month] || 0) + amount;
+        product.months[month] =
+          (product.months[month] || 0) + amount;
       }
     });
   });
 
-  customers = [...map.values()].map(customer => {
-    customer.products = [...customer.products.values()].map(product => {
-      const boughtMonths = months.filter(month => (product.months[month] || 0) > 0);
-      const latest = boughtMonths.length ? boughtMonths[boughtMonths.length - 1] : "";
-      return {
-        ...product,
-        monthCount: boughtMonths.length,
-        latest,
-        latestSales: latest ? product.months[latest] : 0
-      };
-    }).sort((a,b) => a.name.localeCompare(b.name, "vi"));
+  customers = [...customerMap.values()].map(customer => {
+    customer.products = [...customer.products.values()]
+      .map(product => {
+        const boughtMonths = months.filter(
+          month => (product.months[month] || 0) > 0
+        );
+
+        const latest = boughtMonths.length
+          ? boughtMonths[boughtMonths.length - 1]
+          : "";
+
+        return {
+          ...product,
+          monthCount: boughtMonths.length,
+          latest,
+          latestSales: latest
+            ? product.months[latest]
+            : 0
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name, "vi"));
+
     return customer;
-  }).sort((a,b) => a.customer.localeCompare(b.customer, "vi"));
+  });
 
   $("statCustomers").textContent =
-    new Set(customers.map(c => norm(c.customer))).size.toLocaleString("vi-VN");
+    new Set(customers.map(c => norm(c.customer)))
+      .size.toLocaleString("vi-VN");
+
   $("statProducts").textContent =
-    new Set(customers.flatMap(c => c.products.map(p => norm(p.name)))).size.toLocaleString("vi-VN");
-  $("statRows").textContent = rows.length.toLocaleString("vi-VN");
+    new Set(customers.flatMap(c =>
+      c.products.map(p => norm(p.name))
+    )).size.toLocaleString("vi-VN");
 
-  const reps = [...new Set(customers.map(c => c.rep).filter(Boolean))]
-    .sort((a,b) => a.localeCompare(b, "vi"));
-  const repOptions = [{name:"Tất cả TDV", value:""},
-    ...reps.map(rep => ({name:rep, value:rep}))];
+  $("statRows").textContent =
+    rows.length.toLocaleString("vi-VN");
 
-  $("repChips").innerHTML = repOptions.map(rep =>
-    `<button type="button" class="rep-chip ${selectedRep === rep.value ? "active" : ""}"
-      data-rep="${esc(rep.value)}">${esc(rep.name)}</button>`
-  ).join("");
+  renderRepChips();
+}
+
+/* Bộ lọc TDV */
+function renderRepChips() {
+  const reps = [...new Set(
+    customers.map(c => c.rep).filter(Boolean)
+  )].sort((a, b) => a.localeCompare(b, "vi"));
+
+  const options = [
+    { name: "Tất cả TDV", value: "" },
+    ...reps.map(rep => ({ name: rep, value: rep }))
+  ];
+
+  $("repChips").innerHTML = options.map(rep => `
+    <button
+      type="button"
+      class="rep-chip ${selectedRep === rep.value ? "active" : ""}"
+      data-rep="${esc(rep.value)}"
+    >${esc(rep.name)}</button>
+  `).join("");
 
   $("repChips").querySelectorAll("[data-rep]").forEach(button => {
     button.addEventListener("click", () => {
@@ -1153,62 +1099,78 @@ function aggregate() {
 
 function syncReps() {
   $("repChips").querySelectorAll("[data-rep]").forEach(button => {
-    button.classList.toggle("active", button.dataset.rep === selectedRep);
+    button.classList.toggle(
+      "active",
+      button.dataset.rep === selectedRep
+    );
   });
 }
 
+/* Lọc khách hàng theo TDV, tên khách hàng và sản phẩm */
 function filteredCustomers() {
   const customerQuery = norm($("customerSearch").value);
   const productQuery = norm($("productSearch").value);
 
   return customers.map(customer => {
-    if (selectedRep && customer.rep !== selectedRep) return null;
-    if (customerQuery && !norm(customer.customer).includes(customerQuery)) return null;
+    if (selectedRep && customer.rep !== selectedRep) {
+      return null;
+    }
+
+    if (
+      customerQuery &&
+      !norm(customer.customer).includes(customerQuery)
+    ) {
+      return null;
+    }
 
     const matchingProducts = productQuery
-      ? customer.products.filter(product => norm(product.name).includes(productQuery))
+      ? customer.products.filter(product =>
+          norm(product.name).includes(productQuery)
+        )
       : customer.products;
 
-    if (productQuery && !matchingProducts.length) return null;
+    if (productQuery && matchingProducts.length === 0) {
+      return null;
+    }
 
     return {
       ...customer,
       visibleProducts: matchingProducts,
       visibleTotal: productQuery
-        ? matchingProducts.reduce((sum, product) => sum + product.total, 0)
+        ? matchingProducts.reduce((sum, p) => sum + p.total, 0)
         : customer.total
     };
   }).filter(Boolean);
 }
 
-
-
+/* Hiển thị bảng khách hàng */
 function render() {
-  if (active) {
-    detail(active);
+  if (selectedCustomer) {
+    renderDetail(selectedCustomer);
     return;
   }
 
-  let list = filtered();
-  const pm = !!norm($("productSearch").value);
-  const cm = !!norm($("customerSearch").value);
+  $("resultsPanel").classList.remove("hidden");
+  $("detailPanel").classList.add("hidden");
 
-  // Sắp xếp doanh số cao xuống thấp
+  const list = filteredCustomers();
+  const productQuery = norm($("productSearch").value);
+  const customerQuery = norm($("customerSearch").value);
+
   list.sort((a, b) => b.visibleTotal - a.visibleTotal);
 
-  $("resultsTitle").textContent = pm
+  $("resultsTitle").textContent = productQuery
     ? "Khách hàng có sản phẩm phù hợp"
-    : cm ? "Kết quả tìm khách hàng" : "Danh sách khách hàng";
+    : customerQuery
+      ? "Kết quả tìm khách hàng"
+      : "Danh sách khách hàng";
 
-  $("resultsHint").textContent = pm
-    ? "Doanh số tính theo các sản phẩm khớp từ khóa."
-    : "Doanh số tổng cộng từ cột TONG trong dữ liệu nguồn.";
+  $("resultsHint").textContent = productQuery
+    ? "Doanh số được tính theo sản phẩm khớp từ khóa."
+    : "Nhấn tên khách hàng để xem chi tiết. Doanh số giảm dần.";
 
   $("resultsCount").textContent =
     list.length.toLocaleString("vi-VN") + " khách hàng";
-
-  $("viewMode").textContent =
-    pm ? "Đang lọc sản phẩm" : cm ? "Đang lọc khách hàng" : "";
 
   if (!list.length) {
     $("resultsWrap").innerHTML =
@@ -1216,67 +1178,72 @@ function render() {
     return;
   }
 
-  const body = list.map(c => `
+  const body = list.map(customer => `
     <tr>
-      <td class="customer" data-label="Khách hàng">
-        <button class="linkbtn" data-key="${esc(c.key)}">
-          ${esc(c.customer)}
-        </button>
-        <span class="sub">${esc(c.rep || "Chưa có NVBH")}</span>
+      <td class="name-cell" data-label="Tên khách hàng">
+        <button
+          type="button"
+          class="row-open"
+          data-key="${esc(customer.key)}"
+        >${esc(customer.customer)}</button>
       </td>
 
-      <td data-label="Số sản phẩm">
-        <span class="pill">
-          ${pm ? c.visibleProducts.length + " sản phẩm khớp"
-               : c.products.length + " sản phẩm"}
-        </span>
+      <td class="rep-cell" data-label="TDV">
+        ${esc(customer.rep || "—")}
       </td>
 
-      <td class="num" data-label="Doanh số tổng">
-        ${money(c.visibleTotal)}
+      <td class="number-cell" data-label="Số sản phẩm">
+        ${productQuery
+          ? customer.visibleProducts.length
+          : customer.products.length}
       </td>
 
-      <td data-label="Thao tác">
-        <button class="secondary" data-key="${esc(c.key)}">
-          Chi tiết →
-        </button>
+      <td class="money-cell" data-label="Doanh số tổng">
+        ${money(customer.visibleTotal)}
       </td>
     </tr>
   `).join("");
 
   $("resultsWrap").innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Khách hàng / NVBH</th>
-          <th>Sản phẩm</th>
-          <th class="num">Doanh số tổng</th>
-          <th>Chi tiết</th>
-        </tr>
-      </thead>
-      <tbody>${body}</tbody>
-    </table>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>TÊN KHÁCH HÀNG</th>
+            <th>TDV</th>
+            <th>SỐ SP</th>
+            <th style="text-align:right">DSO TỔNG</th>
+          </tr>
+        </thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>
   `;
 
-  $("resultsWrap").querySelectorAll("[data-key]").forEach(btn => {
-    btn.addEventListener("click", () => open(btn.dataset.key));
+  $("resultsWrap").querySelectorAll("[data-key]").forEach(button => {
+    button.addEventListener("click", () => {
+      openDetail(button.dataset.key);
+    });
   });
 }
 
-
+/* Mở chi tiết khách hàng */
 function openDetail(key) {
-  selectedCustomer = customers.find(customer => customer.key === key) || null;
+  selectedCustomer =
+    customers.find(customer => customer.key === key) || null;
+
   if (!selectedCustomer) return;
 
   renderDetail(selectedCustomer);
+
   window.scrollTo({
-    top: $("detailPanel").getBoundingClientRect().top + window.scrollY - 8,
+    top: $("detailPanel").getBoundingClientRect().top +
+         window.scrollY - 8,
     behavior: "smooth"
   });
 }
 
-
-
+/* Hiển thị các sản phẩm của khách hàng */
 function renderDetail(customer) {
   $("resultsPanel").classList.add("hidden");
   $("detailPanel").classList.remove("hidden");
@@ -1289,7 +1256,7 @@ function renderDetail(customer) {
           norm(product.name).includes(productQuery)
         )
       : customer.products
-  ).sort((a, b) =>
+  ).slice().sort((a, b) =>
     b.total - a.total ||
     a.name.localeCompare(b.name, "vi")
   );
@@ -1299,22 +1266,57 @@ function renderDetail(customer) {
   );
 
   $("detailTitle").textContent = customer.customer;
+
   $("detailMeta").textContent =
     "TDV: " + (customer.rep || "Chưa có") +
     " · " + visibleProducts.length + " sản phẩm";
 
   $("detailTotal").textContent =
     (productQuery
-      ? "Doanh số các sản phẩm khớp: "
+      ? "Doanh số sản phẩm khớp: "
       : "Doanh số tổng khách hàng: ") +
     money(productQuery ? visibleTotal : customer.total);
 
-  $("productList").innerHTML = visibleProducts.length ? `
-    <div class="table-wrap" style="grid-column:1/-1">
-      <table class="data-table">
+  if (!visibleProducts.length) {
+    $("productList").innerHTML =
+      '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
+    return;
+  }
+
+  const body = visibleProducts.map(product => `
+    <tr>
+      <td class="name-cell" data-label="Sản phẩm">
+        ${esc(product.name)}
+      </td>
+
+      <td class="rep-cell" data-label="TDV">
+        ${esc(customer.rep || "—")}
+      </td>
+
+      <td class="money-cell" data-label="Doanh số tổng">
+        ${money(product.total)}
+      </td>
+
+      <td class="number-cell" data-label="Số tháng lấy">
+        ${product.monthCount}
+      </td>
+
+      <td class="number-cell" data-label="Tháng gần nhất">
+        ${esc(product.latest || "—")}
+      </td>
+
+      <td class="money-cell" data-label="Doanh số tháng gần nhất">
+        ${money(product.latestSales)}
+      </td>
+    </tr>
+  `).join("");
+
+  $("productList").innerHTML = `
+    <div class="table-wrap">
+      <table class="data-table detail-table">
         <thead>
           <tr>
-            <th>TÊN KHÁCH HÀNG</th>
+            <th>SẢN PHẨM</th>
             <th>TDV</th>
             <th>DSO TỔNG</th>
             <th>SỐ THÁNG LẤY</th>
@@ -1322,52 +1324,50 @@ function renderDetail(customer) {
             <th>DOANH SỐ THÁNG GẦN NHẤT</th>
           </tr>
         </thead>
-        <tbody>
-          ${visibleProducts.map(product => `
-            <tr>
-              <td class="name-cell">${esc(product.name)}</td>
-              <td class="rep-cell">${esc(customer.rep || "—")}</td>
-              <td class="money-cell">${money(product.total)}</td>
-              <td class="number-cell">${product.monthCount}</td>
-              <td class="number-cell">${esc(product.latest || "—")}</td>
-              <td class="money-cell">${money(product.latestSales)}</td>
-            </tr>
-          `).join("")}
-        </tbody>
+        <tbody>${body}</tbody>
       </table>
     </div>
-  ` : '<div class="empty">Không tìm thấy sản phẩm phù hợp.</div>';
+  `;
 }
 
-
+/* Đặt lại toàn bộ bộ lọc */
 function resetFilters() {
   selectedRep = "";
   selectedCustomer = null;
+
   $("customerSearch").value = "";
   $("productSearch").value = "";
+
   syncReps();
   render();
-  window.scrollTo({top:0, behavior:"smooth"});
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/* Các sự kiện giao diện */
 $("customerSearch").addEventListener("input", () => {
   selectedCustomer = null;
   render();
 });
+
 $("productSearch").addEventListener("input", () => {
-  selectedCustomer = null;
   render();
 });
+
 $("reset").addEventListener("click", resetFilters);
+
 $("back").addEventListener("click", () => {
   selectedCustomer = null;
   render();
+
   window.scrollTo({
-    top: $("resultsPanel").getBoundingClientRect().top + window.scrollY - 8,
+    top: $("resultsPanel").getBoundingClientRect().top +
+         window.scrollY - 8,
     behavior: "smooth"
   });
 });
 
+/* Khởi chạy */
 init();
 </script>
 </body>
