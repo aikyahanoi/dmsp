@@ -500,6 +500,385 @@ input:focus {
   .data-table .rep-cell { min-width: 80px; }
 }
 
+
+/* ===== AIKYA: GIAO DIỆN RÕ NÉT, GỌN VÀ HIỆN ĐẠI ===== */
+:root {
+  --r: #087f8c;
+  --ink: #172b3a;
+  --muted: #536779;
+  --line: #cbd8e2;
+  --bg: #edf3f8;
+  --shadow: 0 5px 18px rgba(24, 55, 78, .09);
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at top left, #dceff5 0, transparent 45%),
+    #edf3f8;
+}
+
+header {
+  background: linear-gradient(120deg, #10334d 0%, #086b80 60%, #0b9ba1 100%);
+  box-shadow: 0 5px 20px rgba(16, 51, 77, .22);
+}
+
+.stat, .panel {
+  background: rgba(255,255,255,.94);
+  border: 1px solid #cfdee8;
+  box-shadow: 0 5px 18px rgba(24,55,78,.08);
+  border-radius: 13px;
+}
+
+.stat {
+  padding: 11px 15px;
+}
+
+.label {
+  color: #425b6e;
+  font-weight: 700;
+}
+
+.value {
+  color: #087f8c;
+  font-size: 24px;
+}
+
+.ptitle {
+  padding: 11px 14px;
+  background: linear-gradient(90deg, #e4f3f6, #f7fbfd);
+  border-bottom: 1px solid #bfd3df;
+}
+
+.ptitle h2 {
+  color: #123e56;
+  font-weight: 800;
+}
+
+.filters {
+  gap: 9px;
+  padding: 12px;
+}
+
+.field label {
+  color: #29485d;
+}
+
+input, select {
+  border-color: #bdceda;
+  border-radius: 8px;
+  background: #fff;
+}
+
+input:focus, select:focus {
+  border-color: #078b99;
+  box-shadow: 0 0 0 3px #078b991c;
+}
+
+button {
+  background: linear-gradient(135deg, #087f8c, #08657d);
+}
+
+button:hover {
+  background: #064f65;
+}
+
+button.secondary {
+  background: #e5f3f5;
+  color: #075d70;
+  border: 1px solid #b4d8df;
+}
+
+.resultshead {
+  padding: 8px 12px;
+  color: #425b6e;
+  font-weight: 600;
+}
+
+/* KẺ DỌC VÀ NGANG RÕ RÀNG */
+.tablewrap {
+  overflow-x: auto;
+  border-top: 1px solid #bfd0dc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 12px;
+  white-space: normal;
+}
+
+th, td {
+  padding: 7px 10px;
+  border-right: 1px solid #d2dee7;
+  border-bottom: 1px solid #d2dee7;
+  line-height: 1.35;
+  vertical-align: middle;
+}
+
+th:last-child, td:last-child {
+  border-right: 0;
+}
+
+th {
+  background: #dcecf3;
+  color: #123e56;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+tbody tr:nth-child(even) td {
+  background: #f5f9fc;
+}
+
+tbody tr:hover td {
+  background: #e5f5f6;
+}
+
+.customer, .product {
+  min-width: 0;
+  max-width: none;
+  overflow-wrap: anywhere;
+}
+
+.customer {
+  font-weight: 750;
+}
+
+.sub {
+  color: #536779;
+  margin-top: 2px;
+}
+
+.pill {
+  background: #d9f0f0;
+  color: #075d70;
+  border: 1px solid #b9e0e2;
+  white-space: nowrap;
+}
+
+.linkbtn {
+  color: #076b80;
+  font-weight: 800;
+}
+
+.num {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary {
+  padding: 10px 14px;
+  gap: 8px 18px;
+  color: #425b6e;
+}
+
+.summary strong {
+  color: #075d70;
+}
+
+/* ĐIỆN THOẠI: KHÔNG CẦN KÉO NGANG ĐỂ ĐỌC */
+@media (max-width: 600px) {
+  header {
+    padding: 12px 10px;
+  }
+
+  .head {
+    gap: 7px;
+  }
+
+  .brand {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  h1 {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    font-size: 10px;
+  }
+
+  .api {
+    max-width: 84px;
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+
+  main {
+    margin-top: 10px;
+    padding: 0 7px 20px;
+  }
+
+  .stats {
+    gap: 6px;
+    margin-bottom: 9px;
+  }
+
+  .stat {
+    padding: 9px 7px;
+  }
+
+  .label {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+  .value {
+    font-size: 18px;
+  }
+
+  .panel {
+    margin-bottom: 10px;
+    border-radius: 11px;
+  }
+
+  .ptitle {
+    padding: 10px;
+  }
+
+  .ptitle h2 {
+    font-size: 14px;
+  }
+
+  .ptitle p {
+    font-size: 10px;
+  }
+
+  .filters {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+    padding: 10px;
+  }
+
+  input, select {
+    height: 39px;
+    font-size: 13px;
+  }
+
+  .help {
+    padding: 0 10px 10px;
+    font-size: 10px;
+  }
+
+  .resultshead {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  /* Chuyển từng dòng thành thẻ dọc, không tràn màn hình */
+  .tablewrap {
+    overflow-x: hidden;
+    padding: 7px;
+    border-top: 1px solid #bfd0dc;
+  }
+
+  .tablewrap table,
+  .tablewrap tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .tablewrap thead {
+    display: none;
+  }
+
+  .tablewrap tbody tr {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    border: 1px solid #c7d8e3;
+    border-radius: 9px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(24,55,78,.05);
+  }
+
+  .tablewrap tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .tablewrap tbody td {
+    display: grid;
+    grid-template-columns: minmax(105px, 40%) minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+    padding: 7px 9px;
+    border-right: 0;
+    border-bottom: 1px solid #dce6ed;
+    font-size: 11px;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .tablewrap tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .tablewrap tbody td::before {
+    content: attr(data-label);
+    color: #36576c;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .tablewrap tbody td.customer {
+    display: block;
+    padding: 10px;
+    background: #e6f3f6;
+    font-size: 13px;
+  }
+
+  .tablewrap tbody td.customer::before {
+    display: none;
+  }
+
+  .tablewrap tbody td.customer .sub {
+    font-size: 10px;
+  }
+
+  .tablewrap tbody td .pill {
+    white-space: normal;
+    width: fit-content;
+  }
+
+  .tablewrap tbody td button {
+    justify-self: start;
+  }
+
+  .tablewrap tbody td.product {
+    display: block;
+    padding: 10px;
+    background: #e6f3f6;
+    font-size: 12px;
+  }
+
+  .tablewrap tbody td.product::before {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .num {
+    text-align: left;
+  }
+
+  .summary {
+    padding: 10px;
+    font-size: 11px;
+  }
+}
+
+  
   
 </style>
 </head>
@@ -803,37 +1182,33 @@ function filteredCustomers() {
 }
 
 
+
 function render() {
-  if (selectedCustomer) {
-    renderDetail(selectedCustomer);
+  if (active) {
+    detail(active);
     return;
   }
 
-  $("resultsPanel").classList.remove("hidden");
-  $("detailPanel").classList.add("hidden");
+  let list = filtered();
+  const pm = !!norm($("productSearch").value);
+  const cm = !!norm($("customerSearch").value);
 
-  const list = filteredCustomers();
-  const productQuery = norm($("productSearch").value);
-  const customerQuery = norm($("customerSearch").value);
+  // Sắp xếp doanh số cao xuống thấp
+  list.sort((a, b) => b.visibleTotal - a.visibleTotal);
 
-  // Doanh số giảm dần; nếu bằng nhau, sắp xếp theo tên khách hàng.
-  list.sort((a, b) =>
-    b.visibleTotal - a.visibleTotal ||
-    a.customer.localeCompare(b.customer, "vi")
-  );
-
-  $("resultsTitle").textContent = productQuery
+  $("resultsTitle").textContent = pm
     ? "Khách hàng có sản phẩm phù hợp"
-    : customerQuery
-      ? "Kết quả tìm khách hàng"
-      : "Danh sách khách hàng";
+    : cm ? "Kết quả tìm khách hàng" : "Danh sách khách hàng";
 
-  $("resultsHint").textContent = productQuery
+  $("resultsHint").textContent = pm
     ? "Doanh số tính theo các sản phẩm khớp từ khóa."
-    : "Nhấn vào một dòng để xem chi tiết.";
+    : "Doanh số tổng cộng từ cột TONG trong dữ liệu nguồn.";
 
   $("resultsCount").textContent =
     list.length.toLocaleString("vi-VN") + " khách hàng";
+
+  $("viewMode").textContent =
+    pm ? "Đang lọc sản phẩm" : cm ? "Đang lọc khách hàng" : "";
 
   if (!list.length) {
     $("resultsWrap").innerHTML =
@@ -841,35 +1216,50 @@ function render() {
     return;
   }
 
+  const body = list.map(c => `
+    <tr>
+      <td class="customer" data-label="Khách hàng">
+        <button class="linkbtn" data-key="${esc(c.key)}">
+          ${esc(c.customer)}
+        </button>
+        <span class="sub">${esc(c.rep || "Chưa có NVBH")}</span>
+      </td>
+
+      <td data-label="Số sản phẩm">
+        <span class="pill">
+          ${pm ? c.visibleProducts.length + " sản phẩm khớp"
+               : c.products.length + " sản phẩm"}
+        </span>
+      </td>
+
+      <td class="num" data-label="Doanh số tổng">
+        ${money(c.visibleTotal)}
+      </td>
+
+      <td data-label="Thao tác">
+        <button class="secondary" data-key="${esc(c.key)}">
+          Chi tiết →
+        </button>
+      </td>
+    </tr>
+  `).join("");
+
   $("resultsWrap").innerHTML = `
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>TÊN KHÁCH HÀNG</th>
-            <th>TDV</th>
-            <th style="text-align:center">SỐ SP</th>
-            <th style="text-align:right">DSO TỔNG</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${list.map(customer => `
-            <tr data-open="${esc(customer.key)}">
-              <td class="name-cell">${esc(customer.customer)}</td>
-              <td class="rep-cell">${esc(customer.rep || "—")}</td>
-              <td class="number-cell">${customer.visibleProducts.length}</td>
-              <td class="money-cell">${money(customer.visibleTotal)}</td>
-              <td><span class="row-open">Chi tiết ↗</span></td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Khách hàng / NVBH</th>
+          <th>Sản phẩm</th>
+          <th class="num">Doanh số tổng</th>
+          <th>Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>${body}</tbody>
+    </table>
   `;
 
-  $("resultsWrap").querySelectorAll("[data-open]").forEach(row => {
-    row.addEventListener("click", () => openDetail(row.dataset.open));
+  $("resultsWrap").querySelectorAll("[data-key]").forEach(btn => {
+    btn.addEventListener("click", () => open(btn.dataset.key));
   });
 }
 
