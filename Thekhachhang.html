@@ -387,12 +387,18 @@ input:focus {
   line-height: 1.4;
   letter-spacing: .2px;
 }
+/* Danh sách khách hàng: để sticky hoạt động theo cuộn trang */
+#resultsWrap > .table-wrap {
+  overflow: visible;
+}
+
 #resultsWrap > .table-wrap > .data-table thead th {
   position: sticky;
-  top: 0;
-  z-index: 10;
+  top: 72px;
+  z-index: 15;
   text-align: center !important;
   vertical-align: middle !important;
+  background: var(--navy);
 }
 
 .data-table td {
@@ -415,12 +421,12 @@ input:focus {
 
 .data-table .name-cell {
   color: var(--navy);
-  font-weight: 600;
+  font-weight: 650;
 }
 
 /* Tên sản phẩm trong bảng chi tiết giảm độ đậm */
 #productList .dynamic-month-table tbody .sticky-name {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
 }
 
 .data-table .rep-cell {
@@ -430,13 +436,13 @@ input:focus {
 .data-table .money-cell {
   color: var(--navy);
   text-align: right;
-  font-weight: 600;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
 }
 
 .data-table .number-cell {
   text-align: center;
-  font-weight: 600;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
 }
 
@@ -446,7 +452,7 @@ input:focus {
   background: transparent;
   color: var(--navy);
   font: inherit;
-  font-weight: 600;
+  font-weight: 650;
   text-align: left;
   overflow-wrap: anywhere;
   cursor: pointer;
@@ -485,7 +491,7 @@ input:focus {
   border-top: 4px solid var(--gold);
   margin-top: 16px;
   padding: 16px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .detail-head {
@@ -533,10 +539,11 @@ input:focus {
 #productList .detail-scroll {
   width: 100%;
   max-width: 100%;
+  max-height: 65vh;
   overflow-x: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain;
   padding: 0;
   margin: 0;
 }
@@ -790,6 +797,15 @@ input:focus {
   .table-wrap {
     padding: 4px;
     overflow-x: auto;
+  }
+
+  #resultsWrap > .table-wrap {
+    padding: 4px;
+    overflow: visible;
+  }
+
+  #resultsWrap > .table-wrap > .data-table thead th {
+    top: 58px;
   }
 
   .data-table {
