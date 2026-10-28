@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#142B45">
 
-<title>THẺ KHÁCH HÀNG 2026 | AIKYA</title>
+<title>THẺ KHÁCH HÀNG AIKYA 2026</title>
 
 <style>
 :root {
@@ -920,6 +920,19 @@ input:focus {
     max-width: 68px;
   }
 }
+
+/* Căn giữa tiêu đề các cột trong bảng */
+.data-table thead th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* Căn giữa tiêu đề bảng chi tiết sản phẩm */
+.detail-table thead th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}  
+  
 </style>
 </head>
 
@@ -1497,10 +1510,10 @@ function render() {
       <table class="data-table">
         <thead>
           <tr>
-            <th>TÊN KHÁCH HÀNG</th>
-            <th>TDV</th>
-            <th>SỐ SP</th>
-            <th style="text-align:right">DSO TỔNG</th>
+            <th>KHÁCH HÀNG</th>
+            <th>NVBH</th>
+            <th>SL SKUs</th>
+            <th style="text-align:right">TỔNG 2026</th>
           </tr>
         </thead>
         <tbody>${body}</tbody>
@@ -1619,8 +1632,8 @@ function renderDetail(customer) {
       <table class="data-table detail-table dynamic-month-table">
         <thead>
           <tr>
-            <th class="sticky-name">TÊN SẢN PHẨM</th>
-            <th class="sticky-total">TỔNG</th>
+            <th class="sticky-name">SẢN PHẨM</th>
+            <th class="sticky-total">TỔNG 2026</th>
             ${monthHeaders}
           </tr>
         </thead>
