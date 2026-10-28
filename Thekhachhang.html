@@ -971,6 +971,46 @@ input:focus {
   vertical-align: middle !important;
 }  
   
+
+/* Nút chụp ảnh và xuất Excel */
+.export-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.export-btn.primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.export-btn:hover { filter: brightness(.97); transform: translateY(-1px); }
+.export-btn:disabled { opacity: .55; cursor: wait; transform: none; }
+.results-head { flex-wrap: wrap; }
+.detail-head { flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .export-actions { width: 100%; margin-left: 0; }
+  .export-btn { flex: 1 1 auto; min-width: 0; padding: 8px 9px; }
+  .results-head { gap: 8px; }
+}
+
 </style>
 </head>
 
@@ -1056,6 +1096,10 @@ input:focus {
     <div class="results-head">
       <h2 id="resultsTitle">Danh sách khách hàng</h2>
       <span class="count" id="resultsCount">Đang tải...</span>
+      <div class="export-actions">
+        <button type="button" class="export-btn" id="captureCustomers">📸 Chụp ảnh bảng</button>
+        <button type="button" class="export-btn primary" id="exportCustomers">📊 Xuất Excel</button>
+      </div>
     </div>
 
     <div id="resultsWrap" aria-live="polite">
@@ -1071,9 +1115,11 @@ input:focus {
         <div class="detail-total" id="detailTotal"></div>
       </div>
 
-      <button type="button" class="btn" id="back">
-        ← Quay lại
-      </button>
+      <div class="export-actions">
+        <button type="button" class="export-btn" id="captureDetail">📸 Chụp ảnh bảng</button>
+        <button type="button" class="export-btn primary" id="exportDetail">📊 Xuất Excel</button>
+        <button type="button" class="btn" id="back">← Quay lại</button>
+      </div>
     </div>
 
     <div id="productList"></div>
@@ -1081,6 +1127,8 @@ input:focus {
 
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 "use strict";
 
@@ -1682,6 +1730,169 @@ function renderDetail(customer) {
   `;
 }
 
+
+/* =====================================================
+   12. CHỤP ẢNH / XUẤT EXCEL DỮ LIỆU ĐANG HIỂN THỊ
+===================================================== */
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function fileStamp() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
+}
+
+function safeFileName(value) {
+  return String(value || "AIKYA")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "")
+    .slice(0, 70) || "AIKYA";
+}
+
+function exportXlsx(rowsData, filename, sheetName) {
+  if (!window.XLSX) {
+    alert("Chưa tải được thư viện Excel. Hãy kiểm tra kết nối Internet rồi thử lại.");
+    return;
+  }
+  if (!rowsData.length) {
+    alert("Không có dữ liệu để xuất.");
+    return;
+  }
+  const ws = XLSX.utils.json_to_sheet(rowsData);
+  ws["!cols"] = Object.keys(rowsData[0]).map(key => ({
+    wch: Math.min(36, Math.max(12, key.length + 3,
+      ...rowsData.slice(0, 100).map(row => String(row[key] ?? "").length + 2)))
+  }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, (sheetName || "Du lieu").slice(0, 31));
+  XLSX.writeFile(wb, filename);
+}
+
+async function captureTable(tableSelector, filename, titleText, metaText = "") {
+  if (!window.html2canvas) {
+    alert("Chưa tải được thư viện chụp ảnh. Hãy kiểm tra kết nối Internet rồi thử lại.");
+    return;
+  }
+  const sourceTable = document.querySelector(tableSelector);
+  if (!sourceTable) {
+    alert("Không có bảng dữ liệu để chụp.");
+    return;
+  }
+
+  const button = document.activeElement;
+  if (button && button.tagName === "BUTTON") {
+    button.disabled = true;
+  }
+
+  try {
+    // Dựng bản sao ngoài màn hình với chiều rộng đầy đủ để chụp cả bảng khi có cuộn ngang/dọc.
+    const cloneWrap = document.createElement("div");
+    cloneWrap.style.cssText = [
+      "position:fixed", "left:-100000px", "top:0", "z-index:-1",
+      "background:#fff", "padding:18px", "width:max-content",
+      "max-width:none", "overflow:visible", "color:#263746",
+      "font-family:Arial,sans-serif"
+    ].join(";");
+    const title = document.createElement("div");
+    title.textContent = titleText || "AIKYA 2026";
+    title.style.cssText = "font-size:18px;font-weight:700;margin-bottom:6px;color:#142B45";
+    cloneWrap.appendChild(title);
+    if (metaText) {
+      const meta = document.createElement("div");
+      meta.textContent = metaText;
+      meta.style.cssText = "font-size:12px;margin-bottom:12px;color:#596875";
+      cloneWrap.appendChild(meta);
+    }
+    const clone = sourceTable.cloneNode(true);
+    clone.style.width = Math.max(sourceTable.scrollWidth, sourceTable.getBoundingClientRect().width) + "px";
+    clone.style.maxWidth = "none";
+    clone.style.overflow = "visible";
+    clone.querySelectorAll("*").forEach(el => {
+      el.style.position = "static";
+      el.style.left = "auto";
+      el.style.top = "auto";
+      el.style.maxHeight = "none";
+      el.style.maxWidth = "none";
+      el.style.visibility = "visible";
+      el.style.transform = "none";
+    });
+    cloneWrap.appendChild(clone);
+    document.body.appendChild(cloneWrap);
+
+    const canvas = await html2canvas(cloneWrap, {
+      backgroundColor: "#FFFFFF",
+      scale: Math.min(2, window.devicePixelRatio || 1.5),
+      useCORS: true,
+      logging: false,
+      width: cloneWrap.scrollWidth,
+      height: cloneWrap.scrollHeight,
+      windowWidth: Math.max(document.documentElement.clientWidth, cloneWrap.scrollWidth),
+      windowHeight: Math.max(window.innerHeight, cloneWrap.scrollHeight)
+    });
+
+    cloneWrap.remove();
+    canvas.toBlob(blob => {
+      if (!blob) {
+        alert("Không tạo được ảnh. Bảng có thể quá lớn; hãy thử lại.");
+        return;
+      }
+      downloadBlob(blob, filename);
+    }, "image/png");
+  } catch (error) {
+    console.error("Capture table error:", error);
+    alert("Chụp ảnh chưa thành công. Nếu bảng quá lớn, hãy lọc bớt dữ liệu rồi thử lại.");
+  } finally {
+    const temp = document.querySelector('body > div[style*="left:-100000px"]');
+    if (temp) temp.remove();
+    if (button && button.tagName === "BUTTON") button.disabled = false;
+  }
+}
+
+function currentCustomerExportRows() {
+  const productQuery = norm($("productSearch").value);
+  const list = filteredCustomers().slice().sort((a, b) => b.visibleTotal - a.visibleTotal);
+  return list.map(customer => ({
+    "KHÁCH HÀNG": customer.customer,
+    "NVBH": customer.rep || "",
+    "SL SKUs": productQuery ? customer.visibleProducts.length : customer.products.length,
+    "TỔNG 2026": Number(customer.visibleTotal || 0)
+  }));
+}
+
+function currentDetailExportRows() {
+  if (!selectedCustomer) return [];
+  const productQuery = norm($("productSearch").value);
+  const products = (productQuery
+    ? selectedCustomer.products.filter(product => norm(product.name).includes(productQuery))
+    : selectedCustomer.products
+  ).slice().sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, "vi"));
+
+  return products.map(product => {
+    const row = {
+      "SẢN PHẨM": product.name,
+      "TỔNG 2026": Number(product.total || 0)
+    };
+    months.forEach(month => {
+      row[month] = Number(product.months[month] || 0);
+    });
+    return row;
+  });
+}
+
+function detailExportMeta() {
+  if (!selectedCustomer) return "";
+  return `TDV: ${selectedCustomer.rep || "Chưa có"} · ${$("detailMeta").textContent} · ${$("detailTotal").textContent}`;
+}
+
 /* =====================================================
    12. ĐẶT LẠI BỘ LỌC
 ===================================================== */
@@ -1727,6 +1938,41 @@ $("back").addEventListener("click", () => {
       window.scrollY - 8,
     behavior: "smooth"
   });
+});
+
+
+$("captureCustomers").addEventListener("click", () => {
+  captureTable(
+    "#resultsWrap .table-wrap",
+    `Danh_sach_khach_hang_${fileStamp()}.png`,
+    $("resultsTitle").textContent,
+    `${$("resultsCount").textContent} · Bộ lọc TDV: ${selectedRep || "Tất cả"}`
+  );
+});
+
+$("exportCustomers").addEventListener("click", () => {
+  exportXlsx(
+    currentCustomerExportRows(),
+    `Danh_sach_khach_hang_${fileStamp()}.xlsx`,
+    "Danh sach KH"
+  );
+});
+
+$("captureDetail").addEventListener("click", () => {
+  captureTable(
+    "#productList .detail-scroll",
+    `Chi_tiet_${safeFileName(selectedCustomer?.customer)}_${fileStamp()}.png`,
+    `Chi tiết khách hàng: ${selectedCustomer?.customer || ""}`,
+    detailExportMeta()
+  );
+});
+
+$("exportDetail").addEventListener("click", () => {
+  exportXlsx(
+    currentDetailExportRows(),
+    `Chi_tiet_${safeFileName(selectedCustomer?.customer)}_${fileStamp()}.xlsx`,
+    "Chi tiet"
+  );
 });
 
 /* =====================================================
