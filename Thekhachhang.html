@@ -190,8 +190,8 @@ main {
 ========================= */
 
 .filters {
-  padding: 18px;
-  margin-bottom: 16px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
   border-top: 4px solid var(--gold);
 }
 
@@ -199,8 +199,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 9px;
 }
 
 .section-head h2,
@@ -235,11 +235,11 @@ main {
 
 .rep-scroll {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 2px 1px 12px;
-  margin-bottom: 8px;
+  padding: 2px 1px 7px;
+  margin-bottom: 4px;
   scrollbar-width: thin;
   scrollbar-color: var(--gold-light) transparent;
 }
@@ -272,7 +272,7 @@ main {
 .search-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 8px;
 }
 
 .field {
@@ -331,7 +331,7 @@ input:focus {
 ========================= */
 
 .results {
-  overflow: hidden;
+  overflow: visible;
   border-top: 4px solid var(--gold);
 }
 
@@ -343,6 +343,9 @@ input:focus {
   padding: 17px 18px;
   border-bottom: 1px solid var(--line);
   background: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .results-head h2 {
@@ -384,6 +387,13 @@ input:focus {
   line-height: 1.4;
   letter-spacing: .2px;
 }
+#resultsWrap > .table-wrap > .data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
 
 .data-table td {
   padding: 9px 12px;
@@ -405,7 +415,12 @@ input:focus {
 
 .data-table .name-cell {
   color: var(--navy);
-  font-weight: 800;
+  font-weight: 600;
+}
+
+/* Tên sản phẩm trong bảng chi tiết giảm độ đậm */
+#productList .dynamic-month-table tbody .sticky-name {
+  font-weight: 600 !important;
 }
 
 .data-table .rep-cell {
@@ -415,13 +430,13 @@ input:focus {
 .data-table .money-cell {
   color: var(--navy);
   text-align: right;
-  font-weight: 850;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .data-table .number-cell {
   text-align: center;
-  font-weight: 750;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -431,7 +446,7 @@ input:focus {
   background: transparent;
   color: var(--navy);
   font: inherit;
-  font-weight: 850;
+  font-weight: 600;
   text-align: left;
   overflow-wrap: anywhere;
   cursor: pointer;
@@ -478,7 +493,13 @@ input:focus {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  margin: -16px -16px 16px;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--line);
 }
 
 .detail-head h2 {
@@ -705,13 +726,13 @@ input:focus {
   }
 
   .filters {
-    padding: 12px;
-    margin-bottom: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
     border-radius: 13px;
   }
 
   .section-head {
-    margin-bottom: 11px;
+    margin-bottom: 8px;
   }
 
   .section-head h2 {
@@ -736,7 +757,7 @@ input:focus {
 
   .search-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 10px;
+    gap: 7px;
   }
 
   .field label {
@@ -822,7 +843,8 @@ input:focus {
 
   .detail-head {
     gap: 7px;
-    margin-bottom: 12px;
+    margin: -10px -10px 12px;
+    padding: 10px;
   }
 
   .detail-head h2 {
@@ -1603,7 +1625,7 @@ function renderDetail(customer) {
   const body = visibleProducts.map(product => {
     const monthCells = months.map(month => {
       const amount = Number(product.months[month] || 0);
-      const isZero = Math.abs(amount) < 0.000001;
+      const isZero = amount === 0;
 
       return `
         <td class="month-value${isZero ? " zero-month" : ""}">
