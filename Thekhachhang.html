@@ -1012,6 +1012,55 @@ input:focus {
     white-space: nowrap;
   }
 }
+
+/* =====================================================
+   THU GỌN CHIỀU CAO DÒNG TRONG BẢNG
+===================================================== */
+
+/* Thu gọn các ô trong bảng */
+.data-table th,
+.data-table td {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  line-height: 1.2 !important;
+}
+
+/* Bảng chi tiết khách hàng */
+#productList .detail-table th,
+#productList .detail-table td {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 1.15 !important;
+}
+
+/* Giảm khoảng cách riêng trên điện thoại */
+@media (max-width: 640px) {
+  .data-table th,
+  .data-table td {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    line-height: 1.15 !important;
+  }
+
+  #productList .detail-table th,
+  #productList .detail-table td {
+    padding: 4px 2px !important;
+    line-height: 1.1 !important;
+    font-size: 9px;
+  }
+
+  /* Tên sản phẩm vẫn xuống dòng khi cần */
+  #productList .detail-table td:nth-child(1) {
+    overflow-wrap: anywhere;
+  }
+
+  /* Không để số doanh số xuống dòng */
+  #productList .detail-table td:nth-child(2),
+  #productList .detail-table td:nth-child(5) {
+    white-space: nowrap;
+    font-size: 9px;
+  }
+}
    
 </style>
 </head>
@@ -1176,6 +1225,11 @@ function norm(value) {
 
 function str(value) {
   return String(value ?? "").trim();
+}
+
+/* Bỏ tiền tố AD02 - ở đầu tên TDV */
+function cleanRepName(value) {
+  return str(value).replace(/^AD02\s*-\s*/i, "").trim();
 }
 
 function esc(value) {
@@ -1379,7 +1433,7 @@ function aggregate() {
   rows.forEach(row => {
 
     const customerName = str(row["KHACH HANG"]);
-    const rep = str(row["NVBH"]);
+   const rep = cleanRepName(row["NVBH"]);
     const productName = str(row["SAN PHAM"]);
 
     if (!customerName || !productName) return;
