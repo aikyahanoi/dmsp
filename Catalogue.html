@@ -1942,32 +1942,33 @@ body > * { position: relative; z-index: 1; }
   }
   .filter-bar {
     display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: stretch !important;
-    gap: 6px !important;
-    padding: 6px !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 5px !important;
     margin-bottom: 14px !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
   .filter-bar button {
-    flex: 1 1 calc(33.333% - 6px) !important;
-    width: auto !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
     min-width: 0 !important;
     max-width: none !important;
     box-sizing: border-box !important;
-    padding: 8px 4px !important;
-    font-size: clamp(11px, 3.2vw, 14px) !important;
-    line-height: 1.2 !important;
+    padding: 7px 1px !important;
+    font-size: clamp(8px, 2.55vw, 12px) !important;
+    line-height: 1.15 !important;
     white-space: nowrap !important;
     margin: 0 !important;
+    letter-spacing: -0.15px !important;
   }
 }
 @media (max-width: 360px) {
-  .filter-bar { gap: 4px !important; padding: 5px !important; }
-  .filter-bar button { padding: 8px 2px !important; font-size: 11px !important; }
+  .filter-bar { gap: 3px !important; padding: 4px !important; }
+  .filter-bar button { padding: 7px 0 !important; font-size: 8px !important; letter-spacing: -0.25px !important; }
 }
 
 </style>
