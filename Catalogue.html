@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V23</title>
+<title>CATALOGUE AIKYA GLASS V25</title>
 
 <style>
 
@@ -1875,6 +1875,101 @@ body::before, body::after {
     background-repeat: no-repeat, no-repeat !important;
   }
 }
+
+
+/* ===== V24: REMOVE ONLY THE TRANSLUCENT DECORATIVE PANEL UNDER FILTER BUTTONS =====
+   Keep the filter buttons, spacing, active states, page background, and category headings intact. */
+.filter-bar {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+
+
+/* ===== V25: MOBILE BACKGROUND + FILTER RESPONSIVENESS =====
+   Keep the uploaded artwork visible while scrolling; fit all filter buttons on mobile. */
+html {
+  min-height: 100%;
+  background: #eaf6fb;
+}
+body {
+  position: relative;
+  min-height: 100vh;
+  background: transparent !important;
+  background-image: none !important;
+  overflow-x: clip;
+}
+/* Fixed artwork layer works more reliably on mobile Safari than body background-attachment: fixed. */
+body::before {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  background-color: #eaf6fb !important;
+  background-image: url("https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/wide_abstract_futuristic_background_wallpaper_scen.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+body::after { display: none !important; }
+body > * { position: relative; z-index: 1; }
+
+@media (max-width: 768px) {
+  html, body { width: 100%; max-width: 100%; }
+  body { padding: 8px !important; }
+  /* On a tall phone, show the full background artwork across the viewport instead of
+     using a 100vh image that ends after the first screen. The fixed layer stays visible on scroll. */
+  body::before {
+    background-position: center center !important;
+    background-size: 100% 100% !important;
+  }
+  .filter-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    padding: 6px !important;
+    margin-bottom: 14px !important;
+    overflow: visible !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .filter-bar button {
+    flex: 1 1 calc(33.333% - 6px) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    padding: 8px 4px !important;
+    font-size: clamp(11px, 3.2vw, 14px) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+}
+@media (max-width: 360px) {
+  .filter-bar { gap: 4px !important; padding: 5px !important; }
+  .filter-bar button { padding: 8px 2px !important; font-size: 11px !important; }
+}
+
 </style>
 </head>
 
