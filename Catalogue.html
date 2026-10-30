@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V25</title>
+<title>CATALOGUE AIKYA GLASS V27</title>
 
 <style>
 
@@ -1969,6 +1969,76 @@ body > * { position: relative; z-index: 1; }
 @media (max-width: 360px) {
   .filter-bar { gap: 3px !important; padding: 4px !important; }
   .filter-bar button { padding: 7px 0 !important; font-size: 8px !important; letter-spacing: -0.25px !important; }
+}
+
+
+
+/* ===== V27: RESPONSIVE PASTEL GLASS BACKGROUNDS =====
+   Laptop uses the supplied landscape artwork; phones use the supplied portrait artwork.
+   Keep the artwork on a fixed layer so it remains visible while the page scrolls. */
+:root {
+  --aikya-bg-laptop: url("https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/Pastel%20Glass%20Waves%20and%20Bubbles.png");
+  --aikya-bg-phone: url("https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/Dreamy%20Pastel%20Glasswave%20Wallpaper.png");
+}
+
+html {
+  min-height: 100%;
+  background: #f7fbff !important;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background: transparent !important;
+  background-image: none !important;
+  overflow-x: clip;
+}
+
+/* One fixed art layer behind all catalogue content. */
+body::before {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  background-color: #f7fbff !important;
+  background-image: var(--aikya-bg-laptop) !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+
+body::after {
+  display: none !important;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Portrait artwork is selected automatically on phones and narrow tablets. */
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  body::before {
+    background-image: var(--aikya-bg-phone) !important;
+    background-position: center top !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
 }
 
 </style>
