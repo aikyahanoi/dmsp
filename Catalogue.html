@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V27</title>
+<title>CATALOGUE AIKYA GLASS V28</title>
 
 <style>
 
@@ -2038,6 +2038,111 @@ body > * {
     background-position: center top !important;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+  }
+}
+
+
+
+/* ===== V28: UNIFIED FILTER HOVER + MOBILE CHIP SIZING =====
+   All filters share one ruby-glass hover/selected treatment.
+   Mobile buttons size to their labels while staying on a single row. */
+.filter-bar button {
+  position: relative !important;
+  isolation: isolate !important;
+  box-sizing: border-box !important;
+  transition:
+    background .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    transform .18s ease !important;
+}
+
+/* One consistent ruby-glass treatment for every selected filter. */
+.filter-bar button.active,
+.filter-bar button[onclick="filterType('hot')"].active,
+.filter-bar button:active,
+.filter-bar button[onclick="filterType('hot')"]:active {
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.96) !important;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.48) 0%, rgba(255,255,255,.14) 34%, transparent 68%),
+    linear-gradient(145deg, #ff626c 0%, #f52b40 48%, #c91531 100%) !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.96),
+    inset 0 -2px 5px rgba(112,0,20,.30),
+    0 2px 4px rgba(190,20,43,.18),
+    0 5px 10px rgba(211,30,55,.11),
+    0 8px 14px rgba(211,30,55,.055) !important;
+  color: #fff !important;
+  text-shadow: 0 1px 1px rgba(105,0,15,.18) !important;
+  transform: translateY(-1px);
+}
+
+/* Laptop/desktop: hover all six filter chips equally, not only Bán chạy. */
+@media (hover: hover) and (min-width: 769px) {
+  .filter-bar button:hover,
+  .filter-bar button:focus-visible,
+  .filter-bar button[onclick="filterType('hot')"]:hover,
+  .filter-bar button[onclick="filterType('hot')"]:focus-visible {
+    color: #fff !important;
+    border-color: rgba(255,255,255,.96) !important;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.50) 0%, rgba(255,255,255,.13) 35%, transparent 69%),
+      linear-gradient(145deg, #ff626c 0%, #f52b40 48%, #c91531 100%) !important;
+    box-shadow:
+      inset 0 1.5px 0 rgba(255,255,255,.96),
+      inset 0 -2px 5px rgba(112,0,20,.28),
+      0 2px 4px rgba(190,20,43,.18),
+      0 5px 10px rgba(211,30,55,.12),
+      0 8px 15px rgba(211,30,55,.06) !important;
+    text-shadow: 0 1px 1px rgba(105,0,15,.18) !important;
+    transform: translateY(-1px);
+    outline: none !important;
+  }
+}
+
+/* Phone: fit each label naturally; never split into a second row or clip text. */
+@media (max-width: 768px) {
+  .filter-bar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: clamp(2px, .8vw, 5px) !important;
+    padding: 5px 3px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+  .filter-bar button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    padding: 6px clamp(3px, 1.1vw, 7px) !important;
+    margin: 0 !important;
+    font-size: clamp(8.5px, 2.7vw, 11px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -.18px !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    overflow: visible !important;
+    transform: none;
+  }
+  /* Compact, even red halo: strongest at the glass edge and fading smoothly outward. */
+  .filter-bar button.active,
+  .filter-bar button[onclick="filterType('hot')"].active,
+  .filter-bar button:active,
+  .filter-bar button[onclick="filterType('hot')"]:active {
+    box-shadow:
+      inset 0 1.3px 0 rgba(255,255,255,.96),
+      inset 0 -2px 4px rgba(112,0,20,.30),
+      0 2px 3px rgba(190,20,43,.17),
+      0 4px 7px rgba(211,30,55,.10),
+      0 7px 10px rgba(211,30,55,.045) !important;
+    transform: none !important;
   }
 }
 
