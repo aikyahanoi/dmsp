@@ -32,7 +32,7 @@ body {
   border-radius: 14px;
   border-bottom: 3px solid #d32f2f;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-align: center;                 /* 🔥 căn trái */
 }
 
@@ -671,7 +671,7 @@ body::after {
   background: linear-gradient(135deg, rgba(255,255,255,.74), rgba(255,255,255,.48));
   border: 1px solid rgba(255,255,255,.88);
   border-radius: 18px;
-  padding: 9px;
+  padding: 7px;
   -webkit-backdrop-filter: blur(24px) saturate(150%);
   backdrop-filter: blur(24px) saturate(150%);
   box-shadow: 0 8px 22px rgba(45,78,98,.08), inset 0 1px 0 rgba(255,255,255,.96);
@@ -699,7 +699,7 @@ body::after {
 /* Filter chips: translucent glass; red remains the selected/hover accent */
 .filter-bar {
   padding: 7px;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   gap: 8px;
   border: 1px solid rgba(255,255,255,.78);
   border-radius: 18px;
@@ -2181,7 +2181,7 @@ body > * {
             <feMorphology in="SourceAlpha" operator="dilate" radius="1.6" result="expandedSilhouette"/>
             <feGaussianBlur in="expandedSilhouette" stdDeviation="1.35" result="blurredExpanded"/>
             <feComposite in="blurredExpanded" in2="SourceAlpha" operator="out" result="outsideOnly"/>
-            <feFlood flood-color="#d32f2f" flood-opacity=".78" result="glowColor"/>
+            <feFlood flood-color="#d32f2f" flood-opacity=".3" result="glowColor"/>
             <feComposite in="glowColor" in2="outsideOnly" operator="in" result="outerGlow"/>
           </filter>
         </defs>
@@ -2231,7 +2231,7 @@ body > * {
 .price-gear-wrap {
   position: absolute;
   right: 12px;
-  top: 58%;
+  top: 62%;
   transform: translateY(-50%);
   z-index: 2100;
   width: 30px;
@@ -2306,7 +2306,7 @@ body > * {
 }
 .price-gear-shape .gear-fill {
   fill: none !important;
-  stroke: #d32f2f !important;
+  stroke: #E8E4DF !important;
   stroke-width: 2.0;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -2435,7 +2435,7 @@ body > * {
   background: linear-gradient(135deg, #d94343, #b91f35);
 }
 @media (max-width: 768px) {
-  .price-gear-wrap { right: 10px; top: 58%; width: 28px; height: 28px; }
+  .price-gear-wrap { right: 10px; top: 62%; width: 28px; height: 28px; }
   .price-gear-button { width: 28px !important; height: 28px !important; min-width: 28px !important; min-height: 28px !important; }
   .price-setting-panel { top: calc(100% + 8px); }
   .stats-inline { gap: 8px; font-size: 12px; }
