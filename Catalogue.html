@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V28</title>
+<title>CATALOGUE AIKYA GLASS V30</title>
 
 <style>
 
@@ -2167,6 +2167,25 @@ body > * {
     </div>
   </div>
 
+  <div class="price-gear-wrap">
+    <button type="button" id="priceSettingToggle" class="price-gear-button"
+            aria-label="Chọn mức giá hợp đồng" aria-expanded="false"
+            onclick="togglePriceSettings()" title="Chọn mức giá hợp đồng">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3h-6l-.3 3a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.7 7.7 0 0 0 1.7 1L9 21h6l.3-3a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.5z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </button>
+    <div id="priceSettingPanel" class="price-setting-panel" hidden>
+      <button type="button" data-price-mode="hidden" onclick="changePriceMode('hidden')">Ẩn HĐ</button>
+      <button type="button" data-price-mode="HD 2tr" onclick="changePriceMode('HD 2tr')">HĐ 2tr</button>
+      <button type="button" data-price-mode="HD 3tr" onclick="changePriceMode('HD 3tr')">HĐ 3tr</button>
+      <button type="button" data-price-mode="HD 5tr" onclick="changePriceMode('HD 5tr')">HĐ 5tr</button>
+      <button type="button" data-price-mode="HD 10tr" onclick="changePriceMode('HD 10tr')">HĐ 10tr</button>
+      <button type="button" data-price-mode="HD 15tr" onclick="changePriceMode('HD 15tr')">HĐ 15tr</button>
+    </div>
+  </div>
+
 </div>
 
 <div class="search-sticky">
@@ -2181,13 +2200,149 @@ body > * {
   <button onclick="filterType('nutrition')">Dinh dưỡng</button>
   <button onclick="filterType('travel')">✈️ Hà Giang</button>
 </div>
- 
+
 <div id="data">Loading...</div>
 
+
+<style>
+/* ===== V32: KEEP PRICE MENU ABOVE THE STICKY SEARCH LAYER ===== */
+/* The sticky search uses z-index:999; raise the complete header stacking layer above it. */
+.header-new {
+  position: relative;
+  overflow: visible !important;
+  z-index: 2000 !important;
+}
+.price-gear-wrap {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  z-index: 2100;
+}
+.price-gear-button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 50%;
+  color: #526879;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 3px 10px rgba(43,73,91,.10), inset 0 1px 0 rgba(255,255,255,.95);
+  cursor: pointer;
+  transition: .2s ease;
+}
+.price-gear-button svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.price-gear-button:hover,
+.price-gear-button[aria-expanded="true"] {
+  color: #c62828;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 0 0 3px rgba(211,47,47,.10), 0 4px 12px rgba(43,73,91,.13);
+}
+.price-setting-panel {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  z-index: 2200;
+  width: 132px;
+  max-height: min(68vh, 340px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 7px;
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(220,244,255,.13));
+  box-shadow: 0 10px 28px rgba(35,65,82,.13),
+              inset 0 1px 0 rgba(255,255,255,.82),
+              inset 0 -1px 0 rgba(255,255,255,.22);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
+}
+.price-setting-panel[hidden] { display: none !important; }
+.price-setting-panel button {
+  flex: 0 0 auto;
+  min-height: 32px;
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: left;
+  color: #263f54;
+  background: rgba(255,255,255,.07);
+  font: 600 12px "Inter", sans-serif;
+  cursor: pointer;
+}
+.price-setting-panel button:hover,
+.price-setting-panel button.active {
+  color: #fff;
+  background: linear-gradient(135deg, #d94343, #b91f35);
+}
+@media (max-width: 768px) {
+  .price-gear-wrap { top: 6px; right: 6px; }
+  .price-gear-button { width: 31px; height: 31px; }
+  .price-setting-panel { top: 38px; }
+  .header-new { padding-right: 42px; }
+}
+</style>
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwIRUk_7uMGpQVmSQBYxjZiH15nhNV3q3w0YzfqBMt-0jvKEIEBpNpMS6N-dsG5xdIx/exec";
 
 let list = [];
+
+/* ===== V33: CHẾ ĐỘ HIỂN THỊ GIÁ CUỐI ===== */
+const PRICE_MODE_STORAGE_KEY = "aikyaCataloguePriceModeV33";
+const PRICE_MODE_DEFAULT = "hidden";
+const PRICE_MODES = ["hidden", "HD 2tr", "HD 3tr", "HD 5tr", "HD 10tr", "HD 15tr"];
+let selectedPriceMode = PRICE_MODE_DEFAULT;
+try {
+  const savedPriceMode = localStorage.getItem(PRICE_MODE_STORAGE_KEY);
+  if (PRICE_MODES.includes(savedPriceMode)) selectedPriceMode = savedPriceMode;
+} catch (e) {}
+
+function togglePriceSettings() {
+  const panel = document.getElementById("priceSettingPanel");
+  const button = document.getElementById("priceSettingToggle");
+  const willOpen = panel.hidden;
+  panel.hidden = !willOpen;
+  button.setAttribute("aria-expanded", String(willOpen));
+}
+
+function changePriceMode(mode) {
+  if (!PRICE_MODES.includes(mode)) mode = PRICE_MODE_DEFAULT;
+  selectedPriceMode = mode;
+  try { localStorage.setItem(PRICE_MODE_STORAGE_KEY, mode); } catch (e) {}
+
+  document.querySelectorAll("#priceSettingPanel button[data-price-mode]").forEach(option => {
+    option.classList.toggle("active", option.dataset.priceMode === selectedPriceMode);
+  });
+
+  const panel = document.getElementById("priceSettingPanel");
+  const toggle = document.getElementById("priceSettingToggle");
+  panel.hidden = true;
+  toggle.setAttribute("aria-expanded", "false");
+
+  const keyword = (document.getElementById("search")?.value || "").toLowerCase().trim();
+  const visibleList = keyword
+    ? list.filter(r => String(getValue(r, "SẢN PHẨM")).toLowerCase().includes(keyword))
+    : list;
+  render(visibleList);
+}
+
 
 const bgMap = {
   "dua": "https://raw.githubusercontent.com/aikyahanoi/aikya-images/main/images/anh%20nen%20duahau.png",
@@ -2204,6 +2359,7 @@ function normalize(str) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[đĐ]/g, "d")
     .replace(/\s+/g, "")
     .trim();
 }
@@ -2502,9 +2658,9 @@ function renderCard(r){
     getValue(r,"TRÊN HÓA ĐƠN")
   );
 
-  let cuoi = formatNumber(
-    getValue(r,"GIÁ CUỐI")
-  );
+  const cuoi = selectedPriceMode === "hidden"
+    ? ""
+    : formatNumber(getValue(r, selectedPriceMode));
 
   let km2 = getValue(r,"KM THÁNG");
 
@@ -2624,9 +2780,11 @@ ${travel === "1"
         Giá trên HĐ: ${don}
       </div>
 
-      <div class="row">
-        Giá cuối: <b>${cuoi}</b>
-      </div>
+      ${
+        selectedPriceMode !== "hidden"
+        ? `<div class="row price-final-row">Giá cuối: <b>${cuoi}</b></div>`
+        : ""
+      }
 
       ${
         km2
@@ -2692,6 +2850,9 @@ document.getElementById("search").addEventListener("input", function(){
 });
 
 /* ===== INIT ===== */
+document.querySelectorAll("#priceSettingPanel button[data-price-mode]").forEach(option => {
+  option.classList.toggle("active", option.dataset.priceMode === selectedPriceMode);
+});
 loadData();
 
 /* ===== LIGHT EFFECT ===== */
