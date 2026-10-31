@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V30</title>
+<title>CATALOGUE AIKYA GLASS V44</title>
 
 <style>
 
@@ -20,6 +20,7 @@ body {
 
 /* ===== HEADER ===== */
 .header-new {
+  position: relative;
   display: flex;
   flex-direction: row;              /* 🔥 đổi sang ngang */
   align-items: center;
@@ -47,12 +48,18 @@ body {
 }
 
 .stats-inline {
+  position: static;
+  width: 100%;
+  box-sizing: border-box;
   font-size: 14px;
   display: flex;
+  align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
+.stats-inline > span { white-space: nowrap; }
+
 
 #search {
   width: 100%;
@@ -2164,17 +2171,23 @@ body > * {
       <span>Tổng: <b id="total">0</b></span>
       <span>Sắp hết: <b id="low">0</b></span>
       <span>Hết: <b id="out">0</b></span>
-    </div>
-  </div>
-
-  <div class="price-gear-wrap">
+      <div class="price-gear-wrap">
     <button type="button" id="priceSettingToggle" class="price-gear-button"
             aria-label="Chọn mức giá hợp đồng" aria-expanded="false"
             onclick="togglePriceSettings()" title="Chọn mức giá hợp đồng">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.5-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3h-6l-.3 3a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.5 2 1.5a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a7.7 7.7 0 0 0 1.7 1L9 21h6l.3-3a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.5z"/>
-        <circle cx="12" cy="12" r="3"/>
+      <svg class="price-gear-shape" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <filter id="gearOuterGlow" x="-45%" y="-45%" width="190%" height="190%" color-interpolation-filters="sRGB">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="1.6" result="expandedSilhouette"/>
+            <feGaussianBlur in="expandedSilhouette" stdDeviation="1.35" result="blurredExpanded"/>
+            <feComposite in="blurredExpanded" in2="SourceAlpha" operator="out" result="outsideOnly"/>
+            <feFlood flood-color="#d32f2f" flood-opacity=".78" result="glowColor"/>
+            <feComposite in="glowColor" in2="outsideOnly" operator="in" result="outerGlow"/>
+          </filter>
+        </defs>
+        <path class="gear-glow" d="M 17.494 8.294 L 19.030 7.743 L 19.276 3.538 L 28.724 3.538 L 28.970 7.743 L 30.506 8.294 L 30.506 8.294 L 31.981 8.990 L 35.128 6.191 L 41.809 12.872 L 39.010 16.019 L 39.706 17.494 L 39.706 17.494 L 40.257 19.030 L 44.462 19.276 L 44.462 28.724 L 40.257 28.970 L 39.706 30.506 L 39.706 30.506 L 39.010 31.981 L 41.809 35.128 L 35.128 41.809 L 31.981 39.010 L 30.506 39.706 L 30.506 39.706 L 28.970 40.257 L 28.724 44.462 L 19.276 44.462 L 19.030 40.257 L 17.494 39.706 L 17.494 39.706 L 16.019 39.010 L 12.872 41.809 L 6.191 35.128 L 8.990 31.981 L 8.294 30.506 L 8.294 30.506 L 7.743 28.970 L 3.538 28.724 L 3.538 19.276 L 7.743 19.030 L 8.294 17.494 L 8.294 17.494 L 8.990 16.019 L 6.191 12.872 L 12.872 6.191 L 16.019 8.990 L 17.494 8.294 Z"/><path class="gear-fill" d="M 17.494 8.294 L 19.030 7.743 L 19.276 3.538 L 28.724 3.538 L 28.970 7.743 L 30.506 8.294 L 30.506 8.294 L 31.981 8.990 L 35.128 6.191 L 41.809 12.872 L 39.010 16.019 L 39.706 17.494 L 39.706 17.494 L 40.257 19.030 L 44.462 19.276 L 44.462 28.724 L 40.257 28.970 L 39.706 30.506 L 39.706 30.506 L 39.010 31.981 L 41.809 35.128 L 35.128 41.809 L 31.981 39.010 L 30.506 39.706 L 30.506 39.706 L 28.970 40.257 L 28.724 44.462 L 19.276 44.462 L 19.030 40.257 L 17.494 39.706 L 17.494 39.706 L 16.019 39.010 L 12.872 41.809 L 6.191 35.128 L 8.990 31.981 L 8.294 30.506 L 8.294 30.506 L 7.743 28.970 L 3.538 28.724 L 3.538 19.276 L 7.743 19.030 L 8.294 17.494 L 8.294 17.494 L 8.990 16.019 L 6.191 12.872 L 12.872 6.191 L 16.019 8.990 L 17.494 8.294 Z"/>
       </svg>
+      <span class="price-mode-icon" id="priceModeIcon" aria-hidden="true"></span>
     </button>
     <div id="priceSettingPanel" class="price-setting-panel" hidden>
       <button type="button" data-price-mode="hidden" onclick="changePriceMode('hidden')">Ẩn HĐ</button>
@@ -2184,7 +2197,10 @@ body > * {
       <button type="button" data-price-mode="HD 10tr" onclick="changePriceMode('HD 10tr')">HĐ 10tr</button>
       <button type="button" data-price-mode="HD 15tr" onclick="changePriceMode('HD 15tr')">HĐ 15tr</button>
     </div>
+      </div>
+    </div>
   </div>
+
 
 </div>
 
@@ -2205,8 +2221,8 @@ body > * {
 
 
 <style>
-/* ===== V32: KEEP PRICE MENU ABOVE THE STICKY SEARCH LAYER ===== */
-/* The sticky search uses z-index:999; raise the complete header stacking layer above it. */
+/* ===== PRICE GEAR — SINGLE SOURCE OF TRUTH ===== */
+/* Keep the header/menu stacking and position; style only the gear control. */
 .header-new {
   position: relative;
   overflow: visible !important;
@@ -2214,43 +2230,169 @@ body > * {
 }
 .price-gear-wrap {
   position: absolute;
-  top: 9px;
-  right: 10px;
+  right: 12px;
+  top: 58%;
+  transform: translateY(-50%);
   z-index: 2100;
+  width: 30px;
+  height: 30px;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
-.price-gear-button {
-  width: 34px;
-  height: 34px;
+.price-gear-wrap::before,
+.price-gear-wrap::after,
+.price-gear-button::before,
+.price-gear-button::after {
+  content: none !important;
+  display: none !important;
+}
+.price-gear-button,
+.price-gear-button:hover,
+.price-gear-button:active,
+.price-gear-button:focus,
+.price-gear-button:focus-visible,
+.price-gear-button[aria-expanded="true"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px;
-  border: 1px solid rgba(255,255,255,.9);
-  border-radius: 50%;
-  color: #526879;
-  background: rgba(255,255,255,.62);
-  box-shadow: 0 3px 10px rgba(43,73,91,.10), inset 0 1px 0 rgba(255,255,255,.95);
+  box-sizing: border-box !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  color: #d32f2f !important;
   cursor: pointer;
-  transition: .2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.price-gear-button svg {
-  width: 19px;
-  height: 19px;
-  fill: none;
+.price-gear-shape {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none;
+  opacity: 1;
+  pointer-events: none;
+}
+.price-gear-shape .gear-fill {
+  fill: none !important;
+  stroke: #d32f2f !important;
+  stroke-width: 2.0;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+/* Override the broad .stats-inline span glass rule: this span is an icon label,
+   not a statistics chip. It must have no glass, padding, border or shadow. */
+.stats-inline .price-mode-icon,
+.price-gear-button .price-mode-icon {
+  position: relative;
+  z-index: 1;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+  color: #d32f2f !important;
+  font: 800 11px/1 "Inter", sans-serif !important;
+  letter-spacing: -.25px;
+  text-align: center;
+  text-shadow: none !important;
+  pointer-events: none;
+}
+.price-mode-icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  fill: none !important;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 1.85;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.price-gear-button:hover,
-.price-gear-button[aria-expanded="true"] {
-  color: #c62828;
-  background: rgba(255,255,255,.94);
-  box-shadow: 0 0 0 3px rgba(211,47,47,.10), 0 4px 12px rgba(43,73,91,.13);
+/* Glow belongs to the gear path itself, never to the rectangular button box. */
+.price-gear-button:hover .price-gear-shape .gear-fill,
+.price-gear-button:focus-visible .price-gear-shape .gear-fill,
+.price-gear-button[aria-expanded="true"] .price-gear-shape .gear-fill {
+  filter: url(#gearOuterGlow);
 }
+/* V45: exact title red and silhouette-masked outer-only gear glow. */
+.price-gear-button { background: transparent !important; }
+.price-gear-wrap, .price-gear-button, .price-gear-shape { background: transparent !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.price-gear-shape .gear-glow {
+  fill: #d32f2f !important;
+  stroke: none !important;
+  opacity: 0;
+  filter: url(#gearOuterGlow);
+  transition: opacity 140ms ease-out;
+}
+.price-gear-shape .gear-fill {
+  fill: none !important;
+  stroke: #d32f2f !important;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.price-gear-button:hover .gear-glow,
+.price-gear-button:focus-visible .gear-glow,
+.price-gear-button[aria-expanded="true"] .gear-glow { opacity: 1; }
+.price-gear-button .price-mode-icon { color: #d32f2f !important; z-index: 2; }
+.price-gear-button:hover .price-gear-shape .gear-fill,
+.price-gear-button:focus-visible .price-gear-shape .gear-fill,
+.price-gear-button[aria-expanded="true"] .price-gear-shape .gear-fill { filter: none !important; }
 .price-setting-panel {
   position: absolute;
-  top: 42px;
+  top: calc(100% + 8px);
   right: 0;
   z-index: 2200;
   width: 132px;
@@ -2293,19 +2435,20 @@ body > * {
   background: linear-gradient(135deg, #d94343, #b91f35);
 }
 @media (max-width: 768px) {
-  .price-gear-wrap { top: 6px; right: 6px; }
-  .price-gear-button { width: 31px; height: 31px; }
-  .price-setting-panel { top: 38px; }
-  .header-new { padding-right: 42px; }
+  .price-gear-wrap { right: 10px; top: 58%; width: 28px; height: 28px; }
+  .price-gear-button { width: 28px !important; height: 28px !important; min-width: 28px !important; min-height: 28px !important; }
+  .price-setting-panel { top: calc(100% + 8px); }
+  .stats-inline { gap: 8px; font-size: 12px; }
 }
+
 </style>
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwIRUk_7uMGpQVmSQBYxjZiH15nhNV3q3w0YzfqBMt-0jvKEIEBpNpMS6N-dsG5xdIx/exec";
 
 let list = [];
 
-/* ===== V33: CHẾ ĐỘ HIỂN THỊ GIÁ CUỐI ===== */
-const PRICE_MODE_STORAGE_KEY = "aikyaCataloguePriceModeV33";
+/* ===== V42: CHẾ ĐỘ HIỂN THỊ GIÁ CUỐI ===== */
+const PRICE_MODE_STORAGE_KEY = "aikyaCataloguePriceModeV37";
 const PRICE_MODE_DEFAULT = "hidden";
 const PRICE_MODES = ["hidden", "HD 2tr", "HD 3tr", "HD 5tr", "HD 10tr", "HD 15tr"];
 let selectedPriceMode = PRICE_MODE_DEFAULT;
@@ -2325,6 +2468,7 @@ function togglePriceSettings() {
 function changePriceMode(mode) {
   if (!PRICE_MODES.includes(mode)) mode = PRICE_MODE_DEFAULT;
   selectedPriceMode = mode;
+  updatePriceModeIcon();
   try { localStorage.setItem(PRICE_MODE_STORAGE_KEY, mode); } catch (e) {}
 
   document.querySelectorAll("#priceSettingPanel button[data-price-mode]").forEach(option => {
@@ -2366,14 +2510,35 @@ function normalize(str) {
 
 /* ===== FIND KEY ===== */
 function findKey(obj, keyword) {
-
   if (!obj) return null;
+  const target = normalize(keyword);
+  // Exact normalized match first, then retain legacy partial matching for other fields.
+  const keys = Object.keys(obj);
+  return keys.find(k => normalize(k) === target)
+      || keys.find(k => normalize(k).includes(target))
+      || null;
+}
 
-  const key = Object.keys(obj).find(k =>
-    normalize(k).includes(normalize(keyword))
-  );
+function getContractPrice(row, mode) {
+  if (!row || !mode || mode === "hidden") return "";
+  const target = normalize(mode);
+  const key = Object.keys(row).find(k => normalize(k) === target);
+  return key ? (row[key] ?? "") : "";
+}
 
-  return key || null;
+function updatePriceModeIcon() {
+  const icon = document.getElementById("priceModeIcon");
+  const button = document.getElementById("priceSettingToggle");
+  if (!icon || !button) return;
+  if (selectedPriceMode === "hidden") {
+    icon.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5.2 0 8.8 4.5 10 7-.4.9-1.2 2.1-2.4 3.2M6.2 6.2C3.8 7.8 2.4 10 2 12c.5 1 1.6 2.7 3.8 4.2A10.7 10.7 0 0 0 12 19c1.1 0 2.1-.2 3-.5"/></svg>`;
+    button.setAttribute("aria-label", "Ẩn giá hợp đồng");
+    button.title = "Ẩn giá hợp đồng";
+  } else {
+    icon.textContent = selectedPriceMode.match(/\d+/)?.[0] || "";
+    button.setAttribute("aria-label", `Mức giá ${selectedPriceMode}`);
+    button.title = `Mức giá ${selectedPriceMode}`;
+  }
 }
 
 /* ===== GET VALUE ===== */
@@ -2660,7 +2825,7 @@ function renderCard(r){
 
   const cuoi = selectedPriceMode === "hidden"
     ? ""
-    : formatNumber(getValue(r, selectedPriceMode));
+    : formatNumber(getContractPrice(r, selectedPriceMode));
 
   let km2 = getValue(r,"KM THÁNG");
 
@@ -2850,6 +3015,7 @@ document.getElementById("search").addEventListener("input", function(){
 });
 
 /* ===== INIT ===== */
+updatePriceModeIcon();
 document.querySelectorAll("#priceSettingPanel button[data-price-mode]").forEach(option => {
   option.classList.toggle("active", option.dataset.priceMode === selectedPriceMode);
 });
