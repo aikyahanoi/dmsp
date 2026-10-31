@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<title>CATALOGUE AIKYA GLASS V44</title>
+<title>CATALOGUE AIKYA GLASS V46</title>
 
 <style>
 
@@ -2231,7 +2231,7 @@ body > * {
 .price-gear-wrap {
   position: absolute;
   right: 12px;
-  top: 62%;
+  top: 67%;
   transform: translateY(-50%);
   z-index: 2100;
   width: 30px;
@@ -2377,7 +2377,7 @@ body > * {
 }
 .price-gear-shape .gear-fill {
   fill: none !important;
-  stroke: #d32f2f !important;
+  stroke: #E8E4DF !important;
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -2435,12 +2435,24 @@ body > * {
   background: linear-gradient(135deg, #d94343, #b91f35);
 }
 @media (max-width: 768px) {
-  .price-gear-wrap { right: 10px; top: 62%; width: 28px; height: 28px; }
+  .price-gear-wrap { right: 10px; top: 67%; width: 28px; height: 28px; }
   .price-gear-button { width: 28px !important; height: 28px !important; min-width: 28px !important; min-height: 28px !important; }
   .price-setting-panel { top: calc(100% + 8px); }
   .stats-inline { gap: 8px; font-size: 12px; }
 }
 
+
+/* V46: apply the requested ivory gear and visibly tighter vertical spacing. */
+.header-new { margin-bottom: 3px !important; }
+.search-sticky {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 2px !important;
+}
+.filter-bar { margin-top: 0 !important; margin-bottom: 4px !important; }
+@media (max-width: 768px) {
+  .filter-bar { margin-top: 0 !important; margin-bottom: 4px !important; }
+}
 </style>
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwIRUk_7uMGpQVmSQBYxjZiH15nhNV3q3w0YzfqBMt-0jvKEIEBpNpMS6N-dsG5xdIx/exec";
