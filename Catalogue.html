@@ -3194,6 +3194,15 @@ function initLightScroll(){
     text-shadow: 0 1px 0 rgba(255,255,255,.8);
   }
 
+  /* Chỉ tô màu hai từ khóa; phần chữ còn lại giữ nguyên màu đỏ mận. */
+  #aikya-reminder-popup-overlay .aikya-highlight-euca {
+    color: #248447;
+  }
+
+  #aikya-reminder-popup-overlay .aikya-highlight-nutrition {
+    color: #E87919;
+  }
+
   @keyframes aikya-neon-border-spin {
     to { transform: rotate(360deg); }
   }
@@ -3257,7 +3266,11 @@ function initLightScroll(){
         </svg>
       </div>
       <div class="aikya-reminder-popup-copy">
-        <p class="aikya-reminder-popup-message">Nhớ phủ Euca, bán nhóm Dinh dưỡng nhé!</p>
+        <p class="aikya-reminder-popup-message">
+          Phủ đều <span class="aikya-highlight-euca">Euca</span><br>
+          Bán nhiều <span class="aikya-highlight-nutrition">Dinh dưỡng</span><br>
+          Bạn nhé!
+        </p>
       </div>
     </div>
   </div>
