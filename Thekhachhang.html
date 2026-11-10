@@ -2668,40 +2668,48 @@ async function captureTable(tableSelector, filename, titleText, metaText = "") {
     alert("Chưa tải được thư viện chụp ảnh. Hãy kiểm tra kết nối Internet rồi thử lại.");
     return;
   }
-  const sourceTable = document.querySelector(tableSelector);
-  if (!sourceTable) {
+
+  const sourceWrap = document.querySelector(tableSelector);
+  const sourceTable = sourceWrap?.querySelector("table");
+  if (!sourceWrap || !sourceTable) {
     alert("Không có bảng dữ liệu để chụp.");
     return;
   }
 
   const button = document.activeElement;
-  if (button && button.tagName === "BUTTON") {
-    button.disabled = true;
-  }
+  if (button && button.tagName === "BUTTON") button.disabled = true;
+
+  let cloneWrap = null;
 
   try {
-    // Dựng bản sao ngoài màn hình với chiều rộng đầy đủ để chụp cả bảng khi có cuộn ngang/dọc.
-    const cloneWrap = document.createElement("div");
+    cloneWrap = document.createElement("div");
     cloneWrap.style.cssText = [
       "position:fixed", "left:-100000px", "top:0", "z-index:-1",
       "background:#fff", "padding:18px", "width:max-content",
       "max-width:none", "overflow:visible", "color:#263746",
-      "font-family:Arial,sans-serif"
+      "font-family:Arial,sans-serif", "box-sizing:border-box"
     ].join(";");
+
     const title = document.createElement("div");
     title.textContent = titleText || "AIKYA 2026";
     title.style.cssText = "font-size:18px;font-weight:700;margin-bottom:6px;color:#142B45";
     cloneWrap.appendChild(title);
+
     if (metaText) {
       const meta = document.createElement("div");
       meta.textContent = metaText;
       meta.style.cssText = "font-size:12px;margin-bottom:12px;color:#596875";
       cloneWrap.appendChild(meta);
     }
+
     const clone = sourceTable.cloneNode(true);
-    clone.style.width = Math.max(sourceTable.scrollWidth, sourceTable.getBoundingClientRect().width) + "px";
+    clone.style.width = "max-content";
+    clone.style.minWidth = "0";
     clone.style.maxWidth = "none";
+    clone.style.tableLayout = "auto";
+    clone.style.borderCollapse = "collapse";
     clone.style.overflow = "visible";
+
     clone.querySelectorAll("*").forEach(el => {
       el.style.position = "static";
       el.style.left = "auto";
@@ -2710,9 +2718,74 @@ async function captureTable(tableSelector, filename, titleText, metaText = "") {
       el.style.maxWidth = "none";
       el.style.visibility = "visible";
       el.style.transform = "none";
+      el.style.boxSizing = "border-box";
     });
+
     cloneWrap.appendChild(clone);
     document.body.appendChild(cloneWrap);
+
+    // Đo nội dung từng cột trên bản sao, không tác động bảng đang hiển thị.
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    const rows = Array.from(clone.rows || []);
+    const columnCount = Math.max(0, ...rows.map(row => row.cells.length));
+    const canvasMeasure = document.createElement("canvas");
+    const ctx = canvasMeasure.getContext("2d");
+    const widths = Array(columnCount).fill(0);
+
+    rows.forEach(row => {
+      Array.from(row.cells).forEach((cell, index) => {
+        const style = getComputedStyle(cell);
+        ctx.font = style.font && style.font !== ""
+          ? style.font
+          : `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+        const text = (cell.innerText || cell.textContent || "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        const textWidth = text
+          .split(" ")
+          .reduce((lineWidth, word) => Math.max(lineWidth, ctx.measureText(word).width), 0);
+
+        const padding = (parseFloat(style.paddingLeft) || 0) +
+                        (parseFloat(style.paddingRight) || 0);
+        const borders = (parseFloat(style.borderLeftWidth) || 0) +
+                        (parseFloat(style.borderRightWidth) || 0);
+        const contentWidth = Math.max(
+          ctx.measureText(text).width,
+          textWidth
+        ) + padding + borders + 4;
+
+        widths[index] = Math.max(widths[index], contentWidth);
+      });
+    });
+
+    // Giới hạn hợp lý cho cột tên để một nội dung quá dài không kéo giãn toàn ảnh.
+    const isDetail = clone.classList.contains("detail-table") ||
+                     sourceTable.classList.contains("detail-table");
+    const firstColumnMax = isDetail ? 360 : 420;
+
+    widths.forEach((width, index) => {
+      let fitted = Math.ceil(width);
+      if (index === 0) fitted = Math.min(Math.max(fitted, isDetail ? 150 : 220), firstColumnMax);
+      else fitted = Math.min(Math.max(fitted, 78), 190);
+
+      rows.forEach(row => {
+        const cell = row.cells[index];
+        if (!cell) return;
+        cell.style.width = `${fitted}px`;
+        cell.style.minWidth = `${fitted}px`;
+        cell.style.maxWidth = `${fitted}px`;
+        cell.style.whiteSpace = index === 0 ? "normal" : "nowrap";
+        cell.style.overflowWrap = index === 0 ? "anywhere" : "normal";
+      });
+    });
+
+    clone.style.width = "max-content";
+    cloneWrap.style.width = "max-content";
+
+    await new Promise(resolve => requestAnimationFrame(resolve));
 
     const canvas = await html2canvas(cloneWrap, {
       backgroundColor: "#FFFFFF",
@@ -2725,7 +2798,6 @@ async function captureTable(tableSelector, filename, titleText, metaText = "") {
       windowHeight: Math.max(window.innerHeight, cloneWrap.scrollHeight)
     });
 
-    cloneWrap.remove();
     canvas.toBlob(blob => {
       if (!blob) {
         alert("Không tạo được ảnh. Bảng có thể quá lớn; hãy thử lại.");
@@ -2737,8 +2809,7 @@ async function captureTable(tableSelector, filename, titleText, metaText = "") {
     console.error("Capture table error:", error);
     alert("Chụp ảnh chưa thành công. Nếu bảng quá lớn, hãy lọc bớt dữ liệu rồi thử lại.");
   } finally {
-    const temp = document.querySelector('body > div[style*="left:-100000px"]');
-    if (temp) temp.remove();
+    if (cloneWrap) cloneWrap.remove();
     if (button && button.tagName === "BUTTON") button.disabled = false;
   }
 }
