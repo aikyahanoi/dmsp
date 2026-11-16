@@ -2154,6 +2154,87 @@ body > * {
 }
 
 </style>
+
+<style id="aikya-performance-optimization">
+/* ===== PERFORMANCE OPTIMIZATION: PRESERVE VISUAL DESIGN ===== */
+
+/* Reduce expensive blur/compositing on touch devices, while retaining the glass appearance. */
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  .card {
+    -webkit-backdrop-filter: blur(7px) saturate(125%) !important;
+    backdrop-filter: blur(7px) saturate(125%) !important;
+    transition: none !important;
+  }
+
+  .header-new {
+    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
+    backdrop-filter: blur(10px) saturate(125%) !important;
+  }
+
+  .search-sticky,
+  .filter-bar {
+    -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+    backdrop-filter: blur(8px) saturate(120%) !important;
+  }
+
+  .card:hover {
+    transform: none !important;
+  }
+
+  .card:hover::after {
+    display: none !important;
+  }
+
+  .card-bg {
+    filter: none !important;
+  }
+}
+
+/* Respect users who request reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+
+<style>
+
+/* ===== CLICKABLE STOCK SUMMARY FILTERS ===== */
+.stats-inline .stock-filter {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.92);
+  border-radius: 999px;
+  padding: 5px 10px;
+  margin: 0;
+  font: inherit;
+  font-size: inherit;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: #34495b;
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(238,249,252,.62));
+  box-shadow: 0 3px 9px rgba(40,78,96,.07), inset 0 1px 0 rgba(255,255,255,.95);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.stats-inline .stock-filter.active {
+  color: #fff;
+  border-color: rgba(255,255,255,.78);
+  background: linear-gradient(135deg, #d94343, #b91f35);
+  box-shadow: 0 4px 12px rgba(211,47,47,.20), inset 0 1px 0 rgba(255,255,255,.30);
+}
+.stats-inline .stock-filter:focus-visible {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}
+@media (max-width: 768px) {
+  .stats-inline .stock-filter { padding: 4px 7px; font-size: 10px; }
+}
+
+</style>
 </head>
 
 <body>
@@ -2168,9 +2249,9 @@ body > * {
     <div class="main-title">DANH MỤC SẢN PHẨM AIKYA 2026</div>
 
     <div class="stats-inline">
-      <span>Tổng: <b id="total">0</b></span>
-      <span>Sắp hết: <b id="low">0</b></span>
-      <span>Hết: <b id="out">0</b></span>
+      <button type="button" class="stock-filter active" data-stock="all" onclick="filterStock('all')" aria-pressed="true">Tổng: <b id="total">0</b></button>
+      <button type="button" class="stock-filter" data-stock="low" onclick="filterStock('low')" aria-pressed="false">Sắp hết: <b id="low">0</b></button>
+      <button type="button" class="stock-filter" data-stock="out" onclick="filterStock('out')" aria-pressed="false">Hết: <b id="out">0</b></button>
       <div class="price-gear-wrap">
     <button type="button" id="priceSettingToggle" class="price-gear-button"
             aria-label="Chọn mức giá hợp đồng" aria-expanded="false"
@@ -2626,76 +2707,58 @@ async function loadData() {
   }
 }
 
-/* ===== FILTER ===== */
-function filterType(type){
+/* ===== FILTER DANH MỤC + TỒN KHO ===== */
+let currentCategory = "all";
+let currentStockFilter = "all";
 
-  document.querySelectorAll('.filter-bar button').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('onclick') === `filterType('${type}')`);
-  });
+function getStockNumber(row) {
+  const raw = String(getValue(row, "TỒN")).trim();
+  if (!raw) return 0;
+  return parseInt(raw.replace(/[^\d]/g, ""), 10) || 0;
+}
 
+function applyAllFilters() {
   let filtered = list;
 
-  if(type === "note"){
-
-    filtered = list.filter(r => {
-
-      let note = getValue(r,"GHI CHÚ");
-
-      return String(note).trim() !== "";
-    });
+  if (currentCategory === "note") {
+    filtered = filtered.filter(r => String(getValue(r, "GHI CHÚ")).trim() !== "");
+  } else if (currentCategory === "new") {
+    filtered = filtered.filter(r => String(getValue(r, "XẾP HẠNG")).toLowerCase().includes("mới"));
+  } else if (currentCategory === "hot") {
+    filtered = filtered.filter(r => String(getValue(r, "XẾP HẠNG")).toLowerCase().includes("bán"));
+  } else if (currentCategory === "sale") {
+    filtered = filtered.filter(r => String(getValue(r, "KM THÁNG")).trim() !== "");
+  } else if (currentCategory === "travel") {
+    filtered = filtered.filter(r => String(getValue(r, "DU LỊCH")).trim() === "1");
+  } else if (currentCategory === "nutrition") {
+    filtered = filtered.filter(r => String(getValue(r, "TRUNG THU")).trim() === "1");
   }
 
-  if(type === "new"){
-
-    filtered = list.filter(r => {
-
-      let rank = String(getValue(r,"XẾP HẠNG")).toLowerCase();
-
-      return rank.includes("mới");
-    });
-  }
-
-  if(type === "hot"){
-
-    filtered = list.filter(r => {
-
-      let rank = String(getValue(r,"XẾP HẠNG")).toLowerCase();
-
-      return rank.includes("bán");
-    });
-  }
-
-  if(type === "sale"){
-
-    filtered = list.filter(r => {
-
-      let km = getValue(r,"KM THÁNG");
-
-      return String(km).trim() !== "";
-    });
-  }
-
-  if(type === "travel"){
-
-    filtered = list.filter(r => {
-
-      let travel = String(getValue(r,"DU LỊCH")).trim();
-
-      return travel === "1";
-    });
-  }
-     // ===== VÉ SỐ DINH DƯỠNG =====
-  if(type === "nutrition"){
-
-    filtered = list.filter(r => {
-
-      return String(getValue(r,"TRUNG THU")).trim() === "1";
-
-    });
-
+  if (currentStockFilter === "low") {
+    filtered = filtered.filter(r => getStockNumber(r) > 0 && getStockNumber(r) < 50);
+  } else if (currentStockFilter === "out") {
+    filtered = filtered.filter(r => getStockNumber(r) === 0);
   }
 
   render(filtered);
+}
+
+function filterType(type) {
+  currentCategory = type;
+  document.querySelectorAll('.filter-bar button').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick') === `filterType('${type}')`);
+  });
+  applyAllFilters();
+}
+
+function filterStock(type) {
+  currentStockFilter = type;
+  document.querySelectorAll('.stock-filter').forEach(btn => {
+    const active = btn.dataset.stock === type;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  applyAllFilters();
 }
 
 /* ===== RENDER ===== */
@@ -2809,7 +2872,8 @@ function render(arr) {
   document.getElementById("low").innerText = low;
   document.getElementById("out").innerText = out;
 
-  initLightScroll();
+  // Không đăng ký lại sự kiện cuộn sau mỗi lần tìm kiếm/lọc.
+  // Hiệu ứng ánh sáng tĩnh mặc định vẫn được giữ qua CSS.
 }
 
 /* ===== CARD ===== */
@@ -2878,7 +2942,10 @@ function renderCard(r){
 
       <img
         src="${img}"
-        onerror="this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+        onerror="this.onerror=null;this.src='https://res.cloudinary.com/doqoe08te/image/upload/v1774605551/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_3_oodi7d.png'"
       >
    
 
@@ -3033,45 +3100,9 @@ document.querySelectorAll("#priceSettingPanel button[data-price-mode]").forEach(
 });
 loadData();
 
-/* ===== LIGHT EFFECT ===== */
-function initLightScroll(){
-
-  let ticking = false;
-
-  function update(){
-
-    const cards = document.querySelectorAll(".card");
-
-    const h = window.innerHeight;
-
-    cards.forEach(c => {
-
-      const r = c.getBoundingClientRect();
-
-      if(r.top < h + 100 && r.bottom > -100){
-
-        let y = ((r.top + r.height/2)/h) * 100;
-
-        c.style.setProperty("--y", y + "%");
-        c.style.setProperty("--x", "50%");
-      }
-    });
-
-    ticking = false;
-  }
-
-  window.addEventListener("scroll", () => {
-
-    if(!ticking){
-
-      requestAnimationFrame(update);
-
-      ticking = true;
-    }
-  });
-
-  update();
-}
+/* ===== PERFORMANCE: SCROLL ===== */
+/* Bỏ vòng lặp getBoundingClientRect trên toàn bộ thẻ mỗi lần cuộn.
+   Ánh sáng nền thẻ giữ ở vị trí mặc định 50% 50% bằng CSS. */
 </script>
 
 
