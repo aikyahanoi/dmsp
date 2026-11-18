@@ -916,7 +916,7 @@ function updateStats(filteredData) {
     );
 
     if (Number.isFinite(coverage)) {
-      if (coverage >= 500) {
+      if (coverage >= 300) {
         doPhu++;
       }
 
@@ -1102,7 +1102,7 @@ function render(data) {
     const isCoverageLow =
       Number.isFinite(coverageNumber) &&
       coverageNumber > 0 &&
-      coverageNumber < 500;
+      coverageNumber < 300;
 
     const contractNumber = parseNumber(contract);
 
