@@ -820,11 +820,23 @@ function formatPercent(value) {
     return escapeHTML(value);
   }
 
-  return Number.isInteger(num)
-    ? num + "%"
-    : num.toLocaleString("vi-VN", {
-        maximumFractionDigits: 2
-      }) + "%";
+  // Không hiển thị 99,9999% thành 100% do làm tròn.
+  // Với giá trị dưới 100, tăng độ chính xác nếu kết quả định dạng
+  // thông thường có nguy cơ làm tròn lên 100.
+  let maxDigits = 8;
+  let formatted = num.toLocaleString("vi-VN", {
+    maximumFractionDigits: maxDigits,
+    minimumFractionDigits: 0
+  });
+
+  if (num < 100 && Number(formatted.replace(/\./g, "").replace(/,/g, ".")) >= 100) {
+    formatted = num.toLocaleString("vi-VN", {
+      maximumFractionDigits: 12,
+      minimumFractionDigits: 0
+    });
+  }
+
+  return formatted + "%";
 }
 
 function formatNumericCell(value) {
