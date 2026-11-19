@@ -753,6 +753,13 @@ function getValue(row, keyword) {
   return key ? (row[key] ?? "") : "";
 }
 
+/* ƯU TIÊN GIÁ TRỊ GỐC TỪ API ĐỂ PHÂN BIỆT 100% VỚI 99,9999% */
+function getCLBValue(row) {
+  const raw = getValue(row, "% CLB THANG_RAW");
+  if (raw !== "" && raw !== null && raw !== undefined) return raw;
+  return getValue(row, "% CLB THANG");
+}
+
 /* CHUYỂN KÝ TỰ ĐẶC BIỆT THÀNH HTML AN TOÀN */
 function escapeHTML(value) {
   return String(value ?? "")
@@ -810,33 +817,17 @@ function parsePercent(value) {
 }
 
 function formatPercent(value) {
-  if (value === "" || value === null || value === undefined) {
-    return "";
-  }
+  if (value === "" || value === null || value === undefined) return "";
 
   const num = parsePercent(value);
+  if (!Number.isFinite(num)) return escapeHTML(value);
 
-  if (!Number.isFinite(num)) {
-    return escapeHTML(value);
-  }
-
-  // Không hiển thị 99,9999% thành 100% do làm tròn.
-  // Với giá trị dưới 100, tăng độ chính xác nếu kết quả định dạng
-  // thông thường có nguy cơ làm tròn lên 100.
-  let maxDigits = 8;
-  let formatted = num.toLocaleString("vi-VN", {
-    maximumFractionDigits: maxDigits,
-    minimumFractionDigits: 0
-  });
-
-  if (num < 100 && Number(formatted.replace(/\./g, "").replace(/,/g, ".")) >= 100) {
-    formatted = num.toLocaleString("vi-VN", {
-      maximumFractionDigits: 12,
-      minimumFractionDigits: 0
-    });
-  }
-
-  return formatted + "%";
+  // Hiển thị tối đa 12 chữ số thập phân để không làm tròn 99,9999% thành 100%.
+  return num.toLocaleString("vi-VN", {
+    maximumFractionDigits: 12,
+    minimumFractionDigits: 0,
+    useGrouping: false
+  }) + "%";
 }
 
 function formatNumericCell(value) {
@@ -914,9 +905,7 @@ function updateStats(filteredData) {
 
   filteredData.forEach(row => {
     /* ĐẾM CLB ĐẠT TỪ 100% */
-    const clbPercent = parsePercent(
-      getValue(row, "% CLB THANG")
-    );
+    const clbPercent = parsePercent(getCLBValue(row));
 
     if (Number.isFinite(clbPercent) && clbPercent >= 100) {
       clb++;
@@ -1040,7 +1029,7 @@ function applyFilters() {
         getValue(row, "NVBH"),
         getValue(row, "MUC KY HDTL"),
         getValue(row, "THU HIEN"),
-        getValue(row, "% CLB THANG"),
+        getCLBValue(row),
         getValue(row, "DO PHU"),
         getValue(row, "CHECK IN")
       ].map(value => normalize(value)).join(" ");
@@ -1097,7 +1086,7 @@ function render(data) {
 
     const contract = getValue(row, "MUC KY HDTL");
     const actual = getValue(row, "THU HIEN");
-    const clb = getValue(row, "% CLB THANG");
+    const clb = getCLBValue(row);
     const coverage = getValue(row, "DO PHU");
     const checkIn = getValue(row, "CHECK IN");
 
