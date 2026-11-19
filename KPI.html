@@ -753,13 +753,6 @@ function getValue(row, keyword) {
   return key ? (row[key] ?? "") : "";
 }
 
-/* ƯU TIÊN GIÁ TRỊ GỐC TỪ API ĐỂ PHÂN BIỆT 100% VỚI 99,9999% */
-function getCLBValue(row) {
-  const raw = getValue(row, "% CLB THANG_RAW");
-  if (raw !== "" && raw !== null && raw !== undefined) return raw;
-  return getValue(row, "% CLB THANG");
-}
-
 /* CHUYỂN KÝ TỰ ĐẶC BIỆT THÀNH HTML AN TOÀN */
 function escapeHTML(value) {
   return String(value ?? "")
@@ -817,17 +810,21 @@ function parsePercent(value) {
 }
 
 function formatPercent(value) {
-  if (value === "" || value === null || value === undefined) return "";
+  if (value === "" || value === null || value === undefined) {
+    return "";
+  }
 
   const num = parsePercent(value);
-  if (!Number.isFinite(num)) return escapeHTML(value);
 
-  // Hiển thị tối đa 12 chữ số thập phân để không làm tròn 99,9999% thành 100%.
-  return num.toLocaleString("vi-VN", {
-    maximumFractionDigits: 12,
-    minimumFractionDigits: 0,
-    useGrouping: false
-  }) + "%";
+  if (!Number.isFinite(num)) {
+    return escapeHTML(value);
+  }
+
+  return Number.isInteger(num)
+    ? num + "%"
+    : num.toLocaleString("vi-VN", {
+        maximumFractionDigits: 2
+      }) + "%";
 }
 
 function formatNumericCell(value) {
@@ -905,7 +902,9 @@ function updateStats(filteredData) {
 
   filteredData.forEach(row => {
     /* ĐẾM CLB ĐẠT TỪ 100% */
-    const clbPercent = parsePercent(getCLBValue(row));
+    const clbPercent = parsePercent(
+      getValue(row, "% CLB THANG")
+    );
 
     if (Number.isFinite(clbPercent) && clbPercent >= 100) {
       clb++;
@@ -1029,7 +1028,7 @@ function applyFilters() {
         getValue(row, "NVBH"),
         getValue(row, "MUC KY HDTL"),
         getValue(row, "THU HIEN"),
-        getCLBValue(row),
+        getValue(row, "% CLB THANG"),
         getValue(row, "DO PHU"),
         getValue(row, "CHECK IN")
       ].map(value => normalize(value)).join(" ");
@@ -1086,7 +1085,7 @@ function render(data) {
 
     const contract = getValue(row, "MUC KY HDTL");
     const actual = getValue(row, "THU HIEN");
-    const clb = getCLBValue(row);
+    const clb = getValue(row, "% CLB THANG");
     const coverage = getValue(row, "DO PHU");
     const checkIn = getValue(row, "CHECK IN");
 
